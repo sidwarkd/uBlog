@@ -1,15 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://yoursite.com/robots.txt</loc>
+        <loc>http://blog.microcasts.tv/blog/2013/07/27/test/</loc>
+        <lastmod>2013-07-27T21:07:18-06:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.microcasts.tv/robots.txt</loc>
         <lastmod>2013-06-15T23:16:52-06:00</lastmod>
     </url>
     <url>
-        <loc>http://yoursite.com/blog/archives/</loc>
-        <lastmod>2013-06-15T23:16:52-06:00</lastmod>
+        <loc>http://blog.microcasts.tv/blog/archives/</loc>
+        <lastmod>2013-07-27T21:07:18-06:00</lastmod>
     </url>
     <url>
-        <loc>http://yoursite.com/</loc>
-        <lastmod>2013-06-15T23:16:52-06:00</lastmod>
+        <loc>http://blog.microcasts.tv/</loc>
+        <lastmod>2013-07-27T21:07:18-06:00</lastmod>
     </url>
 </urlset>

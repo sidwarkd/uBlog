@@ -2,9 +2,11 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://blog.hardlysoftware.com
-title: &micro;Blog
-subtitle: Official blog of &microCasts.
+url: http://blog.microcasts.tv
+title: |
+    The &micro;Blog
+subtitle: |
+    Official blog of &micro;Casts.
 author: HardlySoftware
 simple_search: http://google.com/search
 description:
@@ -73,7 +75,7 @@ twitter_user: KevinSidwar
 twitter_tweet_button: true
 
 # Google +1
-google_plus_one: false
+google_plus_one: true
 google_plus_one_size: medium
 
 # Google Plus Profile
