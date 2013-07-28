@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2013-07-27T21:10:40-06:00</updated>
+  <updated>2013-07-27T22:39:41-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[HardlySoftware]]></name>
@@ -13,14 +13,5 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Test]]></title>
-    <link href="http://blog.microcasts.tv/blog/2013/07/27/test/"/>
-    <updated>2013-07-27T21:05:00-06:00</updated>
-    <id>http://blog.microcasts.tv/blog/2013/07/27/test</id>
-    <content type="html"><![CDATA[<p>This is a test blog post.</p>
-]]></content>
-  </entry>
   
 </feed>
