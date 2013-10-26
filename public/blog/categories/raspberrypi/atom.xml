@@ -1,118 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Monitor Government Shutdown With A Raspberry Pi - The &micro;Blog
-</title>
-  <meta name="author" content="HardlySoftware">
-
-  
-  <meta name="description" content="Last week I came across a tweet from Eduard Koller. Want to be notified when the Government is back up? Here&#8217;s a little script for you: http:// &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://blog.microcasts.tv/blog/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="The &micro;Blog
-" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-38620480-2']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">The &micro;Blog
-</a></h1>
-  
-    <h2>Official blog of &micro;Casts.
-</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:blog.microcasts.tv" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
+  <title><![CDATA[Category: RaspberryPi | The &micro;Blog
+]]></title>
+  <link href="http://blog.microcasts.tv/blog/categories/raspberrypi/atom.xml" rel="self"/>
+  <link href="http://blog.microcasts.tv/"/>
+  <updated>2013-10-26T00:06:13-06:00</updated>
+  <id>http://blog.microcasts.tv/</id>
+  <author>
+    <name><![CDATA[HardlySoftware]]></name>
     
-      <h1 class="entry-title">Monitor Government Shutdown With a Raspberry Pi</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
+  <entry>
+    <title type="html"><![CDATA[Query Temperature on Raspberry Pi]]></title>
+    <link href="http://blog.microcasts.tv/blog/2013/10/25/query-temperature-on-raspberry-pi/"/>
+    <updated>2013-10-25T23:33:00-06:00</updated>
+    <id>http://blog.microcasts.tv/blog/2013/10/25/query-temperature-on-raspberry-pi</id>
+    <content type="html"><![CDATA[<p>I recently installed a Raspberry Pi in a server closet at home. I have it connected to an older laser printer so it acts as a print server. Since it is in a small space I want to be able to monitor the temperature from time to time. After some searching online I found two ways to do this from the command line that work quite well.</p>
 
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>/opt/vc/bin/vcgencmd measure_temp
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<time datetime="2013-10-09T13:45:00-06:00" pubdate data-updated="true">Oct 9<span>th</span>, 2013</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
+<p>The output of this command looks like this:</p>
 
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>/opt/vc/bin/vcgencmd measure_temp
+</span><span class='line'><span class="nv">temp</span><span class="o">=</span>43.3<span class="err">&#39;</span>C
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<div class="entry-content"><p>Last week I came across a tweet from <a href="https://twitter.com/eduardk" target="_blank">Eduard Koller</a>.</p>
+<p>The other way to display this information is to <strong>cat</strong> the contents of a file:</p>
 
-<blockquote><p>Want to be notified when the Government is back up? Here&#8217;s a little script for you: http://bit.ly/16eAoDT</p><footer><strong>@eduardk</strong> <cite><a href='https://twitter.com/eduardk/statuses/385139079219671040'>twitter.com/eduardk/statuses/&hellip;</a></cite></footer></blockquote>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>cat /sys/class/thermal/thermal_zone0/temp
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>This time you will need to divide by 1000 to get the temp in degrees Celsius.</p>
+
+<p>Output:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>43312
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>I&rsquo;ve notice that the two results can differ slightly but not by more than a few tenths of a degree Celsius.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Monitor Government Shutdown With A Raspberry Pi]]></title>
+    <link href="http://blog.microcasts.tv/blog/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/"/>
+    <updated>2013-10-09T13:45:00-06:00</updated>
+    <id>http://blog.microcasts.tv/blog/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi</id>
+    <content type="html"><![CDATA[<p>Last week I came across a tweet from <a href="https://twitter.com/eduardk" target="_blank">Eduard Koller</a>.</p>
+
+<p><blockquote><p>Want to be notified when the Government is back up? Here&rsquo;s a little script for you: <a href="http://bit.ly/16eAoDT">http://bit.ly/16eAoDT</a></p><footer><strong>@eduardk <a href="https://twitter.com/eduardk/statuses/385139079219671040">https://twitter.com/eduardk/statuses/385139079219671040</a></strong></footer></blockquote></p>
 
 <p>He wrote a simple python script to check the status of the government shutdown. I couldn&rsquo;t resist the urge to apply a little hardware to the situation.<!-- more --></p>
 
@@ -120,8 +65,7 @@
 
 <p>My first idea was to hook up a simple two line LCD display I had lying around and connect it to the Pi via SPI. Before I connected the display to the Pi I wanted to make sure I had powered it correctly so I plugged in my home made power supply (made from a wall supply) and nothing happened. Not having used this particular display in over a year I thought &ldquo;Oh, it must be blank until I send some data down the wire.&rdquo; So I left it plugged in, shut down my Pi, hooked up all the SPI connections and booted the Pi back up. I sent a few test messages via SPI but nothing was happening.</p>
 
-<blockquote><p>That&#8217;s when I started to smell something cooking</p></blockquote>
-
+<p><blockquote><p>That&rsquo;s when I started to smell something cooking</p></blockquote></p>
 
 <p>It wasn&rsquo;t the classic ozone smell but that scent you get when a stove burner is on. I put my hand over the display and could feel the heat coming off. I quickly unplugged it and felt the chip on the back. It was smoldering.</p>
 
@@ -131,11 +75,11 @@
 
 <p>Oh well. I paused project work for a moment to order <a href="https://www.crystalfontz.com/product/CFA634TFHKS" target="_blank">a new display</a> and then decided to settle for a simple LED approach. I modified Eduard&rsquo;s script so that it would still work as he had written it but also would accept a command line argument of &ldquo;pi&rdquo; that would forego the console output in favor of turning LEDs on and off. So after just a little modification and the use of the <a href="https://pypi.python.org/pypi/RPi.GPIO" target="_blank">RPi.GPIO</a> library I was up and running.</p>
 
-<p><img src="https://pbs.twimg.com/media/BVrJUnvCcAExjE4.jpg:small"></p>
+<p><img class="<a" src="href="https://pbs.twimg.com/media/BVrJUnvCcAExjE4.jpg:small">https://pbs.twimg.com/media/BVrJUnvCcAExjE4.jpg:small</a>"></p>
 
 <p>Here&rsquo;s the code if you are interested in giving it a try or modifying it.</p>
 
-<div><script src='https://gist.github.com/sidwarkd/6814331.js'></script>
+<p><div><script src='https://gist.github.com/sidwarkd/6814331.js'></script>
 <noscript><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head prefix=&quot;og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# githubog: http://ogp.me/ns/fb/githubog#&quot;&gt;
@@ -452,214 +396,8 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre></noscript></div>
-
-
-
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">K-SID</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-09T13:45:00-06:00" pubdate data-updated="true">Oct 9<span>th</span>, 2013</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/raspberrypi/'>RaspberryPi</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/blog/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/blog/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2013/08/19/some-love-for-the-beginners/" title="Previous Post: Some Love for the Beginners">&laquo; Some Love for the Beginners</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/10/10/lets-build-an-audio-mixer/" title="Next Post: Let's Build an Audio Mixer">Let's Build an Audio Mixer &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-<h1>About</h1>
-<div style="margin-top:15px;">
-  <img class="left" src="/images/uCasts.png" />
-  <p>
-    This is the official blog of &micro;Casts. I want to help you get your electronics groove on so tune in for the latest updates, tips, and general embedded awesomeness.
-  </p>
-  <p>
-    I'd love to hear from you if you have any questions or feedback.
-  </p>
-</div>
-</section><section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/10/25/query-temperature-on-raspberry-pi/">Query Temperature on Raspberry Pi</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/24/audio-mixer-part-2-creating-the-eagle-project/">Audio Mixer Part 2: Creating the Eagle Project</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/23/audio-mixer-part-1-selecting-the-parts/">Audio Mixer Part 1: Selecting the Parts</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/10/lets-build-an-audio-mixer/">Let's Build an Audio Mixer</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/">Monitor Government Shutdown With a Raspberry Pi</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/sidwarkd">@sidwarkd</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'sidwarkd',
-            count: 3,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
-  
-</aside>
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - HardlySoftware -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
-
-</footer>
+]]></content>
+  </entry>
   
-
-<script type="text/javascript">
-      var disqus_shortname = 'ucastblog';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.microcasts.tv/blog/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/';
-        var disqus_url = 'http://blog.microcasts.tv/blog/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id; js.async = true;
-  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>

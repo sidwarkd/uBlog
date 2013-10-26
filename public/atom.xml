@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2013-10-09T23:23:04-06:00</updated>
+  <updated>2013-10-26T00:06:13-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[HardlySoftware]]></name>
@@ -13,6 +13,137 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Query Temperature on Raspberry Pi]]></title>
+    <link href="http://blog.microcasts.tv/blog/2013/10/25/query-temperature-on-raspberry-pi/"/>
+    <updated>2013-10-25T23:33:00-06:00</updated>
+    <id>http://blog.microcasts.tv/blog/2013/10/25/query-temperature-on-raspberry-pi</id>
+    <content type="html"><![CDATA[<p>I recently installed a Raspberry Pi in a server closet at home. I have it connected to an older laser printer so it acts as a print server. Since it is in a small space I want to be able to monitor the temperature from time to time. After some searching online I found two ways to do this from the command line that work quite well.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>/opt/vc/bin/vcgencmd measure_temp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The output of this command looks like this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>/opt/vc/bin/vcgencmd measure_temp
+</span><span class='line'><span class="nv">temp</span><span class="o">=</span>43.3<span class="err">&#39;</span>C
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The other way to display this information is to <strong>cat</strong> the contents of a file:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>cat /sys/class/thermal/thermal_zone0/temp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This time you will need to divide by 1000 to get the temp in degrees Celsius.</p>
+
+<p>Output:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>43312
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;ve notice that the two results can differ slightly but not by more than a few tenths of a degree Celsius.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Audio Mixer Part 2: Creating the Eagle Project]]></title>
+    <link href="http://blog.microcasts.tv/blog/2013/10/24/audio-mixer-part-2-creating-the-eagle-project/"/>
+    <updated>2013-10-24T20:27:00-06:00</updated>
+    <id>http://blog.microcasts.tv/blog/2013/10/24/audio-mixer-part-2-creating-the-eagle-project</id>
+    <content type="html"><![CDATA[<p>Because we&rsquo;ve elected to build a custom home-etched board for this project we need a utility that will allow us to print out the board design. There are lots of tools available for this but the most common free resource is <a href="http://www.cadsoftusa.com/">Eagle by Cadsoft</a>. Eagle allows us to take our napkin design, formalize it, and create a board for it. The basic flow in Eagle is to first draw a schematic of your design and then use the built-in tools to create a board from the schematic.</p>
+
+<h2>Download and Install Eagle</h2>
+
+<p>One of the great things about Eagle is that it can run on multiple platforms. The steps for installing it will depend on your platform but there is nothing fancy.</p>
+
+<ul>
+<li> <a href="http://www.cadsoftusa.com/download-eagle">Eagle Download Page</a></li>
+</ul>
+
+
+<p>The good people over at Sparkfun have done some good tutorials on setting up and using Eagle. I&rsquo;ve configured my environment using their setup tutorial.</p>
+
+<ul>
+<li> <a href="https://learn.sparkfun.com/tutorials/how-to-install-and-setup-eagle/all">Installing and Configuring Eagle (sparkfun.com)</a></li>
+</ul>
+
+
+<h2>Create a New Project</h2>
+
+<p>Once everything is installed and configured it&rsquo;s time to create a new project.
+  1. Launch Eagle
+  2. File->New->Project if you want to create a new directory. If you already have a directory for your project just do File->New->Schematic. Make sure to save it in your project directory.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Audio Mixer Part 1: Selecting the Parts]]></title>
+    <link href="http://blog.microcasts.tv/blog/2013/10/23/audio-mixer-part-1-selecting-the-parts/"/>
+    <updated>2013-10-23T22:55:00-06:00</updated>
+    <id>http://blog.microcasts.tv/blog/2013/10/23/audio-mixer-part-1-selecting-the-parts</id>
+    <content type="html"><![CDATA[<p>Normally the first thing you&rsquo;d want to do on a project is prototype out a design on a breadboard. Seeing that we are using a design somebody else has tested we are going to skip that this time. <strong>Note: Exercise extreme caution when blindly accepting somebody else&rsquo;s design.</strong> For a small project like this I think we&rsquo;ll be ok. The audio mixer we&rsquo;re going to build is based off of an <a href="http://www.instructables.com/id/Altoids-Tin-18-Stereo-Mixer/?ALLSTEPS">Instructables Project</a> that nicely defines the list of parts we&rsquo;ll need.</p>
+
+<ul>
+<li> 3.5mm audio jacks</li>
+<li> 4.7k resistors</li>
+<li> Case</li>
+</ul>
+
+
+<p>Pretty simple except we don&rsquo;t want to buy our stuff from Radio Shack. The Shack can be very convenient but you are definitely paying for that convenience. We can get parts much cheaper online and we have access to a much wider selection. So where do we start? It depends on what part of the world you are shopping from but for those in the US I&rsquo;d recommend one of three sites:</p>
+
+<ul>
+<li> <a href="http://www.mouser.com">Mouser</a></li>
+<li> <a href="http://www.digikey.com">Digikey</a></li>
+<li> <a href="http://www.newark.com">Newark</a></li>
+</ul>
+
+
+<p>Prices can vary slightly between the 3 but I find Mouser and Newark to be easier to use than Digikey.</p>
+
+<p>Once you&rsquo;ve decided where you are going to shop it&rsquo;s time to pick our parts. This can be daunting since, unlike the Radio Shack, you are facing literally thousands of options for something as simple as a 4.7k resistor. This can be scary at first but once you get the hang of it you&rsquo;ll find shopping at a major distributor to be very powerful. I felt the best way to walk through the process of finding parts was via a short video.</p>
+
+<p><img src="http://placehold.it/640x360" alt="Video Placeholder" /></p>
+
+<p>And that&rsquo;s it. We place our order and wait a few days. I&rsquo;ve decided to stick with an Altoids tin as the case for this project although I&rsquo;ll probably slap a coat of paint on it. Now that we&rsquo;ve selected our parts it&rsquo;s time to move into the assembly phase.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Let's Build an Audio Mixer]]></title>
+    <link href="http://blog.microcasts.tv/blog/2013/10/10/lets-build-an-audio-mixer/"/>
+    <updated>2013-10-10T21:12:00-06:00</updated>
+    <id>http://blog.microcasts.tv/blog/2013/10/10/lets-build-an-audio-mixer</id>
+    <content type="html"><![CDATA[<p>I recently made the switch to working from home full time. In doing so I&rsquo;ve encountered a few chanllenges with my setup.  I now have 3 systems (home, work, Raspberry Pi) that I need to get audio from. <!-- more --></p>
+
+<p>I want to hear IM notifications on my work machine, be able to listen to an occassional song from my home PC and listen to the streaming Pandora that I have running through <a href="http://6xq.net/projects/pianobar/">pianobar</a> on the Pi. What messes all of this up is that my work machine is VPN&rsquo;d in 100% of the time so it doesn&rsquo;t even see the other two systems and blocks things like Pandora. Otherwise I&rsquo;d just use it as my central sound source. The other problem is that on the weekends that machine is shut down so I&rsquo;d need to switch over to another machine anyway. You get the picture.</p>
+
+<p>I quickly realized that hooking up 3 machines to a single set of speakers is not very easy. The obvious answer is that I need a mixer of some sort. Surprisingly, most of the results I found online were for serious audio equipement and would require me to buy adapters since most have the large .25&#8221; plugs and not the 3.5mm that all of my devices use. There were a few options that looked pretty cool, specifically <a href="http://www.pricom.com/Trains/ActiveMixer.shtml">The Dream Mixer from PRICOM</a>. But, in the interest of home projects and saving money (even the most basic mixers were $60+) I decided to build a simple passive mixer based on the design of <a href="http://www.instructables.com/id/Altoids-Tin-18-Stereo-Mixer/?ALLSTEPS">this Instructables project</a>.</p>
+
+<h3>Project Series</h3>
+
+<p>As I started looking into this simple project I decided I wanted to do a few things not covered in the Instructables version of the project. Specifically I want to do a home-etched PCB with SMD resistors. Why? Because it sounds fun. Anyway, I realized that there are a lot of things that go into even a very simple project like this that may be of educational value for others. So, I plan to do a series of blog posts on this in the hopes that somebody out there will find it useful.</p>
+
+<p><a href="blog/2013/10/23/audio-mixer-part-1-selecting-the-parts/">Part 1: Selecting the Parts</a><br/>
+Part 2: <a href="blog/2013/10/24/audio-mixer-part-2-creating-the-eagle-project/">Creating the Eagle Project</a><br/>
+Part 3: <a href="">Creating Custom Parts in Eagle</a><br/>
+Part 4: <a href="">Board Design in Eagle</a><br/>
+Part 5: <a href="">Board Fab at Home</a><br/>
+Part 6: <a href="">Board Assembly</a><br/>
+Part 7: <a href="">Enclosure Construction</a><br/>
+Part 8: <a href="">Test and Enjoy</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Monitor Government Shutdown With A Raspberry Pi]]></title>
@@ -24,7 +155,7 @@
 <blockquote><p>Want to be notified when the Government is back up? Here&#8217;s a little script for you: http://bit.ly/16eAoDT</p><footer><strong>@eduardk</strong> <cite><a href='https://twitter.com/eduardk/statuses/385139079219671040'>twitter.com/eduardk/statuses/&hellip;</a></cite></footer></blockquote>
 
 
-<p>He wrote a simple python script to check the status of the government shutdown. I couldn&rsquo;t resist the urge to apply a little hardware to the situation.</p>
+<p>He wrote a simple python script to check the status of the government shutdown. I couldn&rsquo;t resist the urge to apply a little hardware to the situation.<!-- more --></p>
 
 <h3>Polarity Matters</h3>
 

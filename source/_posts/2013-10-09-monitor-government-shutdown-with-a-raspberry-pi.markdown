@@ -3,7 +3,7 @@ layout: post
 title: "Monitor Government Shutdown With A Raspberry Pi"
 date: 2013-10-09 13:45
 comments: true
-categories: [pi]
+categories: [RaspberryPi]
 author: K-SID
 ---
 
@@ -13,7 +13,7 @@ Last week I came across a tweet from <a href="https://twitter.com/eduardk" targe
 Want to be notified when the Government is back up? Here's a little script for you: http://bit.ly/16eAoDT 
 {% endblockquote %}
 
-He wrote a simple python script to check the status of the government shutdown. I couldn't resist the urge to apply a little hardware to the situation.
+He wrote a simple python script to check the status of the government shutdown. I couldn't resist the urge to apply a little hardware to the situation.<!-- more -->
 
 ###Polarity Matters
 My first idea was to hook up a simple two line LCD display I had lying around and connect it to the Pi via SPI. Before I connected the display to the Pi I wanted to make sure I had powered it correctly so I plugged in my home made power supply (made from a wall supply) and nothing happened. Not having used this particular display in over a year I thought "Oh, it must be blank until I send some data down the wire." So I left it plugged in, shut down my Pi, hooked up all the SPI connections and booted the Pi back up. I sent a few test messages via SPI but nothing was happening.
