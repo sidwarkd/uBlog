@@ -10,7 +10,7 @@
   <meta name="author" content="HardlySoftware">
 
   
-  <meta name="description" content="I recently installed a Raspberry Pi in a server closet at home. I have it connected to an older laser printer so it acts as a print server. Since it &hellip;">
+  <meta name="description" content="While trying to install MPLABX on my Ubuntu machine I was having issues running the installer. Nothing would happen. After some searching I found &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,63 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/">Installing MPLABX on Ubuntu: 64-bit Tip</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-26T00:16:00-06:00" pubdate data-updated="true">Oct 26<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>While trying to install MPLABX on my Ubuntu machine I was having issues running the installer. Nothing would happen. After some searching I found that the installer cannot be run in a 64-bit environment without installing some 32-bit dependencies first. To fix simply run:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install libc6:i386
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will install the minimal 32-bit libraries. If you are still having issues you can install the full 32-bit library set with:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install ia32-libs
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here is the original forum question that led me to the solution.</p>
+
+<ul>
+<li> <a href="http://askubuntu.com/questions/145716/cannot-install-mplab-ide-x-from-the-terminal-silently-exits">Cannot install MPLAB IDE X from the terminal &ndash; silently exits</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -316,6 +373,10 @@
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/">Installing MPLABX on Ubuntu: 64-bit Tip</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/10/25/query-temperature-on-raspberry-pi/">Query Temperature on Raspberry Pi</a>

@@ -5,7 +5,6 @@ date: 2013-10-26 00:16
 comments: true
 categories: [MPLABX, Ubuntu]
 author: K-SID
-published: false
 ---
 
 While trying to install MPLABX on my Ubuntu machine I was having issues running the installer. Nothing would happen. After some searching I found that the installer cannot be run in a 64-bit environment without installing some 32-bit dependencies first. To fix simply run:
