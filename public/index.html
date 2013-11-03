@@ -10,7 +10,7 @@
   <meta name="author" content="HardlySoftware">
 
   
-  <meta name="description" content="While trying to install MPLABX on my Ubuntu machine I was having issues running the installer. Nothing would happen. After some searching I found &hellip;">
+  <meta name="description" content="Sometimes when you&rsquo;re working on a board design you don&rsquo;t want to wait to get a prototype board from a fab house. For simple or one off &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,59 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/03/eagle-how-to-export-board-image/">Eagle How-To: Export Board Image</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-03T00:30:00-06:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/03/eagle-how-to-export-board-image/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Sometimes when you&rsquo;re working on a board design you don&rsquo;t want to wait to get a prototype board from a fab house. For simple or one off boards you can just make them at home. In order to do that we need a way to get our board design out of Eagle and onto a PCB. Most home-etch processes I&rsquo;ve seen require, in some form, a to-scale printout of the board. Personally I use the <a href="http://www.pcbfx.com/">Pulsar PCB products</a> which I&rsquo;ve found to work very well. The following is my process for getting the board design printed out.</p>
+
+<ol>
+<li>  Launch Eagle and open the board view of your project.</li>
+<li>  Turn the grid off via the <strong>View->Grid</strong> menu or using the command: &ldquo;grid off&rdquo;</li>
+<li>  Turn off all layers except the the ones that you want to print. I like to see layers 1, 17, 18 and 20. That&rsquo;s top, pads, vias and dimension. If your board is two sided you only want to print one side at a time.</li>
+<li>  If the background is black we need to make it white. Do this via the <strong>Options->User Interface</strong> dialog or use the command: &ldquo;set palette white;window;&rdquo;.</li>
+<li>  File->Export->Image</li>
+<li>  Select a destination file. I prefer to use the .png format.</li>
+<li>  Check the <strong>Monochrome</strong> checkbox</li>
+<li>  Change the resolution to a multiple of your screen dpi. The default screen resolution in Windows is 96 dpi so I normally use 384 which is 96 x 4.</li>
+<li>  Click <strong>Ok</strong> to export the image.</li>
+</ol>
+
+
+<p>  You now have an image file of your board that should scale perfectly to size. I normally just drag it into a document in OpenOffice Writer. If it goes into your document full size you just need to scale it to 25% of original size and it will be perfectly to-scale.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -375,6 +428,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/11/03/eagle-how-to-export-board-image/">Eagle How-To: Export Board Image</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/">Installing MPLABX on Ubuntu: 64-bit Tip</a>
       </li>
     
@@ -388,10 +445,6 @@
     
       <li class="post">
         <a href="/blog/2013/08/19/some-love-for-the-beginners/">Some Love for the Beginners</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/09/xc8-problem-running-post-install-step/">XC8: Problem Running Post-Install Step</a>
       </li>
     
   </ul>
