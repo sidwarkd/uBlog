@@ -1,19 +1,20 @@
-// This File is imported last, and will override other styles in the cascade
-// Add styles here to make changes without digging in too much
+/* nice sticky footer, from http://getbootstrap.com/examples/sticky-footer/ */
+html, body {
+    height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
+}
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
 
-.gist{font-size:13px;line-height:18px;margin-bottom:20px;width:100%}
-.gist pre{font-family:Menlo,Monaco,'Bitstream Vera Sans Mono','Courier New',monospace !important}
-.gist-meta{font-family:Helvetica,Arial,sans-serif;font-size:13px !important}
-.gist-meta a{color:#26a !important;text-decoration:none}
-.gist-meta a:hover{color:#0e4071 !important}
-.gist-meta a[href*='#file']{margin-right:10px}
-html .gist .gist-file .gist-meta {background:none; font-size:.9em !important; border:none !important}
-
-.highlight{border:none !important; background:none !important;}
-.highlight .line-numbers{border-right:1px solid #ddd !important; background:none !important; text-shadow:none !important;-moz-box-shadow: #ddd -1px 0 inset; box-shadow: #ddd -1px 0 inset;}
-.pre-code, html .gist .gist-file .gist-syntax .highlight pre, .highlight code{background:none !important}
-
-.entry-content ul,ol
-{
-  margin-left: 30px !important;
+/* Set the fixed height of the footer here */
+footer[role=contentinfo] {
+    height: 60px;
 }
