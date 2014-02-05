@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/raspberrypi/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-01T23:48:54-07:00</updated>
+  <updated>2014-02-04T23:17:53-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[HardlySoftware]]></name>
@@ -13,6 +13,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Raspberry Pi Skillshare Class Available]]></title>
+    <link href="http://blog.microcasts.tv/blog/2014/02/04/raspberry-pi-skillshare-class/"/>
+    <updated>2014-02-04T21:16:00-07:00</updated>
+    <id>http://blog.microcasts.tv/blog/2014/02/04/raspberry-pi-skillshare-class</id>
+    <content type="html"><![CDATA[<p>My class <a href="http://skl.sh/1cTcEbF">Unleash The Raspberry Pi Through Physical Computing</a> is now available on Skillshare. The class covers the 3 main hardware capabilities exposed by the GPIO header on the Pi:</p>
+
+<ul>
+<li> Digital I/O</li>
+<li> SPI</li>
+<li> I2C</li>
+</ul>
+
+
+<h1 style="text-align:center"><img src="http://blog.microcasts.tv/images/completed_clean_light_angle.jpg" alt="Simple Home Monitor with Raspberry Pi"/></h1>
+
+
+<p>In addition to covering each of these topics I also show you how to get your Raspberry Pi connected to Twitter. It&rsquo;s the first class on Skillshare to cover the Raspberry Pi and contains just <strong>over 3 hours of video instruction</strong>. It&rsquo;s packed with tips and tricks for creating your own hardware projects and students that enroll get access to a cheat sheet I&rsquo;ve put together for creating hardware projects with the Raspberry Pi. If you&rsquo;d like to enroll use the link at the top of this post to <strong>get 50% off</strong> and get the class for only $12.50 USD.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Running Python Scripts from Dropbox on the Raspberry Pi]]></title>
