@@ -4,6 +4,7 @@ title: "Raspberry Pi Skillshare Class Available"
 date: 2014-02-04 21:16
 comments: true
 categories: [RaspberryPi]
+author: K-SID
 ---
 
 My class [Unleash The Raspberry Pi Through Physical Computing][classlink] is now available on Skillshare. The class covers the 3 main hardware capabilities exposed by the GPIO header on the Pi:

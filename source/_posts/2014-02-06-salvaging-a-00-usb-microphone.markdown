@@ -4,6 +4,7 @@ title: "Salvaging a $100 USB Microphone"
 date: 2014-02-06 21:47
 comments: true
 categories: [USB]
+author: K-SID
 ---
 
 ##Back Story
