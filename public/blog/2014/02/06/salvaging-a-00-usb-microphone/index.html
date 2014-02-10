@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>XC8: Problem Running Post-Install Step - The &micro;Blog
+  <title>Salvaging a $100 USB Microphone - The &micro;Blog
 </title>
   <meta name="author" content="HardlySoftware">
 
@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.microcasts.tv/blog/2013/08/09/xc8-problem-running-post-install-step">
+  <link rel="canonical" href="http://blog.microcasts.tv/blog/2014/02/06/salvaging-a-00-usb-microphone">
   <link href="/favicon.png" type="image/png" rel="icon">
   <link href="/atom.xml" rel="alternate" title="The &micro;Blog
 " type="application/atom+xml">
@@ -113,7 +113,7 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-08-09T23:59:00-06:00" pubdate data-updated="true">Aug 9<span>th</span>, 2013</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-02-06T21:47:00-07:00" pubdate data-updated="true">Feb 6<span>th</span>, 2014</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://blog.microcasts.tv">Comments</a>
@@ -122,24 +122,68 @@
     
     
     <h1 class="entry-title">
-        XC8: Problem Running Post-Install Step
+        Salvaging a $100 USB Microphone
         
     </h1>
     
   </header>
 
 
-<div class="entry-content clearfix"><p>While installing the Microchip XC8 compiler today on my Windows 8 machine I ran into an issue at the end of the install and got the following message box.</p>
+<div class="entry-content clearfix"><h2>Back Story</h2>
 
-<p><img src="/images/xc8_install_error.png"></p>
+<p>A while back a good friend of mine gave me a <a href="http://www.amazon.com/Blue-Microphones-Yeti-USB-Microphone/dp/B002VA464S/ref=sr_1_1?ie=UTF8&amp;qid=1391757018&amp;sr=8-1&amp;keywords=blue+microphone+yeti">Blue Yeti microphone</a> from work that he said they were going to throw away because the mini USB port had ripped out of it. I told him I&rsquo;d take it and see if I could fix it. It seemed like the only thing wrong with it was that the connector had literally been ripped out of the case. How they were able to accomplish that I don&rsquo;t know. So I did what any self-respecting DIYer would do: I called Blue and asked if they could give me the part number for the USB connector.</p>
 
-<p>I assume this is because the regsvr32.exe wasn&rsquo;t run with elevated privileges. If you get this error at the end of your install the fix is quite simple. We just need to run the failed command from an elevated privilege command prompt.  To do this right click on your Command Prompt icon (from your start page or do a search to find it) and select <em>&ldquo;Run As Administrator&rdquo;</em>.  This should open your command prompt window and default you to the <strong>System32</strong> folder. Without changing directories you simply run the failed command as it was listed in your error message.  In my case I ran:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>regsvr32.exe /s "C:\Program Files\Microchip\xc8\v1.12\bin\MPLABXC8.dll"</span></code></pre></td></tr></table></div></figure>
+<blockquote><p>&#8220;I&#8217;m sorry, I can&#8217;t give you that information. It&#8217;s proprietary&#8221;</p></blockquote>
 
 
-<p><strong>NOTE:</strong> Your path may be different so make sure you see what the error message says before closing it.</p>
+<p>Really? A standard mini USB connector is proprietary? Give me a break Blue. So I did what any self-respecting Twitter user would do.</p>
+
+<p> <blockquote class="twitter-tweet" lang="en"><p>Wow <a href="https://twitter.com/BlueMicrophones">@BlueMicrophones</a> won&#39;t give me the mini usb part number so I can fix a busted mic someone trashed. Not very <a href="https://twitter.com/search?q=%23DIY&amp;src=hash">#DIY</a> friendly. <a href="https://twitter.com/search?q=%23servicefail&amp;src=hash">#servicefail</a></p>&mdash; Kevin Sidwar (@KevinSidwar) <a href="https://twitter.com/KevinSidwar/statuses/336590188488826880">May 20, 2013</a></blockquote></p>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<h2>The Repair</h2>
+
+<p>Having vented my rage on Twitter I logged on to <a href="http://www.mouser.com/Connectors/USB-Connectors/_/N-88hmf/">Mouser</a> to find a suitable replacement. I found one that I thought would work but never got around to ordering it. Fast forward almost a year and I decide I want to try to fix it but don&rsquo;t want to find the part again and wait for it to ship so I figured I might be able to just hack up a USB cable and solder it directly to the PCB where the connector ripped out. Here&rsquo;s how it looked when I took it apart.</p>
+
+<h1 style="text-align:center"><img src="/images/broken_mini_usb.jpg" title="Broken Mini USB Connector" alt="Broken Mini USB Connector"></h1>
+
+
+<p>Again, how they managed to do this is beyond me. But it came off fairly clean so all I needed to do was remove the legs from the connector and solder in leads from a USB cable I cut. But which wires go to which holes? Well, if you take a closer look at the back side of the PCB you can get a pretty decent idea of which connections are which. We know that USB uses 4 connections: Supply, Ground, D+, and D-.</p>
+
+<h1 style="text-align:center"><img src="/images/usb_connections.jpg" title="Closeup of UBS connection traces" alt="Closeup of UBS connection traces"></h1>
+
+
+<p>From this image we can guess that the thicker traces are the power lines and the thinner ones are the USB data lines. One of the connection holes isn&rsquo;t connected to anything. So figuring out which power line is ground was easy. Just set the meter to continuity mode, connect one probe to a known ground point (like an internal metal mount) and then see which of the thick traces gives you the continuity beep. That coupled with this diagram I found for a similar USB connector allowed me to identify D+ and D-.</p>
+
+<h1 style="text-align:center"><img src="/images/usb_connector_pinout.jpg" title="Pinout connections" alt="Pinout connections"></h1>
+
+
+<h2>Soldering</h2>
+
+<p>The solder work on this job was a little challenging for me. I quickly gave up on trying to solder the USB cable directly to the connector holes as the tiny wires were hard to handle. Instead I soldered some 22AWG leads from the connector holes that could exit the mic case through the mini USB opening and then I soldered the USB cable wires to those leads. Here are some shots of that.</p>
+
+<h1 style="text-align:center"><img src="/images/leads_soldered.jpg" title="Leads soldered on" alt="Leads soldered on"></h1>
+
+
+
+
+<h1 style="text-align:center"><img src="/images/leads_usb_opening.jpg" title="Leads coming out of case" alt="Leads coming out of case"></h1>
+
+
+<p>I made sure all of the USB wires were isolated from each other using shrink wrap and then finished the whole job up with a big piece of shrink wrap over everything to leave a nice clean look. When I plugged it in it worked first time.</p>
+
+<h2>Moral</h2>
+
+<p>With just a little knowledge and some soldering skills there are lots of things that can be reclaimed from the junk pile.</p>
+
+<p>In closing I&rsquo;d like to thank corporate america for having so much money that they just trash $100 mics because connectors break off. More importantly though I&rsquo;d like to send a big &ldquo;Suck It&rdquo; to Blue for hating on the DIY fix-it community. It&rsquo;s just a mini USB connector. I didn&rsquo;t need company secrets to fix it.</p>
+
+<h1 style="text-align:center"><img src="/images/repaired_mic.jpg" title="Repaired Mic" alt="Repaired Mic"></h1>
+
+
+<p>P.S. Blue, if you had simply given me the part number I would have sung your praises on social networks and to anybody in the tech space that would listen. I also would have gone to you first as soon as I needed a new mic. Instead I&rsquo;ll never recommend your microphones to anybody and will personally never pay you a cent for one.</p>
 </div>
 
 
@@ -148,7 +192,7 @@
           
   
 
-<span class="glyphicon glyphicon-user"></span> <span class="byline author vcard">Posted by <span class="fn">K-SID</span></span>
+<span class="glyphicon glyphicon-user"></span> <span class="byline author vcard">Posted by <span class="fn">HardlySoftware</span></span>
 
           
 
@@ -163,13 +207,13 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-08-09T23:59:00-06:00" pubdate data-updated="true">Aug 9<span>th</span>, 2013</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-02-06T21:47:00-07:00" pubdate data-updated="true">Feb 6<span>th</span>, 2014</time>
           
 
 <span class="glyphicon glyphicon-tags"></span>&nbsp;
 <span class="categories">
   
-    <a class='category' href='/blog/categories/microchip/'>Microchip</a>, <a class='category' href='/blog/categories/windows-8/'>Windows 8</a>, <a class='category' href='/blog/categories/xc8/'>XC8</a>
+    <a class='category' href='/blog/categories/usb/'>USB</a>
   
 </span>
 
@@ -178,7 +222,7 @@
         
           <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/blog/2013/08/09/xc8-problem-running-post-install-step/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/blog/2013/08/09/xc8-problem-running-post-install-step/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/blog/2014/02/06/salvaging-a-00-usb-microphone/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/blog/2014/02/06/salvaging-a-00-usb-microphone/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -192,8 +236,8 @@
         
           <ul class="meta text-muted pager">
             
+            <li class="previous"><a href="/blog/2014/02/04/raspberry-pi-skillshare-class/" title="Previous Post: Raspberry Pi Skillshare Class Available">&laquo; Raspberry Pi Skillshare Class Available</a></li>
             
-            <li class="next"><a href="/blog/2013/08/19/some-love-for-the-beginners/" title="Next Post: Some Love for the Beginners">Some Love for the Beginners &raquo;</a></li>
             
           </ul>
         
@@ -228,7 +272,7 @@
   
   <div id="recent_posts" class="list-group">
     
-    <a class="list-group-item " href="/blog/2014/02/06/salvaging-a-00-usb-microphone/">Salvaging a $100 USB Microphone</a>
+    <a class="list-group-item active" href="/blog/2014/02/06/salvaging-a-00-usb-microphone/">Salvaging a $100 USB Microphone</a>
     
     <a class="list-group-item " href="/blog/2014/02/04/raspberry-pi-skillshare-class/">Raspberry Pi Skillshare Class Available</a>
     
@@ -320,8 +364,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.microcasts.tv/blog/2013/08/09/xc8-problem-running-post-install-step/';
-        var disqus_url = 'http://blog.microcasts.tv/blog/2013/08/09/xc8-problem-running-post-install-step/';
+        var disqus_identifier = 'http://blog.microcasts.tv/blog/2014/02/06/salvaging-a-00-usb-microphone/';
+        var disqus_url = 'http://blog.microcasts.tv/blog/2014/02/06/salvaging-a-00-usb-microphone/';
         var disqus_script = 'embed.js';
       
     (function () {
