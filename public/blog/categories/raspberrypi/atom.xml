@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/raspberrypi/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-20T06:26:05-07:00</updated>
+  <updated>2014-02-20T08:09:03-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -23,7 +23,7 @@
 
 <h2>The Platform</h2>
 
-<p>I cheated a little bit in that I already had the Pi configured and some hardware ready to go from my [Skillshare Class][class] (which is now free if you want to check it out) so I figured I&rsquo;d just use what I already had. The project from the Skillshare class includes an LED, temperature sensor, and other things but all I really needed for this project was the <a href="https://www.sparkfun.com/products/11442">seven segment display from Sparkfun</a>. I was ready to immediately start coding in Python.</p>
+<p>I cheated a little bit in that I already had the Pi configured and some hardware ready to go from my <a href="http://www.skillshare.com/classes/technology/Unleash-The-Raspberry-Pi-Through-Physical-Computing/2109089069/">Skillshare Class</a> (which is now free if you want to check it out) so I figured I&rsquo;d just use what I already had. The project from the Skillshare class includes an LED, temperature sensor, and other things but all I really needed for this project was the <a href="https://www.sparkfun.com/products/11442">seven segment display from Sparkfun</a>. I was ready to immediately start coding in Python.</p>
 
 <h2>The Data Feed</h2>
 

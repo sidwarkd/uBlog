@@ -95,3 +95,4 @@ What Olympic-themed hardware projects can you think of?
 [nbc_medals]:http://www.nbcolympics.com/medals
 [sochi_site]:http://www.sochi2014.com/en/medal-standings
 [display]:https://www.sparkfun.com/products/11442
+[class]:http://www.skillshare.com/classes/technology/Unleash-The-Raspberry-Pi-Through-Physical-Computing/2109089069/
