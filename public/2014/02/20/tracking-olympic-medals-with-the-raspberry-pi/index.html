@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tracking Olympic Medals with the Raspberry Pi - The &micro;Blog
+</title>
+  <meta name="author" content="K-SID">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.microcasts.tv/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi">
+  <link href="/favicon.png" type="image/png" rel="icon">
+  <link href="/atom.xml" rel="alternate" title="The &micro;Blog
+" type="application/atom+xml">
+
+  <link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/assets/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+
+  <script src="/javascripts/libs/jquery/jquery-2.0.3.min.js"></script>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-38620480-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+  <body   >
+    <div id="wrap">
+      <header role="banner">
+        <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">The &micro;Blog
+</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+                <li >
+                    <a href="/blog/archives">Archives</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="subscribe-rss" href="/atom.xml" title="subscribe via RSS">
+                        <span class="visible-xs">RSS</span>
+                        <img class="hidden-xs" src="/images/rss.png" alt="RSS">
+                    </a>
+                </li>
+                
+            </ul>
+            
+                <form class="search navbar-form navbar-right" action="http://google.com/search" method="GET">
+                    <input type="hidden" name="q" value="site:blog.microcasts.tv">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="q" placeholder="Search">
+                    </div>
+                </form>
+            
+        </div>
+    </div>
+</nav>
+
+
+      </header>
+      <div id="main" class="container">
+        <div id="content">
+          <div class="row">
+  <div class="page-content col-md-9">
+    <article class="hentry" role="article">
+      
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-02-20T00:07:00-07:00" pubdate data-updated="true">Feb 20<span>th</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv">Comments</a>
+        
+      </p>
+    
+    
+    <h1 class="entry-title">
+        Tracking Olympic Medals With the Raspberry Pi
+        
+    </h1>
+    
+  </header>
+
+
+<div class="entry-content clearfix"><p>I&rsquo;m not sure why I waited so long to do this now that the Olympics are coming to an end. The thought came to me today, &ldquo;I wonder how long it would take me to hack together a script to track and display medal counts.&rdquo; Well, I had to find out and below is the result. <strong>Disclaimer:</strong> I was not going for neat, well-organized code here.  I was going for speed so please be gentle.</p>
+
+<h2>The Platform</h2>
+
+<p>I cheated a little bit in that I already had the Pi configured and some hardware ready to go from my [Skillshare Class][class] (which is now free if you want to check it out) so I figured I&rsquo;d just use what I already had. The project from the Skillshare class includes an LED, temperature sensor, and other things but all I really needed for this project was the <a href="https://www.sparkfun.com/products/11442">seven segment display from Sparkfun</a>. I was ready to immediately start coding in Python.</p>
+
+<h2>The Data Feed</h2>
+
+<p>My first step was to find a suitable data source for the medal count. It really came down to two sources and how easily it would be to parse the data.  The first was <a href="http://www.nbcolympics.com/medals">NBC</a> and the second was the official <a href="http://www.sochi2014.com/en/medal-standings">Sochi Olympics site</a>. I liked the official site a little better because the html for the medals had specific css classes that would make extracting the data very straighforward. The problem I ran into though was when I ran my initial version of the script I got a <strong>Forbidden</strong> response.</p>
+
+<h1 style="text-align:center"><img src="/images/sochi_forbidden.jpg" title="Forbidden Response" alt="Forbidden Response"></h1>
+
+
+<p>I assume this has something to do with the Agent header and them trying to prevent people like me from mooching off their site. Well played sochi.ru, well played.  Fortunately for us the good folks at NBC do not have the same concern so that&rsquo;s where I ended up getting the data.  Here is what part of the page looks like and has a url of <a href="http://www.nbcolympics.com/medals">http://www.nbcolympics.com/medals</a>.</p>
+
+<h1 style="text-align:center"><img src="/images/medal_count_display.jpg" title="Medal Count Display" alt="Medal Count Display"></h1>
+
+
+<p>So how do we fetch just the medal counts that we want to display?  Well, in Chrome all we have to do is right-click on the text &ldquo;United States of America&rdquo; and do <strong>Inspect Element</strong> to expose the page HTML which looks like this.</p>
+
+<h1 style="text-align:center"><img src="/images/medal_count_html.jpg" title="Medal Count HTML" alt="Medal Count HTML"></h1>
+
+
+<p>This was my first time parsing HTML in Python so there are probably much better ways to do this. If so please tell me about it in the comments so I can learn something new. I chose to use some simple XPATH to locate the anchor element with the country name and then navigate to the neighboring elements with the medal counts in them.  The result was this.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'>  <span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://www.nbcolympics.com/medals&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">html</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">result</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s">&#39;//a[text()=&quot; United States of America&quot;]/@href&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">nameNode</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getparent</span><span class="p">()</span><span class="o">.</span><span class="n">getparent</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">goldNode</span> <span class="o">=</span> <span class="n">nameNode</span><span class="o">.</span><span class="n">getnext</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">silverNode</span> <span class="o">=</span> <span class="n">goldNode</span><span class="o">.</span><span class="n">getnext</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">bronzeNode</span> <span class="o">=</span> <span class="n">silverNode</span><span class="o">.</span><span class="n">getnext</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Getting the actual integer value of the medal counts was then trivial. Remember, parsing out of the HTML will give you the values in strings.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'>  <span class="n">gold_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">goldNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span><span class='line'>  <span class="n">silver_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">silverNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span><span class='line'>  <span class="n">bronze_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bronzeNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Displaying the Data</h2>
+
+<p>With the data in hand it was just a matter of getting it onto the 7 segment display. In my Skillshare class I show how to configure and use SPI on the Pi to display stuff on a simple seven segment display so I already had all of the code for that. I just needed to format the display string appropriately. As my real estate was limited I decided to just use simple strings like &ldquo;to:23&rdquo; for the total count, &ldquo;go:14&rdquo; for gold, etc. I display each count 3 times and then query NBC again for an updated count. The interval could be much greater I suppose as medals don&rsquo;t change every 10 seconds.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'>  <span class="k">def</span> <span class="nf">display_medal_counts</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">gold</span><span class="p">,</span> <span class="n">silver</span><span class="p">,</span> <span class="n">bronze</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">total</span> <span class="o">=</span> <span class="n">gold</span> <span class="o">+</span> <span class="n">silver</span> <span class="o">+</span> <span class="n">bronze</span>
+</span><span class='line'>    <span class="n">totalstr</span> <span class="o">=</span> <span class="s">&quot;to&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">goldstr</span> <span class="o">=</span> <span class="s">&quot;go&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gold</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">silverstr</span> <span class="o">=</span> <span class="s">&quot;si&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">silver</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">bronzestr</span> <span class="o">=</span> <span class="s">&quot;br&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">bronze</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">totalstr</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">goldstr</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">silverstr</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">bronzestr</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Wrap Up</h2>
+
+<p>Throwing this together took me a little over an hour, much of which was spent learning how to parse HTML in Python. Here&rsquo;s a Vine to show it working. Not sure why the &lsquo;G&rsquo; doesn&rsquo;t use the middle hyphen segment.</p>
+
+<iframe class="vine-embed" src="https://vine.co/v/MZTDJTxIKBp/embed/simple" width="480" height="480" frameborder="0"></iframe>
+
+
+<script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>
+
+
+<br/>
+
+
+<br/>
+
+
+<p>It&rsquo;s a great example of how the Raspberry Pi is great for rapid prototyping of an idea. The full code can be found <a href="https://gist.github.com/sidwarkd/9108668">in this gist</a>.</p>
+
+<p>What Olympic-themed hardware projects can you think of?</p>
+</div>
+
+
+      <footer>
+        <p class="meta text-muted">
+          
+  
+
+<span class="glyphicon glyphicon-user"></span> <span class="byline author vcard">Posted by <span class="fn">K-SID</span></span>
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-02-20T00:07:00-07:00" pubdate data-updated="true">Feb 20<span>th</span>, 2014</time>
+          
+
+<span class="glyphicon glyphicon-tags"></span>&nbsp;
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/raspberrypi/'>RaspberryPi</a>
+  
+</span>
+
+
+        </p>
+        
+          <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+        
+        
+          <ul class="meta text-muted pager">
+            
+            <li class="previous"><a href="/2014/02/06/salvaging-a-00-usb-microphone/" title="Previous Post: Salvaging a $100 USB Microphone">&laquo; Salvaging a $100 USB Microphone</a></li>
+            
+            
+          </ul>
+        
+      </footer>
+    </article>
+    
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+      </section>
+    
+  </div>
+
+  
+  <aside class="sidebar col-md-3">
+    
+      <section>
+<div style="margin-top:15px;">
+  <img class="left" src="/images/uCasts.png" />
+  <p>
+    This is the official blog of &micro;Casts. I want to help you get your electronics groove on so tune in for the latest updates, tips, and general embedded awesomeness.
+  </p>
+  <p>
+    I'd love to hear from you if you have any questions or feedback.
+  </p>
+</div>
+</section><section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Recent Posts</h3>
+  </div>
+  
+  <div id="recent_posts" class="list-group">
+    
+    <a class="list-group-item active" href="/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/">Tracking Olympic Medals With the Raspberry Pi</a>
+    
+    <a class="list-group-item " href="/2014/02/06/salvaging-a-00-usb-microphone/">Salvaging a $100 USB Microphone</a>
+    
+    <a class="list-group-item " href="/2014/02/04/raspberry-pi-skillshare-class/">Raspberry Pi Skillshare Class Available</a>
+    
+    <a class="list-group-item " href="/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/">Running Python Scripts From Dropbox on the Raspberry Pi</a>
+    
+    <a class="list-group-item " href="/2013/11/03/eagle-how-to-export-board-image/">Eagle How-To: Export Board Image</a>
+    
+  </div>
+</section>
+
+<section class="panel panel-default clearfix">
+  <div class="panel-heading">
+      <h3 class="panel-title">GitHub Repos</h3>
+  </div>
+  <div class="list-group" id="gh_repos">
+    <p class="loading">Status updating...</p>
+  </div>
+  
+    <div class="gh-profile-link pull-right text-muted">
+      <a href="https://github.com/sidwarkd">@sidwarkd</a> on GitHub
+    </div>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sidwarkd',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Top Categories</h3>
+  </div>
+  <div class="list-group">
+    
+    
+    <a class="list-group-item " href="/blog/categories/raspberrypi/index.html">
+        <span class="badge">5</span>
+        RaspberryPi
+      </a>
+    
+  </div>
+</section>
+
+
+
+
+    
+  </aside>
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+    <footer role="contentinfo"><div class="container">
+    <p class="text-muted credits">
+  Copyright &copy; 2014 - K-SID<br>
+  <small>
+      <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>,
+      <span class="credit">customized with <a href="https://github.com/kAworu/octostrap3">octostrap3</a></span>.
+  </small>
+</p>
+
+</div>
+</footer>
+    <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/javascripts/modernizr-2.0.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ucastblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.microcasts.tv/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/';
+        var disqus_url = 'http://blog.microcasts.tv/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+  </body>
+</html>

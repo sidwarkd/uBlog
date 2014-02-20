@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/usb/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-10T09:42:41-07:00</updated>
+  <updated>2014-02-20T00:42:54-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -16,9 +16,9 @@
   
   <entry>
     <title type="html"><![CDATA[Salvaging a $100 USB Microphone]]></title>
-    <link href="http://blog.microcasts.tv/blog/2014/02/06/salvaging-a-00-usb-microphone/"/>
+    <link href="http://blog.microcasts.tv/2014/02/06/salvaging-a-00-usb-microphone/"/>
     <updated>2014-02-06T21:47:00-07:00</updated>
-    <id>http://blog.microcasts.tv/blog/2014/02/06/salvaging-a-00-usb-microphone</id>
+    <id>http://blog.microcasts.tv/2014/02/06/salvaging-a-00-usb-microphone</id>
     <content type="html"><![CDATA[<h2>Back Story</h2>
 
 <p>A while back a good friend of mine gave me a <a href="http://www.amazon.com/Blue-Microphones-Yeti-USB-Microphone/dp/B002VA464S/ref=sr_1_1?ie=UTF8&amp;qid=1391757018&amp;sr=8-1&amp;keywords=blue+microphone+yeti">Blue Yeti microphone</a> from work that he said they were going to throw away because the mini USB port had ripped out of it. I told him I&rsquo;d take it and see if I could fix it. It seemed like the only thing wrong with it was that the connector had literally been ripped out of the case. How they were able to accomplish that I don&rsquo;t know. So I did what any self-respecting DIYer would do: I called Blue and asked if they could give me the part number for the USB connector.

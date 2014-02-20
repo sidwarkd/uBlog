@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/eagle/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-10T09:42:41-07:00</updated>
+  <updated>2014-02-20T00:42:54-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -16,9 +16,9 @@
   
   <entry>
     <title type="html"><![CDATA[Eagle How-To: Export Board Image]]></title>
-    <link href="http://blog.microcasts.tv/blog/2013/11/03/eagle-how-to-export-board-image/"/>
+    <link href="http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image/"/>
     <updated>2013-11-03T00:30:00-06:00</updated>
-    <id>http://blog.microcasts.tv/blog/2013/11/03/eagle-how-to-export-board-image</id>
+    <id>http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image</id>
     <content type="html"><![CDATA[<p>Sometimes when you&rsquo;re working on a board design you don&rsquo;t want to wait to get a prototype board from a fab house. For simple or one off boards you can just make them at home. In order to do that we need a way to get our board design out of Eagle and onto a PCB. Most home-etch processes I&rsquo;ve seen require, in some form, a to-scale printout of the board. Personally I use the <a href="http://www.pcbfx.com/">Pulsar PCB products</a> which I&rsquo;ve found to work very well. The following is my process for getting the board design printed out.</p>
 
 <ol>

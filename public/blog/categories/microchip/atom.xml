@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/microchip/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-10T09:42:41-07:00</updated>
+  <updated>2014-02-20T00:42:54-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -16,9 +16,9 @@
   
   <entry>
     <title type="html"><![CDATA[XC8: Problem Running Post-Install Step]]></title>
-    <link href="http://blog.microcasts.tv/blog/2013/08/09/xc8-problem-running-post-install-step/"/>
+    <link href="http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step/"/>
     <updated>2013-08-09T23:59:00-06:00</updated>
-    <id>http://blog.microcasts.tv/blog/2013/08/09/xc8-problem-running-post-install-step</id>
+    <id>http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step</id>
     <content type="html"><![CDATA[<p>While installing the Microchip XC8 compiler today on my Windows 8 machine I ran into an issue at the end of the install and got the following message box.</p>
 
 <p><img src="/images/xc8_install_error.png"></p>

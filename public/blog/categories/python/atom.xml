@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-10T09:42:41-07:00</updated>
+  <updated>2014-02-20T00:42:54-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -16,9 +16,9 @@
   
   <entry>
     <title type="html"><![CDATA[Running Python Scripts from Dropbox on the Raspberry Pi]]></title>
-    <link href="http://blog.microcasts.tv/blog/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/"/>
+    <link href="http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/"/>
     <updated>2014-01-27T22:59:00-07:00</updated>
-    <id>http://blog.microcasts.tv/blog/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi</id>
+    <id>http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi</id>
     <content type="html"><![CDATA[<p>If you&rsquo;ve ever tried writing code on your Raspberry Pi from just the plain terminal window then you&rsquo;ve probably used Nano or Vim. If you&rsquo;re like me you wished you could have used your favorite IDE or text editor on another machine. When I develop for the Raspberry Pi my normal use case is to SSH in and write code via Nano. While this works just fine I&rsquo;d prefer to have the bigger real estate afforded by my desktop monitors.</p>
 
 <h3>What is <code>preheat</code></h3>

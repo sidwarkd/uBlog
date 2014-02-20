@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Running Python Scripts from Dropbox on the Raspberry Pi - The &micro;Blog
+</title>
+  <meta name="author" content="K-SID">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi">
+  <link href="/favicon.png" type="image/png" rel="icon">
+  <link href="/atom.xml" rel="alternate" title="The &micro;Blog
+" type="application/atom+xml">
+
+  <link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/assets/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+
+  <script src="/javascripts/libs/jquery/jquery-2.0.3.min.js"></script>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-38620480-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+  <body   >
+    <div id="wrap">
+      <header role="banner">
+        <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">The &micro;Blog
+</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+                <li >
+                    <a href="/blog/archives">Archives</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="subscribe-rss" href="/atom.xml" title="subscribe via RSS">
+                        <span class="visible-xs">RSS</span>
+                        <img class="hidden-xs" src="/images/rss.png" alt="RSS">
+                    </a>
+                </li>
+                
+            </ul>
+            
+                <form class="search navbar-form navbar-right" action="http://google.com/search" method="GET">
+                    <input type="hidden" name="q" value="site:blog.microcasts.tv">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="q" placeholder="Search">
+                    </div>
+                </form>
+            
+        </div>
+    </div>
+</nav>
+
+
+      </header>
+      <div id="main" class="container">
+        <div id="content">
+          <div class="row">
+  <div class="page-content col-md-9">
+    <article class="hentry" role="article">
+      
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-01-27T22:59:00-07:00" pubdate data-updated="true">Jan 27<span>th</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv">Comments</a>
+        
+      </p>
+    
+    
+    <h1 class="entry-title">
+        Running Python Scripts From Dropbox on the Raspberry Pi
+        
+    </h1>
+    
+  </header>
+
+
+<div class="entry-content clearfix"><p>If you&rsquo;ve ever tried writing code on your Raspberry Pi from just the plain terminal window then you&rsquo;ve probably used Nano or Vim. If you&rsquo;re like me you wished you could have used your favorite IDE or text editor on another machine. When I develop for the Raspberry Pi my normal use case is to SSH in and write code via Nano. While this works just fine I&rsquo;d prefer to have the bigger real estate afforded by my desktop monitors.</p>
+
+<h3>What is <code>preheat</code></h3>
+
+<p><code>preheat</code> is my solution to this problem. It allows me to pull scripts down from my Dropbox account at execution time. When I finally decided I didn&rsquo;t want to code directly on the Pi anymore the very first thing that came to my mind was to install <a href="http://dropbox.com">Dropbox</a> on the Pi and just have it sync with a folder on my dev machine. It only took a few searches to realize that a Dropbox client for the Pi doesn&rsquo;t exist. So I found a few other solutions like <a href="http://en.wikipedia.org/wiki/Rsync">rsync</a>, <a href="http://owncloud.org">ownCloud</a> and others but everything I found was either too much work or just plain overkill for what I needed. So <code>preheat</code> was born.</p>
+
+<p>It&rsquo;s a simple Python script that will query your Dropbox account for the file you want to run and pull it down. So normally I&rsquo;d use the following to run a script I&rsquo;m working on:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo python myscript.py
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With <code>preheat</code> I would run it like this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo python preheat myscript.py
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I don&rsquo;t need to have <strong>myscript.py</strong> on the Raspberry Pi. It&rsquo;s on my desktop machine in a dropbox folder being updated every time I change it. When I run it via <code>preheat</code> it will scan my Dropbox account, find it, and pull it down for me.</p>
+
+<p>If you&rsquo;d like to see how it works <a href="https://github.com/sidwarkd/preheat">check out the source code on Github</a></p>
+</div>
+
+
+      <footer>
+        <p class="meta text-muted">
+          
+  
+
+<span class="glyphicon glyphicon-user"></span> <span class="byline author vcard">Posted by <span class="fn">K-SID</span></span>
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-01-27T22:59:00-07:00" pubdate data-updated="true">Jan 27<span>th</span>, 2014</time>
+          
+
+<span class="glyphicon glyphicon-tags"></span>&nbsp;
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dropbox/'>Dropbox</a>, <a class='category' href='/blog/categories/python/'>Python</a>, <a class='category' href='/blog/categories/raspberrypi/'>RaspberryPi</a>
+  
+</span>
+
+
+        </p>
+        
+          <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+        
+        
+          <ul class="meta text-muted pager">
+            
+            <li class="previous"><a href="/2013/11/03/eagle-how-to-export-board-image/" title="Previous Post: Eagle How-To: Export Board Image">&laquo; Eagle How-To: Export Board Image</a></li>
+            
+            
+            <li class="next"><a href="/2014/02/04/raspberry-pi-skillshare-class/" title="Next Post: Raspberry Pi Skillshare Class Available">Raspberry Pi Skillshare Class Available &raquo;</a></li>
+            
+          </ul>
+        
+      </footer>
+    </article>
+    
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+      </section>
+    
+  </div>
+
+  
+  <aside class="sidebar col-md-3">
+    
+      <section>
+<div style="margin-top:15px;">
+  <img class="left" src="/images/uCasts.png" />
+  <p>
+    This is the official blog of &micro;Casts. I want to help you get your electronics groove on so tune in for the latest updates, tips, and general embedded awesomeness.
+  </p>
+  <p>
+    I'd love to hear from you if you have any questions or feedback.
+  </p>
+</div>
+</section><section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Recent Posts</h3>
+  </div>
+  
+  <div id="recent_posts" class="list-group">
+    
+    <a class="list-group-item " href="/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/">Tracking Olympic Medals With the Raspberry Pi</a>
+    
+    <a class="list-group-item " href="/2014/02/06/salvaging-a-00-usb-microphone/">Salvaging a $100 USB Microphone</a>
+    
+    <a class="list-group-item " href="/2014/02/04/raspberry-pi-skillshare-class/">Raspberry Pi Skillshare Class Available</a>
+    
+    <a class="list-group-item active" href="/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/">Running Python Scripts From Dropbox on the Raspberry Pi</a>
+    
+    <a class="list-group-item " href="/2013/11/03/eagle-how-to-export-board-image/">Eagle How-To: Export Board Image</a>
+    
+  </div>
+</section>
+
+<section class="panel panel-default clearfix">
+  <div class="panel-heading">
+      <h3 class="panel-title">GitHub Repos</h3>
+  </div>
+  <div class="list-group" id="gh_repos">
+    <p class="loading">Status updating...</p>
+  </div>
+  
+    <div class="gh-profile-link pull-right text-muted">
+      <a href="https://github.com/sidwarkd">@sidwarkd</a> on GitHub
+    </div>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sidwarkd',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Top Categories</h3>
+  </div>
+  <div class="list-group">
+    
+    
+    <a class="list-group-item " href="/blog/categories/raspberrypi/index.html">
+        <span class="badge">5</span>
+        RaspberryPi
+      </a>
+    
+  </div>
+</section>
+
+
+
+
+    
+  </aside>
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+    <footer role="contentinfo"><div class="container">
+    <p class="text-muted credits">
+  Copyright &copy; 2014 - K-SID<br>
+  <small>
+      <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>,
+      <span class="credit">customized with <a href="https://github.com/kAworu/octostrap3">octostrap3</a></span>.
+  </small>
+</p>
+
+</div>
+</footer>
+    <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/javascripts/modernizr-2.0.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ucastblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/';
+        var disqus_url = 'http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+  </body>
+</html>

@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/mplabx/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-10T09:42:41-07:00</updated>
+  <updated>2014-02-20T00:42:54-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -16,9 +16,9 @@
   
   <entry>
     <title type="html"><![CDATA[Installing MPLABX on Ubuntu: 64-bit Tip]]></title>
-    <link href="http://blog.microcasts.tv/blog/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/"/>
+    <link href="http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/"/>
     <updated>2013-10-26T00:16:00-06:00</updated>
-    <id>http://blog.microcasts.tv/blog/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip</id>
+    <id>http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip</id>
     <content type="html"><![CDATA[<p>While trying to install MPLABX on my Ubuntu machine I was having issues running the installer. Nothing would happen. After some searching I found that the installer cannot be run in a 64-bit environment without installing some 32-bit dependencies first. To fix simply run:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

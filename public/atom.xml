@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-10T09:42:41-07:00</updated>
+  <updated>2014-02-20T00:42:54-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -15,10 +15,153 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Tracking Olympic Medals with the Raspberry Pi]]></title>
+    <link href="http://blog.microcasts.tv/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/"/>
+    <updated>2014-02-20T00:07:00-07:00</updated>
+    <id>http://blog.microcasts.tv/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m not sure why I waited so long to do this now that the Olympics are coming to an end. The thought came to me today, &ldquo;I wonder how long it would take me to hack together a script to track and display medal counts.&rdquo; Well, I had to find out and below is the result. <strong>Disclaimer:</strong> I was not going for neat, well-organized code here.  I was going for speed so please be gentle.</p>
+
+<h2>The Platform</h2>
+
+<p>I cheated a little bit in that I already had the Pi configured and some hardware ready to go from my [Skillshare Class][class] (which is now free if you want to check it out) so I figured I&rsquo;d just use what I already had. The project from the Skillshare class includes an LED, temperature sensor, and other things but all I really needed for this project was the <a href="https://www.sparkfun.com/products/11442">seven segment display from Sparkfun</a>. I was ready to immediately start coding in Python.</p>
+
+<h2>The Data Feed</h2>
+
+<p>My first step was to find a suitable data source for the medal count. It really came down to two sources and how easily it would be to parse the data.  The first was <a href="http://www.nbcolympics.com/medals">NBC</a> and the second was the official <a href="http://www.sochi2014.com/en/medal-standings">Sochi Olympics site</a>. I liked the official site a little better because the html for the medals had specific css classes that would make extracting the data very straighforward. The problem I ran into though was when I ran my initial version of the script I got a <strong>Forbidden</strong> response.</p>
+
+<h1 style="text-align:center"><img src="http://blog.microcasts.tv/images/sochi_forbidden.jpg" title="Forbidden Response" alt="Forbidden Response"></h1>
+
+
+<p>I assume this has something to do with the Agent header and them trying to prevent people like me from mooching off their site. Well played sochi.ru, well played.  Fortunately for us the good folks at NBC do not have the same concern so that&rsquo;s where I ended up getting the data.  Here is what part of the page looks like and has a url of <a href="http://www.nbcolympics.com/medals">http://www.nbcolympics.com/medals</a>.</p>
+
+<h1 style="text-align:center"><img src="http://blog.microcasts.tv/images/medal_count_display.jpg" title="Medal Count Display" alt="Medal Count Display"></h1>
+
+
+<p>So how do we fetch just the medal counts that we want to display?  Well, in Chrome all we have to do is right-click on the text &ldquo;United States of America&rdquo; and do <strong>Inspect Element</strong> to expose the page HTML which looks like this.</p>
+
+<h1 style="text-align:center"><img src="http://blog.microcasts.tv/images/medal_count_html.jpg" title="Medal Count HTML" alt="Medal Count HTML"></h1>
+
+
+<p>This was my first time parsing HTML in Python so there are probably much better ways to do this. If so please tell me about it in the comments so I can learn something new. I chose to use some simple XPATH to locate the anchor element with the country name and then navigate to the neighboring elements with the medal counts in them.  The result was this.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'>  <span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://www.nbcolympics.com/medals&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">html</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">result</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s">&#39;//a[text()=&quot; United States of America&quot;]/@href&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">nameNode</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getparent</span><span class="p">()</span><span class="o">.</span><span class="n">getparent</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">goldNode</span> <span class="o">=</span> <span class="n">nameNode</span><span class="o">.</span><span class="n">getnext</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">silverNode</span> <span class="o">=</span> <span class="n">goldNode</span><span class="o">.</span><span class="n">getnext</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">bronzeNode</span> <span class="o">=</span> <span class="n">silverNode</span><span class="o">.</span><span class="n">getnext</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Getting the actual integer value of the medal counts was then trivial. Remember, parsing out of the HTML will give you the values in strings.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'>  <span class="n">gold_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">goldNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span><span class='line'>  <span class="n">silver_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">silverNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span><span class='line'>  <span class="n">bronze_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bronzeNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Displaying the Data</h2>
+
+<p>With the data in hand it was just a matter of getting it onto the 7 segment display. In my Skillshare class I show how to configure and use SPI on the Pi to display stuff on a simple seven segment display so I already had all of the code for that. I just needed to format the display string appropriately. As my real estate was limited I decided to just use simple strings like &ldquo;to:23&rdquo; for the total count, &ldquo;go:14&rdquo; for gold, etc. I display each count 3 times and then query NBC again for an updated count. The interval could be much greater I suppose as medals don&rsquo;t change every 10 seconds.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'>  <span class="k">def</span> <span class="nf">display_medal_counts</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">gold</span><span class="p">,</span> <span class="n">silver</span><span class="p">,</span> <span class="n">bronze</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">total</span> <span class="o">=</span> <span class="n">gold</span> <span class="o">+</span> <span class="n">silver</span> <span class="o">+</span> <span class="n">bronze</span>
+</span><span class='line'>    <span class="n">totalstr</span> <span class="o">=</span> <span class="s">&quot;to&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">goldstr</span> <span class="o">=</span> <span class="s">&quot;go&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gold</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">silverstr</span> <span class="o">=</span> <span class="s">&quot;si&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">silver</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">bronzestr</span> <span class="o">=</span> <span class="s">&quot;br&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">bronze</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">totalstr</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">goldstr</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">silverstr</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">bronzestr</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
+</span><span class='line'>        <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Wrap Up</h2>
+
+<p>Throwing this together took me a little over an hour, much of which was spent learning how to parse HTML in Python. Here&rsquo;s a Vine to show it working. Not sure why the &lsquo;G&rsquo; doesn&rsquo;t use the middle hyphen segment.</p>
+
+<iframe class="vine-embed" src="https://vine.co/v/MZTDJTxIKBp/embed/simple" width="480" height="480" frameborder="0"></iframe>
+
+
+<script async src="http://blog.microcasts.tv//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>
+
+
+<br/>
+
+
+<br/>
+
+
+<p>It&rsquo;s a great example of how the Raspberry Pi is great for rapid prototyping of an idea. The full code can be found <a href="https://gist.github.com/sidwarkd/9108668">in this gist</a>.</p>
+
+<p>What Olympic-themed hardware projects can you think of?</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Salvaging a $100 USB Microphone]]></title>
-    <link href="http://blog.microcasts.tv/blog/2014/02/06/salvaging-a-00-usb-microphone/"/>
+    <link href="http://blog.microcasts.tv/2014/02/06/salvaging-a-00-usb-microphone/"/>
     <updated>2014-02-06T21:47:00-07:00</updated>
-    <id>http://blog.microcasts.tv/blog/2014/02/06/salvaging-a-00-usb-microphone</id>
+    <id>http://blog.microcasts.tv/2014/02/06/salvaging-a-00-usb-microphone</id>
     <content type="html"><![CDATA[<h2>Back Story</h2>
 
 <p>A while back a good friend of mine gave me a <a href="http://www.amazon.com/Blue-Microphones-Yeti-USB-Microphone/dp/B002VA464S/ref=sr_1_1?ie=UTF8&amp;qid=1391757018&amp;sr=8-1&amp;keywords=blue+microphone+yeti">Blue Yeti microphone</a> from work that he said they were going to throw away because the mini USB port had ripped out of it. I told him I&rsquo;d take it and see if I could fix it. It seemed like the only thing wrong with it was that the connector had literally been ripped out of the case. How they were able to accomplish that I don&rsquo;t know. So I did what any self-respecting DIYer would do: I called Blue and asked if they could give me the part number for the USB connector.</p>
@@ -79,9 +222,9 @@
   
   <entry>
     <title type="html"><![CDATA[Raspberry Pi Skillshare Class Available]]></title>
-    <link href="http://blog.microcasts.tv/blog/2014/02/04/raspberry-pi-skillshare-class/"/>
+    <link href="http://blog.microcasts.tv/2014/02/04/raspberry-pi-skillshare-class/"/>
     <updated>2014-02-04T21:16:00-07:00</updated>
-    <id>http://blog.microcasts.tv/blog/2014/02/04/raspberry-pi-skillshare-class</id>
+    <id>http://blog.microcasts.tv/2014/02/04/raspberry-pi-skillshare-class</id>
     <content type="html"><![CDATA[<p>My class <a href="http://skl.sh/1cTcEbF">Unleash The Raspberry Pi Through Physical Computing</a> is now available on Skillshare. The class covers the 3 main hardware capabilities exposed by the GPIO header on the Pi:</p>
 
 <ul>
@@ -100,9 +243,9 @@
   
   <entry>
     <title type="html"><![CDATA[Running Python Scripts from Dropbox on the Raspberry Pi]]></title>
-    <link href="http://blog.microcasts.tv/blog/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/"/>
+    <link href="http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/"/>
     <updated>2014-01-27T22:59:00-07:00</updated>
-    <id>http://blog.microcasts.tv/blog/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi</id>
+    <id>http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi</id>
     <content type="html"><![CDATA[<p>If you&rsquo;ve ever tried writing code on your Raspberry Pi from just the plain terminal window then you&rsquo;ve probably used Nano or Vim. If you&rsquo;re like me you wished you could have used your favorite IDE or text editor on another machine. When I develop for the Raspberry Pi my normal use case is to SSH in and write code via Nano. While this works just fine I&rsquo;d prefer to have the bigger real estate afforded by my desktop monitors.</p>
 
 <h3>What is <code>preheat</code></h3>
@@ -131,9 +274,9 @@
   
   <entry>
     <title type="html"><![CDATA[Eagle How-To: Export Board Image]]></title>
-    <link href="http://blog.microcasts.tv/blog/2013/11/03/eagle-how-to-export-board-image/"/>
+    <link href="http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image/"/>
     <updated>2013-11-03T00:30:00-06:00</updated>
-    <id>http://blog.microcasts.tv/blog/2013/11/03/eagle-how-to-export-board-image</id>
+    <id>http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image</id>
     <content type="html"><![CDATA[<p>Sometimes when you&rsquo;re working on a board design you don&rsquo;t want to wait to get a prototype board from a fab house. For simple or one off boards you can just make them at home. In order to do that we need a way to get our board design out of Eagle and onto a PCB. Most home-etch processes I&rsquo;ve seen require, in some form, a to-scale printout of the board. Personally I use the <a href="http://www.pcbfx.com/">Pulsar PCB products</a> which I&rsquo;ve found to work very well. The following is my process for getting the board design printed out.</p>
 
 <ol>
@@ -155,9 +298,9 @@
   
   <entry>
     <title type="html"><![CDATA[Installing MPLABX on Ubuntu: 64-bit Tip]]></title>
-    <link href="http://blog.microcasts.tv/blog/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/"/>
+    <link href="http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/"/>
     <updated>2013-10-26T00:16:00-06:00</updated>
-    <id>http://blog.microcasts.tv/blog/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip</id>
+    <id>http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip</id>
     <content type="html"><![CDATA[<p>While trying to install MPLABX on my Ubuntu machine I was having issues running the installer. Nothing would happen. After some searching I found that the installer cannot be run in a 64-bit environment without installing some 32-bit dependencies first. To fix simply run:</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -183,9 +326,9 @@
   
   <entry>
     <title type="html"><![CDATA[Query Temperature on Raspberry Pi]]></title>
-    <link href="http://blog.microcasts.tv/blog/2013/10/25/query-temperature-on-raspberry-pi/"/>
+    <link href="http://blog.microcasts.tv/2013/10/25/query-temperature-on-raspberry-pi/"/>
     <updated>2013-10-25T23:33:00-06:00</updated>
-    <id>http://blog.microcasts.tv/blog/2013/10/25/query-temperature-on-raspberry-pi</id>
+    <id>http://blog.microcasts.tv/2013/10/25/query-temperature-on-raspberry-pi</id>
     <content type="html"><![CDATA[<p>I recently installed a Raspberry Pi in a server closet at home. I have it connected to an older laser printer so it acts as a print server. Since it is in a small space I want to be able to monitor the temperature from time to time. After some searching online I found two ways to do this from the command line that work quite well.</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -224,9 +367,9 @@
   
   <entry>
     <title type="html"><![CDATA[Monitor Government Shutdown With A Raspberry Pi]]></title>
-    <link href="http://blog.microcasts.tv/blog/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/"/>
+    <link href="http://blog.microcasts.tv/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/"/>
     <updated>2013-10-09T13:45:00-06:00</updated>
-    <id>http://blog.microcasts.tv/blog/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi</id>
+    <id>http://blog.microcasts.tv/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi</id>
     <content type="html"><![CDATA[<p>Last week I came across a tweet from <a href="https://twitter.com/eduardk" target="_blank">Eduard Koller</a>.</p>
 
 <blockquote><p>Want to be notified when the Government is back up? Here&#8217;s a little script for you: http://bit.ly/16eAoDT</p><footer><strong>@eduardk</strong> <cite><a href='https://twitter.com/eduardk/statuses/385139079219671040'>twitter.com/eduardk/statuses/&hellip;</a></cite></footer></blockquote>
@@ -578,9 +721,9 @@
   
   <entry>
     <title type="html"><![CDATA[Some Love for the Beginners]]></title>
-    <link href="http://blog.microcasts.tv/blog/2013/08/19/some-love-for-the-beginners/"/>
+    <link href="http://blog.microcasts.tv/2013/08/19/some-love-for-the-beginners/"/>
     <updated>2013-08-19T21:41:00-06:00</updated>
-    <id>http://blog.microcasts.tv/blog/2013/08/19/some-love-for-the-beginners</id>
+    <id>http://blog.microcasts.tv/2013/08/19/some-love-for-the-beginners</id>
     <content type="html"><![CDATA[<h3>&ldquo;Read the Datasheet Again!&rdquo;</h3>
 
 <p>That&rsquo;s what somebody told me on a forum once for not seeing a piece of information in a 90 page datasheet.  If there is one thing I&rsquo;ve learned after many years of doing hobbyist electronics it&rsquo;s that the various forums are NOT friendly places for beginners. I&rsquo;m subscribed to receive notices from multiple forums and everyday I see beginners taking heat for &ldquo;not reading the datasheet&rdquo; or &ldquo;not searching the forum.&rdquo;  It always amazes me how condescending people can be and how quickly they forget that at some point we were all beginners.</p>
@@ -597,9 +740,9 @@
   
   <entry>
     <title type="html"><![CDATA[XC8: Problem Running Post-Install Step]]></title>
-    <link href="http://blog.microcasts.tv/blog/2013/08/09/xc8-problem-running-post-install-step/"/>
+    <link href="http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step/"/>
     <updated>2013-08-09T23:59:00-06:00</updated>
-    <id>http://blog.microcasts.tv/blog/2013/08/09/xc8-problem-running-post-install-step</id>
+    <id>http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step</id>
     <content type="html"><![CDATA[<p>While installing the Microchip XC8 compiler today on my Windows 8 machine I ran into an issue at the end of the install and got the following message box.</p>
 
 <p><img src="http://blog.microcasts.tv/images/xc8_install_error.png"></p>

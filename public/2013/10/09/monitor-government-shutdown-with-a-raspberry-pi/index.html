@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Monitor Government Shutdown With A Raspberry Pi - The &micro;Blog
+</title>
+  <meta name="author" content="K-SID">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.microcasts.tv/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi">
+  <link href="/favicon.png" type="image/png" rel="icon">
+  <link href="/atom.xml" rel="alternate" title="The &micro;Blog
+" type="application/atom+xml">
+
+  <link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/assets/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+
+  <script src="/javascripts/libs/jquery/jquery-2.0.3.min.js"></script>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-38620480-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+  <body   >
+    <div id="wrap">
+      <header role="banner">
+        <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">The &micro;Blog
+</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+                <li >
+                    <a href="/blog/archives">Archives</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="subscribe-rss" href="/atom.xml" title="subscribe via RSS">
+                        <span class="visible-xs">RSS</span>
+                        <img class="hidden-xs" src="/images/rss.png" alt="RSS">
+                    </a>
+                </li>
+                
+            </ul>
+            
+                <form class="search navbar-form navbar-right" action="http://google.com/search" method="GET">
+                    <input type="hidden" name="q" value="site:blog.microcasts.tv">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="q" placeholder="Search">
+                    </div>
+                </form>
+            
+        </div>
+    </div>
+</nav>
+
+
+      </header>
+      <div id="main" class="container">
+        <div id="content">
+          <div class="row">
+  <div class="page-content col-md-9">
+    <article class="hentry" role="article">
+      
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-10-09T13:45:00-06:00" pubdate data-updated="true">Oct 9<span>th</span>, 2013</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv">Comments</a>
+        
+      </p>
+    
+    
+    <h1 class="entry-title">
+        Monitor Government Shutdown With a Raspberry Pi
+        
+    </h1>
+    
+  </header>
+
+
+<div class="entry-content clearfix"><p>Last week I came across a tweet from <a href="https://twitter.com/eduardk" target="_blank">Eduard Koller</a>.</p>
+
+<blockquote><p>Want to be notified when the Government is back up? Here&#8217;s a little script for you: http://bit.ly/16eAoDT</p><footer><strong>@eduardk</strong> <cite><a href='https://twitter.com/eduardk/statuses/385139079219671040'>twitter.com/eduardk/statuses/&hellip;</a></cite></footer></blockquote>
+
+
+<p>He wrote a simple python script to check the status of the government shutdown. I couldn&rsquo;t resist the urge to apply a little hardware to the situation.<!-- more --></p>
+
+<h3>Polarity Matters</h3>
+
+<p>My first idea was to hook up a simple two line LCD display I had lying around and connect it to the Pi via SPI. Before I connected the display to the Pi I wanted to make sure I had powered it correctly so I plugged in my home made power supply (made from a wall supply) and nothing happened. Not having used this particular display in over a year I thought &ldquo;Oh, it must be blank until I send some data down the wire.&rdquo; So I left it plugged in, shut down my Pi, hooked up all the SPI connections and booted the Pi back up. I sent a few test messages via SPI but nothing was happening.</p>
+
+<blockquote><p>That&#8217;s when I started to smell something cooking</p></blockquote>
+
+
+<p>It wasn&rsquo;t the classic ozone smell but that scent you get when a stove burner is on. I put my hand over the display and could feel the heat coming off. I quickly unplugged it and felt the chip on the back. It was smoldering.</p>
+
+<p>When I make simple wall supplies I ALWAYS attach a green lead to ground and a black lead to the positive rail. So when I went into my shop I grabbed one of those homemade guys and hooked him up. I later realized that I had hooked those leads up wrong and that green was +5V and black was ground. Ugh. So I switched them around and the display turned back on but was all black. After some searching in the datasheet I found a note saying that if you hook up the power to the display wrong it will immediately ruin the unit.</p>
+
+<h3>Use an LED Instead</h3>
+
+<p>Oh well. I paused project work for a moment to order <a href="https://www.crystalfontz.com/product/CFA634TFHKS" target="_blank">a new display</a> and then decided to settle for a simple LED approach. I modified Eduard&rsquo;s script so that it would still work as he had written it but also would accept a command line argument of &ldquo;pi&rdquo; that would forego the console output in favor of turning LEDs on and off. So after just a little modification and the use of the <a href="https://pypi.python.org/pypi/RPi.GPIO" target="_blank">RPi.GPIO</a> library I was up and running.</p>
+
+<p><img src="https://pbs.twimg.com/media/BVrJUnvCcAExjE4.jpg:small"></p>
+
+<p>Here&rsquo;s the code if you are interested in giving it a try or modifying it.</p>
+
+<div><script src='https://gist.github.com/sidwarkd/6814331.js'></script>
+<noscript><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head prefix=&quot;og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# githubog: http://ogp.me/ns/fb/githubog#&quot;&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;&gt;
+
+  &lt;title&gt;Modified to add command line option for running on a Raspberry Pi using GPIO 17 and 18 to control status LEDs. Run from the command line with the argument &amp;quot;pi&amp;quot; to activate status LEDs. Assumes you have already installed the RPi.GPIO library.&lt;/title&gt;
+
+  &lt;meta content=&quot;authenticity_token&quot; name=&quot;csrf-param&quot; /&gt;
+&lt;meta content=&quot;q7g004bTADWxdOcfzwSjW9WPv2K70D2Y2GQNv1oyjZE=&quot; name=&quot;csrf-token&quot; /&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=960&quot;&gt;
+
+
+  &lt;link type=&quot;text/plain&quot; rel=&quot;author&quot; href=&quot;https://github.com/humans.txt&quot; /&gt;
+  &lt;meta content=&quot;gist&quot; name=&quot;octolytics-app-id&quot; /&gt;&lt;meta content=&quot;collector.githubapp.com&quot; name=&quot;octolytics-host&quot; /&gt;
+
+  &lt;link href=&quot;/assets/application-40431a953a4fe71f7abb47ce95f23da2.css&quot; media=&quot;screen, print&quot; rel=&quot;stylesheet&quot; /&gt;
+  &lt;script src=&quot;/assets/application-0e9cfa9048fd8b9e3fe4ad1de9ce0047.js&quot;&gt;&lt;/script&gt;
+
+    &lt;meta name=&quot;twitter:card&quot; content=&quot;summary&quot;&gt;
+  &lt;meta name=&quot;twitter:site&quot; content=&quot;@github&quot;&gt;
+  &lt;meta property=&quot;og:title&quot; content=&quot;sidwarkd/isgovtdown.py&quot;&gt;
+  &lt;meta property=&quot;og:type&quot; content=&quot;githubog:gist&quot;&gt;
+  &lt;meta property=&quot;og:url&quot; content=&quot;https://gist.github.com//sidwarkd/6814331&quot;&gt;
+  &lt;meta property=&quot;og:image&quot; content=&quot;https://2.gravatar.com/avatar/e46905069165b34d2f844ad9d021e749?d=https%3A%2F%2Fidenticons.github.com%2F26833d7fb4fd61bc27490a6ac5117918.png&amp;amp;s=140&quot;&gt;
+  &lt;meta property=&quot;og:site_name&quot; content=&quot;GitHub Gists&quot;&gt;
+  &lt;meta property=&quot;og:description&quot; content=&quot;Modified to add command line option for running on a Raspberry Pi using GPIO 17 and 18 to control status LEDs. Run from the command line with the argument &amp;amp;quot;pi&amp;amp;quot; to activate status LEDs. Assumes you have already installed the RPi.GPIO library. - Gist is a simple way to share snippets of text and code with others.&quot;&gt;
+  &lt;meta name=&quot;description&quot; content=&quot;Modified to add command line option for running on a Raspberry Pi using GPIO 17 and 18 to control status LEDs. Run from the command line with the argument &amp;amp;quot;pi&amp;amp;quot; to activate status LEDs. Assumes you have already installed the RPi.GPIO library. - Gist is a simple way to share snippets of text and code with others.&quot;&gt;
+
+&lt;/head&gt;
+
+&lt;body class=&quot; &quot;&gt;
+
+  &lt;div id=&quot;wrapper&quot;&gt;
+    
+
+    &lt;div id=&quot;header&quot; class=&quot;header header-logged-out&quot;&gt;
+      &lt;div class=&quot;container&quot; class=&quot;clearfix&quot;&gt;
+        &lt;a class=&quot;header-logo-wordmark&quot; href=&quot;https://gist.github.com/&quot;&gt;
+          &lt;span class=&quot;octicon octicon-logo-github&quot;&gt;&lt;/span&gt;
+          &lt;span class=&quot;octicon-logo octicon-logo-gist&quot;&gt;&lt;/span&gt;
+        &lt;/a&gt;
+
+        &lt;div class=&quot;header-actions&quot;&gt;
+          &lt;a class=&quot;button primary&quot; href=&quot;https://github.com/signup?return_to=gist&quot;&gt;Sign up for a GitHub Account&lt;/a&gt;
+          &lt;a class=&quot;button&quot; href=&quot;https://gist.github.com/login?return_to=/sidwarkd/6814331&quot; data-skip-pjax&gt;Sign in&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;site-content&quot; id=&quot;js-pjax-container&quot; data-pjax-container&gt;
+      &lt;div class=&quot; site-container js-site-container&quot; data-url=&quot;/sidwarkd/6814331&quot;&gt;
+  
+  &lt;meta content=&quot;true&quot; name=&quot;octolytics-dimension-public&quot; /&gt;&lt;meta content=&quot;6814331&quot; name=&quot;octolytics-dimension-gist_id&quot; /&gt;&lt;meta content=&quot;6814331&quot; name=&quot;octolytics-dimension-gist_name&quot; /&gt;&lt;meta content=&quot;false&quot; name=&quot;octolytics-dimension-anonymous&quot; /&gt;&lt;meta content=&quot;412390&quot; name=&quot;octolytics-dimension-owner_id&quot; /&gt;&lt;meta content=&quot;sidwarkd&quot; name=&quot;octolytics-dimension-owner_login&quot; /&gt;&lt;meta content=&quot;true&quot; name=&quot;octolytics-dimension-forked&quot; /&gt;&lt;meta content=&quot;6784503&quot; name=&quot;octolytics-dimension-parent_gist_id&quot; /&gt;&lt;meta content=&quot;6784503&quot; name=&quot;octolytics-dimension-parent_gist_name&quot; /&gt;&lt;meta content=&quot;false&quot; name=&quot;octolytics-dimension-parent_anonymous&quot; /&gt;&lt;meta content=&quot;1189197&quot; name=&quot;octolytics-dimension-parent_owner_id&quot; /&gt;&lt;meta content=&quot;eduardkoller&quot; name=&quot;octolytics-dimension-parent_owner_login&quot; /&gt;
+
+&lt;div class=&quot;pagehead repohead&quot;&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;title-actions-bar&quot;&gt;
+      &lt;ul class=&quot;pagehead-actions&quot;&gt;
+      &lt;/ul&gt;
+      &lt;h1 itemscope itemtype=&quot;http://data-vocabulary.org/Breadcrumb&quot; class=&quot;entry-title public&quot;&gt;
+        &lt;span class=&quot;repo-label&quot;&gt;&lt;span&gt;public&lt;/span&gt;&lt;/span&gt;
+        &lt;span class=&quot;mega-octicon octicon-gist&quot; &gt;&lt;/span&gt;
+        &lt;div class=&quot;meta&quot;&gt;
+          &lt;div class=&quot;gist-author&quot;&gt;
+            &lt;img src=&quot;https://2.gravatar.com/avatar/e46905069165b34d2f844ad9d021e749?d=https%3A%2F%2Fidenticons.github.com%2F26833d7fb4fd61bc27490a6ac5117918.png&amp;s=140&quot; width=&quot;26&quot; height=&quot;26&quot;&gt;
+            &lt;span class=&quot;author vcard&quot;&gt;
+                &lt;span itemprop=&quot;title&quot;&gt;&lt;a href=&quot;/sidwarkd&quot;&gt;sidwarkd&lt;/a&gt;&lt;/span&gt;
+            &lt;/span&gt; /
+            &lt;strong&gt;&lt;a href=&quot;/sidwarkd/6814331&quot; class=&quot;js-current-repository&quot;&gt;isgovtdown.py&lt;/a&gt;&lt;/strong&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;gist-timestamp&quot;&gt;
+              &lt;span class=&quot;datetime&quot;&gt;Last active &lt;time class=&quot;js-relative-date&quot; title=&quot;2013-10-03T18:49:07Z&quot; datetime=&quot;2013-10-03T18:49:07Z&quot;&gt;2013-10-03&lt;/time&gt;&lt;/span&gt;
+              &lt;span class=&quot;text&quot;&gt; &amp;mdash; forked from &lt;a href=&quot;/eduardkoller/6784503&quot;&gt;eduardkoller/isgovtdown.py&lt;/a&gt;&lt;/span&gt;
+          &lt;/div&gt;
+      &lt;/h1&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;div class=&quot;gist-description container&quot;&gt;
+  &lt;p&gt;Modified to add command line option for running on a Raspberry Pi using GPIO 17 and 18 to control status LEDs. Run from the command line with the argument &amp;quot;pi&amp;quot; to activate status LEDs. Assumes you have already installed the RPi.GPIO library.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;gist container js-gist-container&quot; data-version=&quot;dc2f579cf9e49e4d2775b1b887cbf031ada414d1&quot;&gt;
+    &lt;div class=&quot;root-pane&quot;&gt;
+  &lt;div class=&quot;menu-container&quot;&gt;
+    &lt;ul class=&quot;menu gisttabs&quot;&gt;
+      &lt;li&gt;
+        &lt;a href=&quot;/sidwarkd/6814331&quot; class=&quot;selected&quot;&gt;
+          Gist Detail
+        &lt;/a&gt;
+      &lt;/li&gt;
+
+        &lt;li class=&quot;revision-count&quot;&gt;
+          &lt;a href=&quot;/sidwarkd/6814331/revisions&quot; &gt;
+            Revisions
+            &lt;span class=&quot;counter&quot;&gt;2&lt;/span&gt;
+          &lt;/a&gt;
+        &lt;/li&gt;
+
+
+    &lt;/ul&gt;
+  &lt;/div&gt;
+
+  &lt;ul class=&quot;export-references&quot;&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;/sidwarkd/6814331/download&quot; class=&quot;minibutton&quot; data-skip-pjax=&quot;true&quot; rel=&quot;nofollow&quot;&gt;&lt;span class=&quot;octicon octicon-cloud-download&quot;&gt;&lt;/span&gt;Download Gist&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;label for=&quot;url-field&quot;&gt;&lt;strong&gt;Clone&lt;/strong&gt; this gist&lt;/label&gt;
+      &lt;input type=&quot;text&quot; readonly spellcheck=&quot;false&quot; class=&quot;url-field js-url-field js-cptoggle&quot; name=&quot;url-field&quot; value=&quot;https://gist.github.com/6814331.git&quot; data-cptoggle-display=&quot;/sidwarkd/6814331&quot;&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;label for=&quot;embed-field&quot;&gt;&lt;strong&gt;Embed&lt;/strong&gt; this gist&lt;/label&gt;
+      &lt;input type=&quot;text&quot; readonly spellcheck=&quot;false&quot; class=&quot;url-field js-url-field&quot; name=&quot;embed-field&quot; value=&quot;&amp;lt;script src=&amp;quot;https://gist.github.com/sidwarkd/6814331.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&quot;&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;label for=&quot;link-field&quot;&gt;&lt;strong&gt;Link to&lt;/strong&gt; this gist&lt;/label&gt;
+      &lt;input type=&quot;text&quot; readonly spellcheck=&quot;false&quot; class=&quot;url-field js-url-field&quot; name=&quot;link-field&quot; value=&quot;https://gist.github.com/sidwarkd/6814331&quot;&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+
+  &lt;div class=&quot;column files&quot;&gt;
+        &lt;div id=&quot;file-isgovtdown-py&quot; class=&quot;bubble&quot;&gt;
+          &lt;div class=&quot;file-box &quot;&gt;
+            &lt;div class=&quot;meta&quot;&gt;
+              &lt;div class=&quot;file-info&quot;&gt;
+                &lt;span class=&quot;file-type-icon&quot;&gt;&lt;span class=&quot;octicon octicon-gist&quot;&gt;&lt;/span&gt;&lt;/span&gt;
+                &lt;strong class=&quot;file-name js-selectable-text&quot;&gt;isgovtdown.py&lt;/strong&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;file-actions&quot;&gt;
+                &lt;span class=&quot;file-language&quot;&gt;Python&lt;/span&gt;
+                &lt;ul class=&quot;button-group&quot;&gt;
+                  &lt;li&gt;&lt;a title=&quot;Permalink&quot; href=&quot;#file-isgovtdown-py&quot; class=&quot;file-actions-button tooltipped downwards permalink&quot;&gt;&lt;span class=&quot;octicon octicon-link&quot;&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a title=&quot;View Raw&quot; href=&quot;/sidwarkd/6814331/raw/29dd9bf42c8ce349e40132f46ce2d088dfe2974f/isgovtdown.py&quot; data-skip-pjax class=&quot;file-actions-button tooltipped downwards raw-url&quot;&gt;&lt;span class=&quot;octicon octicon-code&quot;&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;suppressed&quot;&gt;
+              &lt;a class=&quot;js-show-suppressed-file&quot;&gt;File suppressed. Click to show.&lt;/a&gt;
+            &lt;/div&gt;
+            
+
+
+
+    &lt;div class=&quot;file-data&quot;&gt;
+      &lt;table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;lines highlight&quot;&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;line-numbers&quot;&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L1&quot; rel=&quot;file-isgovtdown-py-L1&quot;&gt;1&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L2&quot; rel=&quot;file-isgovtdown-py-L2&quot;&gt;2&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L3&quot; rel=&quot;file-isgovtdown-py-L3&quot;&gt;3&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L4&quot; rel=&quot;file-isgovtdown-py-L4&quot;&gt;4&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L5&quot; rel=&quot;file-isgovtdown-py-L5&quot;&gt;5&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L6&quot; rel=&quot;file-isgovtdown-py-L6&quot;&gt;6&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L7&quot; rel=&quot;file-isgovtdown-py-L7&quot;&gt;7&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L8&quot; rel=&quot;file-isgovtdown-py-L8&quot;&gt;8&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L9&quot; rel=&quot;file-isgovtdown-py-L9&quot;&gt;9&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L10&quot; rel=&quot;file-isgovtdown-py-L10&quot;&gt;10&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L11&quot; rel=&quot;file-isgovtdown-py-L11&quot;&gt;11&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L12&quot; rel=&quot;file-isgovtdown-py-L12&quot;&gt;12&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L13&quot; rel=&quot;file-isgovtdown-py-L13&quot;&gt;13&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L14&quot; rel=&quot;file-isgovtdown-py-L14&quot;&gt;14&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L15&quot; rel=&quot;file-isgovtdown-py-L15&quot;&gt;15&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L16&quot; rel=&quot;file-isgovtdown-py-L16&quot;&gt;16&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L17&quot; rel=&quot;file-isgovtdown-py-L17&quot;&gt;17&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L18&quot; rel=&quot;file-isgovtdown-py-L18&quot;&gt;18&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L19&quot; rel=&quot;file-isgovtdown-py-L19&quot;&gt;19&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L20&quot; rel=&quot;file-isgovtdown-py-L20&quot;&gt;20&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L21&quot; rel=&quot;file-isgovtdown-py-L21&quot;&gt;21&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L22&quot; rel=&quot;file-isgovtdown-py-L22&quot;&gt;22&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L23&quot; rel=&quot;file-isgovtdown-py-L23&quot;&gt;23&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L24&quot; rel=&quot;file-isgovtdown-py-L24&quot;&gt;24&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L25&quot; rel=&quot;file-isgovtdown-py-L25&quot;&gt;25&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L26&quot; rel=&quot;file-isgovtdown-py-L26&quot;&gt;26&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L27&quot; rel=&quot;file-isgovtdown-py-L27&quot;&gt;27&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L28&quot; rel=&quot;file-isgovtdown-py-L28&quot;&gt;28&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L29&quot; rel=&quot;file-isgovtdown-py-L29&quot;&gt;29&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L30&quot; rel=&quot;file-isgovtdown-py-L30&quot;&gt;30&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L31&quot; rel=&quot;file-isgovtdown-py-L31&quot;&gt;31&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L32&quot; rel=&quot;file-isgovtdown-py-L32&quot;&gt;32&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L33&quot; rel=&quot;file-isgovtdown-py-L33&quot;&gt;33&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L34&quot; rel=&quot;file-isgovtdown-py-L34&quot;&gt;34&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L35&quot; rel=&quot;file-isgovtdown-py-L35&quot;&gt;35&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L36&quot; rel=&quot;file-isgovtdown-py-L36&quot;&gt;36&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L37&quot; rel=&quot;file-isgovtdown-py-L37&quot;&gt;37&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L38&quot; rel=&quot;file-isgovtdown-py-L38&quot;&gt;38&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L39&quot; rel=&quot;file-isgovtdown-py-L39&quot;&gt;39&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L40&quot; rel=&quot;file-isgovtdown-py-L40&quot;&gt;40&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L41&quot; rel=&quot;file-isgovtdown-py-L41&quot;&gt;41&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L42&quot; rel=&quot;file-isgovtdown-py-L42&quot;&gt;42&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L43&quot; rel=&quot;file-isgovtdown-py-L43&quot;&gt;43&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L44&quot; rel=&quot;file-isgovtdown-py-L44&quot;&gt;44&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L45&quot; rel=&quot;file-isgovtdown-py-L45&quot;&gt;45&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L46&quot; rel=&quot;file-isgovtdown-py-L46&quot;&gt;46&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L47&quot; rel=&quot;file-isgovtdown-py-L47&quot;&gt;47&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L48&quot; rel=&quot;file-isgovtdown-py-L48&quot;&gt;48&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L49&quot; rel=&quot;file-isgovtdown-py-L49&quot;&gt;49&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L50&quot; rel=&quot;file-isgovtdown-py-L50&quot;&gt;50&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L51&quot; rel=&quot;file-isgovtdown-py-L51&quot;&gt;51&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L52&quot; rel=&quot;file-isgovtdown-py-L52&quot;&gt;52&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L53&quot; rel=&quot;file-isgovtdown-py-L53&quot;&gt;53&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L54&quot; rel=&quot;file-isgovtdown-py-L54&quot;&gt;54&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L55&quot; rel=&quot;file-isgovtdown-py-L55&quot;&gt;55&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L56&quot; rel=&quot;file-isgovtdown-py-L56&quot;&gt;56&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L57&quot; rel=&quot;file-isgovtdown-py-L57&quot;&gt;57&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L58&quot; rel=&quot;file-isgovtdown-py-L58&quot;&gt;58&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L59&quot; rel=&quot;file-isgovtdown-py-L59&quot;&gt;59&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L60&quot; rel=&quot;file-isgovtdown-py-L60&quot;&gt;60&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L61&quot; rel=&quot;file-isgovtdown-py-L61&quot;&gt;61&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L62&quot; rel=&quot;file-isgovtdown-py-L62&quot;&gt;62&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L63&quot; rel=&quot;file-isgovtdown-py-L63&quot;&gt;63&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L64&quot; rel=&quot;file-isgovtdown-py-L64&quot;&gt;64&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L65&quot; rel=&quot;file-isgovtdown-py-L65&quot;&gt;65&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L66&quot; rel=&quot;file-isgovtdown-py-L66&quot;&gt;66&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L67&quot; rel=&quot;file-isgovtdown-py-L67&quot;&gt;67&lt;/span&gt;
+            &lt;span class=&quot;line-number&quot; id=&quot;file-isgovtdown-py-L68&quot; rel=&quot;file-isgovtdown-py-L68&quot;&gt;68&lt;/span&gt;
+          &lt;/td&gt;
+          &lt;td class=&quot;line-data&quot;&gt;
+            &lt;pre class=&quot;line-pre&quot;&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC1&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/usr/bin/env python&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC2&quot;&gt;&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC3&quot;&gt;&lt;span class=&quot;c&quot;&gt;# file: isgovtdown.py&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC4&quot;&gt;&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC5&quot;&gt;&lt;span class=&quot;c&quot;&gt;# description: checks usa.gov for the &amp;quot;Government has shut down&amp;quot; message&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC6&quot;&gt;&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC7&quot;&gt;&lt;span class=&quot;c&quot;&gt;# usage: ./isgovtdown.py [pi]&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC8&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Passing argument &amp;#39;pi&amp;#39; causes status LEDs to be used&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC9&quot;&gt;&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC10&quot;&gt;&lt;span class=&quot;c&quot;&gt;#  or in a crontab:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC11&quot;&gt;&lt;span class=&quot;c&quot;&gt;#  */5 * * * * /path/to/isgovtdown.py &amp;amp;&amp;amp; mailx -s 5s youremail@address.com&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC12&quot;&gt;&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC13&quot;&gt; &lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC14&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;urllib&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC15&quot;&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;time&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sleep&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC16&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;RPi.GPIO&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;GPIO&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC17&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC18&quot;&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC19&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC20&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC21&quot;&gt;  &lt;span class=&quot;n&quot;&gt;argMode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lower&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC22&quot;&gt;  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argMode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;pi&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC23&quot;&gt;    &lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC24&quot;&gt;    &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setmode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BOARD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC25&quot;&gt;    &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC26&quot;&gt;    &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC27&quot;&gt;    &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC28&quot;&gt;    &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC29&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC30&quot;&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Press Ctrl-C to cancel monitoring and admit you don&amp;#39;t care&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC31&quot;&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC32&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC33&quot;&gt;&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC34&quot;&gt;  &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC35&quot;&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC36&quot;&gt;      &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;Checking.....&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC37&quot;&gt;      &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flush&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC38&quot;&gt;    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC39&quot;&gt;      &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC40&quot;&gt;      &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC41&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC42&quot;&gt;    &lt;span class=&quot;c&quot;&gt;# Add a delay for effect&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC43&quot;&gt;    &lt;span class=&quot;n&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC44&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC45&quot;&gt;    &lt;span class=&quot;n&quot;&gt;page&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urllib&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urlopen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;http://usa.gov&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC46&quot;&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;Due to a lapse in funding, the U.S. federal government has shut down&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)):&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC47&quot;&gt;      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC48&quot;&gt;        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Government still down&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC49&quot;&gt;      &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC50&quot;&gt;        &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC51&quot;&gt;        &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC52&quot;&gt;        &lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC53&quot;&gt;    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC54&quot;&gt;      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC55&quot;&gt;        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Government back up&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC56&quot;&gt;      &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC57&quot;&gt;        &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC58&quot;&gt;        &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC59&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC60&quot;&gt;    &lt;span class=&quot;n&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC61&quot;&gt;&lt;span class=&quot;k&quot;&gt;except&lt;/span&gt; &lt;span class=&quot;ne&quot;&gt;KeyboardInterrupt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC62&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC63&quot;&gt;  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC64&quot;&gt;    &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC65&quot;&gt;    &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC66&quot;&gt;    &lt;span class=&quot;n&quot;&gt;GPIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cleanup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC67&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&quot;line&quot; id=&quot;file-isgovtdown-py-LC68&quot;&gt;  &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+
+          &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;div id=&quot;comments&quot; class=&quot;new-comments&quot;&gt;
+      
+&lt;div class=&quot;discussion-bubble js-comment-container&quot;&gt;
+  &lt;img class=&quot;discussion-bubble-avatar&quot; src=&quot;https://2.gravatar.com/avatar/e46905069165b34d2f844ad9d021e749?d=https%3A%2F%2Fidenticons.github.com%2F26833d7fb4fd61bc27490a6ac5117918.png&amp;s=140&quot; width=&quot;48&quot; height=&quot;48&quot;&gt;
+  &lt;div class=&quot;discussion-bubble-content bubble&quot;&gt;
+    &lt;div class=&quot;discussion-bubble-inner&quot;&gt;
+
+      &lt;div class=&quot;comment js-comment &quot; id=&quot;comment-921410&quot;&gt;
+        &lt;div class=&quot;comment-header normal-comment-header&quot;&gt;
+          &lt;a href=&quot;#&quot; class=&quot;comment-type-icon octicon octicon-comment&quot;&gt;&lt;/a&gt;
+          &lt;a href=&quot;/sidwarkd&quot; class=&quot;comment-header-author&quot;&gt;sidwarkd&lt;/a&gt;
+          &lt;span class=&quot;comment-header-action-text&quot;&gt;
+            &lt;span id=&quot;gistcomment-921410&quot;&gt;
+              &lt;a href=&quot;/sidwarkd/6814331/#comment-921410&quot;&gt;commented&lt;/a&gt;&lt;/span&gt;
+          &lt;/span&gt;
+          &lt;span class=&quot;comment-header-right&quot;&gt;
+            &lt;span id=&quot;gistcomment-921410&quot;&gt;
+              &lt;a href=&quot;/sidwarkd/6814331/#comment-921410&quot; class=&quot;comment-header-date&quot;&gt;
+                &lt;time class=&quot;js-relative-date&quot; title=&quot;2013-10-03T19:02:23Z&quot; datetime=&quot;2013-10-03T19:02:23Z&quot;&gt;2013-10-03&lt;/time&gt;
+              &lt;/a&gt;
+            &lt;/span&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+
+
+        &lt;div class=&quot;comment-content&quot;&gt;
+          &lt;div class=&quot;edit-comment-hide&quot;&gt;
+            &lt;!-- &lt;div class=&quot;comment-form-error&quot;&gt;There has been an error&lt;/div&gt; --&gt;
+            &lt;div class=&quot;comment-body markdown-body markdown-format js-comment-body&quot;&gt;
+                &lt;p&gt;If you find this please be gentle on the code criticism. This is the first time I've written in Python.&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+    &lt;/div&gt;
+      &lt;p class=&quot;uncommentable&quot;&gt;&lt;span class=&quot;octicon octicon-alert&quot;&gt;&lt;/span&gt; Please &lt;a href=&quot;/login?return_to=/sidwarkd/6814331&quot; rel=&quot;nofollow&quot;&gt;sign in&lt;/a&gt; to comment on this gist.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+  &lt;div class=&quot;context-overlay&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+    &lt;/div&gt;
+    &lt;div class=&quot;slow-loading-overlay&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div id=&quot;ajax-error-message&quot; class=&quot;flash flash-error&quot;&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;span class=&quot;octicon octicon-alert&quot;&gt;&lt;/span&gt;
+      Something went wrong with that request. Please try again.
+      &lt;a href=&quot;#&quot; class=&quot;octicon octicon-remove-close ajax-error-dismiss&quot;&gt;&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;footer&gt;
+    &lt;div id=&quot;footer&quot;&gt;
+  &lt;div class=&quot;container clearfix&quot;&gt;
+
+    &lt;!-- Served fresh by github-fe103-cp1-prd.iad.github.net --&gt;
+    &lt;p class=&quot;right&quot;&gt;&amp;copy; 2013 GitHub Inc. All rights reserved.&lt;/p&gt;
+    &lt;a class=&quot;left&quot; href=&quot;/&quot;&gt;
+      &lt;span class=&quot;mega-octicon octicon-mark-github&quot;&gt;&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;ul id=&quot;legal&quot;&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/blog&quot;&gt;The GitHub Blog&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;mailto:support@github.com&quot;&gt;Support&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/contact&quot;&gt;Contact&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+  &lt;/div&gt;&lt;!-- /.container --&gt;
+&lt;/div&gt;&lt;!-- /.#footer --&gt;
+
+  &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></noscript></div>
+
+
+
+</div>
+
+
+      <footer>
+        <p class="meta text-muted">
+          
+  
+
+<span class="glyphicon glyphicon-user"></span> <span class="byline author vcard">Posted by <span class="fn">K-SID</span></span>
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-10-09T13:45:00-06:00" pubdate data-updated="true">Oct 9<span>th</span>, 2013</time>
+          
+
+<span class="glyphicon glyphicon-tags"></span>&nbsp;
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/raspberrypi/'>RaspberryPi</a>
+  
+</span>
+
+
+        </p>
+        
+          <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+        
+        
+          <ul class="meta text-muted pager">
+            
+            <li class="previous"><a href="/2013/08/19/some-love-for-the-beginners/" title="Previous Post: Some Love for the Beginners">&laquo; Some Love for the Beginners</a></li>
+            
+            
+            <li class="next"><a href="/2013/10/25/query-temperature-on-raspberry-pi/" title="Next Post: Query Temperature on Raspberry Pi">Query Temperature on Raspberry Pi &raquo;</a></li>
+            
+          </ul>
+        
+      </footer>
+    </article>
+    
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+      </section>
+    
+  </div>
+
+  
+  <aside class="sidebar col-md-3">
+    
+      <section>
+<div style="margin-top:15px;">
+  <img class="left" src="/images/uCasts.png" />
+  <p>
+    This is the official blog of &micro;Casts. I want to help you get your electronics groove on so tune in for the latest updates, tips, and general embedded awesomeness.
+  </p>
+  <p>
+    I'd love to hear from you if you have any questions or feedback.
+  </p>
+</div>
+</section><section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Recent Posts</h3>
+  </div>
+  
+  <div id="recent_posts" class="list-group">
+    
+    <a class="list-group-item " href="/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/">Tracking Olympic Medals With the Raspberry Pi</a>
+    
+    <a class="list-group-item " href="/2014/02/06/salvaging-a-00-usb-microphone/">Salvaging a $100 USB Microphone</a>
+    
+    <a class="list-group-item " href="/2014/02/04/raspberry-pi-skillshare-class/">Raspberry Pi Skillshare Class Available</a>
+    
+    <a class="list-group-item " href="/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/">Running Python Scripts From Dropbox on the Raspberry Pi</a>
+    
+    <a class="list-group-item " href="/2013/11/03/eagle-how-to-export-board-image/">Eagle How-To: Export Board Image</a>
+    
+  </div>
+</section>
+
+<section class="panel panel-default clearfix">
+  <div class="panel-heading">
+      <h3 class="panel-title">GitHub Repos</h3>
+  </div>
+  <div class="list-group" id="gh_repos">
+    <p class="loading">Status updating...</p>
+  </div>
+  
+    <div class="gh-profile-link pull-right text-muted">
+      <a href="https://github.com/sidwarkd">@sidwarkd</a> on GitHub
+    </div>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sidwarkd',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Top Categories</h3>
+  </div>
+  <div class="list-group">
+    
+    
+    <a class="list-group-item " href="/blog/categories/raspberrypi/index.html">
+        <span class="badge">5</span>
+        RaspberryPi
+      </a>
+    
+  </div>
+</section>
+
+
+
+
+    
+  </aside>
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+    <footer role="contentinfo"><div class="container">
+    <p class="text-muted credits">
+  Copyright &copy; 2014 - K-SID<br>
+  <small>
+      <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>,
+      <span class="credit">customized with <a href="https://github.com/kAworu/octostrap3">octostrap3</a></span>.
+  </small>
+</p>
+
+</div>
+</footer>
+    <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/javascripts/modernizr-2.0.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ucastblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.microcasts.tv/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/';
+        var disqus_url = 'http://blog.microcasts.tv/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+  </body>
+</html>
