@@ -26,7 +26,7 @@ So how do we fetch just the medal counts that we want to display?  Well, in Chro
 
 This was my first time parsing HTML in Python so there are probably much better ways to do this. If so please tell me about it in the comments so I can learn something new. I chose to use some simple XPATH to locate the anchor element with the country name and then navigate to the neighboring elements with the medal counts in them.  The result was this.
 
-{% codeblock lang:python %}
+{% codeblock lang:py %}
   page = urllib.urlopen("http://www.nbcolympics.com/medals").read()
   html = lxml.html.fromstring(page)
   result = html.xpath('//a[text()=" United States of America"]/@href')
@@ -39,7 +39,7 @@ This was my first time parsing HTML in Python so there are probably much better 
 
 Getting the actual integer value of the medal counts was then trivial. Remember, parsing out of the HTML will give you the values in strings.
 
-{% codeblock lang:python %}
+{% codeblock lang:py %}
   gold_count = int(goldNode.text_content().strip())
   silver_count = int(silverNode.text_content().strip())
   bronze_count = int(bronzeNode.text_content().strip())
@@ -48,7 +48,7 @@ Getting the actual integer value of the medal counts was then trivial. Remember,
 ##Displaying the Data
 With the data in hand it was just a matter of getting it onto the 7 segment display. In my Skillshare class I show how to configure and use SPI on the Pi to display stuff on a simple seven segment display so I already had all of the code for that. I just needed to format the display string appropriately. As my real estate was limited I decided to just use simple strings like "to:23" for the total count, "go:14" for gold, etc. I display each count 3 times and then query NBC again for an updated count. The interval could be much greater I suppose as medals don't change every 10 seconds.
 
-{% codeblock lang:python %}
+{% codeblock lang:py %}
   def display_medal_counts(bus, gold, silver, bronze):
     total = gold + silver + bronze
     totalstr = "to" + str(total)

@@ -162,7 +162,7 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'>  <span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://www.nbcolympics.com/medals&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'>  <span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://www.nbcolympics.com/medals&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 </span><span class='line'>  <span class="n">html</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
 </span><span class='line'>  <span class="n">result</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s">&#39;//a[text()=&quot; United States of America&quot;]/@href&#39;</span><span class="p">)</span>
 </span><span class='line'>  <span class="n">nameNode</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getparent</span><span class="p">()</span><span class="o">.</span><span class="n">getparent</span><span class="p">()</span>
@@ -178,7 +178,7 @@
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'>  <span class="n">gold_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">goldNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'>  <span class="n">gold_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">goldNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 </span><span class='line'>  <span class="n">silver_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">silverNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 </span><span class='line'>  <span class="n">bronze_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bronzeNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -215,7 +215,7 @@
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'>  <span class="k">def</span> <span class="nf">display_medal_counts</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">gold</span><span class="p">,</span> <span class="n">silver</span><span class="p">,</span> <span class="n">bronze</span><span class="p">):</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'>  <span class="k">def</span> <span class="nf">display_medal_counts</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">gold</span><span class="p">,</span> <span class="n">silver</span><span class="p">,</span> <span class="n">bronze</span><span class="p">):</span>
 </span><span class='line'>    <span class="n">total</span> <span class="o">=</span> <span class="n">gold</span> <span class="o">+</span> <span class="n">silver</span> <span class="o">+</span> <span class="n">bronze</span>
 </span><span class='line'>    <span class="n">totalstr</span> <span class="o">=</span> <span class="s">&quot;to&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">goldstr</span> <span class="o">=</span> <span class="s">&quot;go&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gold</span><span class="p">)</span>
