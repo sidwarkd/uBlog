@@ -89,6 +89,8 @@ It's a great example of how the Raspberry Pi is great for rapid prototyping of a
 
 What Olympic-themed hardware projects can you think of?
 
+<a href="http://www.codeproject.com" rel="tag" style="display:none">CodeProject</a>
+
 [gist]:https://gist.github.com/sidwarkd/9108668
 [nbc_medals]:http://www.nbcolympics.com/medals
 [sochi_site]:http://www.sochi2014.com/en/medal-standings
