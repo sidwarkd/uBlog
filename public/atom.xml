@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-20T08:09:03-07:00</updated>
+  <updated>2014-02-21T00:00:17-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -155,8 +155,11 @@
 
 <p>What Olympic-themed hardware projects can you think of?</p>
 
-<p><a href="http://www.codeproject.com" rel="tag" style="display:none">CodeProject</a></p>
-]]></content>
+      
+      <p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=1968192" rel="tag" style="display:none">CodeProject</a></p>
+      ]]>
+
+    </content>
   </entry>
   
   <entry>
@@ -219,7 +222,10 @@
 
 
 <p>P.S. Blue, if you had simply given me the part number I would have sung your praises on social networks and to anybody in the tech space that would listen. I also would have gone to you first as soon as I needed a new mic. Instead I&rsquo;ll never recommend your microphones to anybody and will personally never pay you a cent for one.</p>
-]]></content>
+
+      ]]>
+
+    </content>
   </entry>
   
   <entry>
@@ -227,7 +233,9 @@
     <link href="http://blog.microcasts.tv/2014/02/04/raspberry-pi-skillshare-class/"/>
     <updated>2014-02-04T21:16:00-07:00</updated>
     <id>http://blog.microcasts.tv/2014/02/04/raspberry-pi-skillshare-class</id>
-    <content type="html"><![CDATA[<p>My class <a href="http://skl.sh/1cTcEbF">Unleash The Raspberry Pi Through Physical Computing</a> is now available on Skillshare. The class covers the 3 main hardware capabilities exposed by the GPIO header on the Pi:</p>
+    <content type="html"><![CDATA[<p><strong>[UPDATE]:</strong> After a lot of thought I&rsquo;ve decided to release the class for free.  You can still use the link below but the cost is now $0. I would greatly appreciate any feedback on the course because I want it to be as useful as possible.</p>
+
+<p>My class <a href="http://skl.sh/1cTcEbF">Unleash The Raspberry Pi Through Physical Computing</a> is now available on Skillshare. The class covers the 3 main hardware capabilities exposed by the GPIO header on the Pi:</p>
 
 <ul>
 <li> Digital I/O</li>
@@ -240,7 +248,10 @@
 
 
 <p>In addition to covering each of these topics I also show you how to get your Raspberry Pi connected to Twitter. It&rsquo;s the first class on Skillshare to cover the Raspberry Pi and contains just <strong>over 3 hours of video instruction</strong>. It&rsquo;s packed with tips and tricks for creating your own hardware projects and students that enroll get access to a cheat sheet I&rsquo;ve put together for creating hardware projects with the Raspberry Pi. If you&rsquo;d like to enroll use the link at the top of this post to <strong>get 50% off</strong> and get the class for only $12.50 USD.</p>
-]]></content>
+
+      ]]>
+
+    </content>
   </entry>
   
   <entry>
@@ -271,7 +282,10 @@
 <p>I don&rsquo;t need to have <strong>myscript.py</strong> on the Raspberry Pi. It&rsquo;s on my desktop machine in a dropbox folder being updated every time I change it. When I run it via <code>preheat</code> it will scan my Dropbox account, find it, and pull it down for me.</p>
 
 <p>If you&rsquo;d like to see how it works <a href="https://github.com/sidwarkd/preheat">check out the source code on Github</a></p>
-]]></content>
+
+      ]]>
+
+    </content>
   </entry>
   
   <entry>
@@ -295,7 +309,10 @@
 
 
 <p>  You now have an image file of your board that should scale perfectly to size. I normally just drag it into a document in OpenOffice Writer. If it goes into your document full size you just need to scale it to 25% of original size and it will be perfectly to-scale.</p>
-]]></content>
+
+      ]]>
+
+    </content>
   </entry>
   
   <entry>
@@ -323,7 +340,10 @@
 <li> <a href="http://askubuntu.com/questions/145716/cannot-install-mplab-ide-x-from-the-terminal-silently-exits">Cannot install MPLAB IDE X from the terminal &ndash; silently exits</a></li>
 </ul>
 
-]]></content>
+
+      ]]>
+
+    </content>
   </entry>
   
   <entry>
@@ -364,7 +384,10 @@
 
 
 <p>I&rsquo;ve notice that the two results can differ slightly but not by more than a few tenths of a degree Celsius.</p>
-]]></content>
+
+      ]]>
+
+    </content>
   </entry>
   
   <entry>
@@ -718,7 +741,10 @@
 
 
 
-]]></content>
+
+      ]]>
+
+    </content>
   </entry>
   
   <entry>
@@ -737,7 +763,10 @@
 <h3>Play Nice</h3>
 
 <p>So why the blog post?  Well, it really comes down to a simple thought.  Can we please just play nice?  Can we show some love to the beginners?  Next time you see a &ldquo;stupid noob&rdquo; question in a forum, step up and help out.  Welcome them to the community and please, whatever you do, don&rsquo;t treat him/her like an illiterate waste of your time because that &ldquo;idiot&rdquo; is an actual person on the other side of the interwebs just looking for some help.</p>
-]]></content>
+
+      ]]>
+
+    </content>
   </entry>
   
   <entry>
@@ -756,7 +785,10 @@
 
 
 <p><strong>NOTE:</strong> Your path may be different so make sure you see what the error message says before closing it.</p>
-]]></content>
+
+      ]]>
+
+    </content>
   </entry>
   
 </feed>

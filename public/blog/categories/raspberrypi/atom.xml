@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/raspberrypi/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-20T08:09:03-07:00</updated>
+  <updated>2014-02-21T00:00:17-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -159,8 +159,6 @@
 <p>It&rsquo;s a great example of how the Raspberry Pi is great for rapid prototyping of an idea. The full code can be found <a href="https://gist.github.com/sidwarkd/9108668">in this gist</a>.</p>
 
 <p>What Olympic-themed hardware projects can you think of?</p>
-
-<p><a href="http://www.codeproject.com" rel="tag" style="display:none">CodeProject</a></p>
 ]]></content>
   </entry>
   
@@ -169,7 +167,9 @@
     <link href="http://blog.microcasts.tv/2014/02/04/raspberry-pi-skillshare-class/"/>
     <updated>2014-02-04T21:16:00-07:00</updated>
     <id>http://blog.microcasts.tv/2014/02/04/raspberry-pi-skillshare-class</id>
-    <content type="html"><![CDATA[<p>My class <a href="http://skl.sh/1cTcEbF">Unleash The Raspberry Pi Through Physical Computing</a> is now available on Skillshare. The class covers the 3 main hardware capabilities exposed by the GPIO header on the Pi:</p>
+    <content type="html"><![CDATA[<p><strong>[UPDATE]:</strong> After a lot of thought I&rsquo;ve decided to release the class for free.  You can still use the link below but the cost is now $0. I would greatly appreciate any feedback on the course because I want it to be as useful as possible.</p>
+
+<p>My class <a href="http://skl.sh/1cTcEbF">Unleash The Raspberry Pi Through Physical Computing</a> is now available on Skillshare. The class covers the 3 main hardware capabilities exposed by the GPIO header on the Pi:</p>
 
 <ul>
 <li> Digital I/O</li>

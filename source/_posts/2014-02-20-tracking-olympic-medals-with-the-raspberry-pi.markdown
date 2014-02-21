@@ -4,6 +4,7 @@ title: "Tracking Olympic Medals with the Raspberry Pi"
 date: 2014-02-20 00:07
 comments: true
 categories: [RaspberryPi]
+codeproject: true
 ---
 
 I'm not sure why I waited so long to do this now that the Olympics are coming to an end. The thought came to me today, "I wonder how long it would take me to hack together a script to track and display medal counts." Well, I had to find out and below is the result. **Disclaimer:** I was not going for neat, well-organized code here.  I was going for speed so please be gentle.
@@ -88,8 +89,6 @@ Throwing this together took me a little over an hour, much of which was spent le
 It's a great example of how the Raspberry Pi is great for rapid prototyping of an idea. The full code can be found [in this gist][gist]. 
 
 What Olympic-themed hardware projects can you think of?
-
-<a href="http://www.codeproject.com" rel="tag" style="display:none">CodeProject</a>
 
 [gist]:https://gist.github.com/sidwarkd/9108668
 [nbc_medals]:http://www.nbcolympics.com/medals

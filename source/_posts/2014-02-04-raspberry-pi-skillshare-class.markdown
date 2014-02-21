@@ -7,6 +7,8 @@ categories: [RaspberryPi]
 author: K-SID
 ---
 
+**[UPDATE]:** After a lot of thought I've decided to release the class for free.  You can still use the link below but the cost is now $0. I would greatly appreciate any feedback on the course because I want it to be as useful as possible.
+
 My class [Unleash The Raspberry Pi Through Physical Computing][classlink] is now available on Skillshare. The class covers the 3 main hardware capabilities exposed by the GPIO header on the Pi:
 
   *  Digital I/O
