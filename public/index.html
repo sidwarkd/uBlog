@@ -117,6 +117,51 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-03-01T23:40:00-07:00" pubdate data-updated="true">Mar 1<span>st</span>, 2014</time>
+        
+           | <a href="/2014/03/01/raspi-plotly-with-tmp102-sensor/#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv/2014/03/01/raspi-plotly-with-tmp102-sensor/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/2014/03/01/raspi-plotly-with-tmp102-sensor/">Raspi-Plotly With TMP102 Sensor</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>I recently came across an instructable about <a href="http://www.instructables.com/id/Streaming-Data-Visualization-Plotly-Raspberry-Pi/?ALLSTEPS">streaming temperature data to plot.ly</a>. I wanted to go through their example setup but didn&rsquo;t have the same kind of temperature sensor. So I created a screencast showing how I modified their source code to use the streaming service with my <a href="https://www.sparkfun.com/products/11931">TMP102 Sensor from Sparkfun</a>.</p>
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/IIcM1nR-omg" frameborder="0" allowfullscreen></iframe>
+
+
+
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-02-20T00:07:00-07:00" pubdate data-updated="true">Feb 20<span>th</span>, 2014</time>
         
            | <a href="/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/#disqus_thread"
@@ -766,61 +811,11 @@
 
         </article>
       
-      
-        <article class="post">
-          
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-08-09T23:59:00-06:00" pubdate data-updated="true">Aug 9<span>th</span>, 2013</time>
-        
-           | <a href="/2013/08/09/xc8-problem-running-post-install-step/#disqus_thread"
-             data-disqus-identifier="http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step/">Comments</a>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/2013/08/09/xc8-problem-running-post-install-step/">XC8: Problem Running Post-Install Step</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content clearfix"><p>While installing the Microchip XC8 compiler today on my Windows 8 machine I ran into an issue at the end of the install and got the following message box.</p>
-
-<p><img src="/images/xc8_install_error.png"></p>
-
-<p>I assume this is because the regsvr32.exe wasn&rsquo;t run with elevated privileges. If you get this error at the end of your install the fix is quite simple. We just need to run the failed command from an elevated privilege command prompt.  To do this right click on your Command Prompt icon (from your start page or do a search to find it) and select <em>&ldquo;Run As Administrator&rdquo;</em>.  This should open your command prompt window and default you to the <strong>System32</strong> folder. Without changing directories you simply run the failed command as it was listed in your error message.  In my case I ran:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>regsvr32.exe /s "C:\Program Files\Microchip\xc8\v1.12\bin\MPLABXC8.dll"</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>NOTE:</strong> Your path may be different so make sure you see what the error message says before closing it.</p>
-</div>
-  
-  
-
-
-        </article>
-      
     </div>
 
     <ul class="pager">
       
-        <li class="previous disabled"><a href="#">&larr;&nbsp;Older</a></li>
+        <li class="previous"><a href="/blog/page/2/">&larr;&nbsp;Older</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
       
@@ -849,6 +844,8 @@
   
   <div id="recent_posts" class="list-group">
     
+    <a class="list-group-item " href="/2014/03/01/raspi-plotly-with-tmp102-sensor/">Raspi-Plotly With TMP102 Sensor</a>
+    
     <a class="list-group-item " href="/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/">Tracking Olympic Medals With the Raspberry Pi</a>
     
     <a class="list-group-item " href="/2014/02/06/salvaging-a-00-usb-microphone/">Salvaging a $100 USB Microphone</a>
@@ -856,8 +853,6 @@
     <a class="list-group-item " href="/2014/02/04/raspberry-pi-skillshare-class/">Raspberry Pi Skillshare Class Available</a>
     
     <a class="list-group-item " href="/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/">Running Python Scripts From Dropbox on the Raspberry Pi</a>
-    
-    <a class="list-group-item " href="/2013/11/03/eagle-how-to-export-board-image/">Eagle How-To: Export Board Image</a>
     
   </div>
 </section>
@@ -903,7 +898,7 @@
     
     
     <a class="list-group-item " href="/blog/categories/raspberrypi/index.html">
-        <span class="badge">5</span>
+        <span class="badge">6</span>
         RaspberryPi
       </a>
     

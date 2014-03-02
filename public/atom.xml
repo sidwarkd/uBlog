@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-02-22T15:22:59-07:00</updated>
+  <updated>2014-03-01T23:52:39-07:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Raspi-Plotly With TMP102 Sensor]]></title>
+    <link href="http://blog.microcasts.tv/2014/03/01/raspi-plotly-with-tmp102-sensor/"/>
+    <updated>2014-03-01T23:40:00-07:00</updated>
+    <id>http://blog.microcasts.tv/2014/03/01/raspi-plotly-with-tmp102-sensor</id>
+    <content type="html"><![CDATA[<p>I recently came across an instructable about <a href="http://www.instructables.com/id/Streaming-Data-Visualization-Plotly-Raspberry-Pi/?ALLSTEPS">streaming temperature data to plot.ly</a>. I wanted to go through their example setup but didn&rsquo;t have the same kind of temperature sensor. So I created a screencast showing how I modified their source code to use the streaming service with my <a href="https://www.sparkfun.com/products/11931">TMP102 Sensor from Sparkfun</a>.</p>
+
+<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/IIcM1nR-omg" frameborder="0" allowfullscreen></iframe>
+
+
+
+
+      ]]>
+
+    </content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tracking Olympic Medals with the Raspberry Pi]]></title>
