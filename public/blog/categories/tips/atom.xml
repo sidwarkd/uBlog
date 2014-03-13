@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tips | The &micro;Blog
+]]></title>
+  <link href="http://blog.microcasts.tv/blog/categories/tips/atom.xml" rel="self"/>
+  <link href="http://blog.microcasts.tv/"/>
+  <updated>2014-03-12T23:50:20-06:00</updated>
+  <id>http://blog.microcasts.tv/</id>
+  <author>
+    <name><![CDATA[K-SID]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[&micro;Tip: Fixing Tight Breadboards]]></title>
+    <link href="http://blog.microcasts.tv/2014/03/12/fixing-tight-breadboards/"/>
+    <updated>2014-03-12T23:33:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/03/12/fixing-tight-breadboards</id>
+    <content type="html"><![CDATA[<p>Have you ever bought a breadboard that had extremely tight connection terminals? The kind that you can&rsquo;t connect anything to because everything just bends. I get that breadboards need to securely hold things but not being able to easily insert a resistor or capacitor is just ridiculous.</p>
+
+<p>My suggestion is the find a breadboard the is as smooth as butter to connect to and never stray from it. Surprisingly enough, I find Radio Shack breadboards to have very nice connection terminals that require no break-in.</p>
+
+<h3>How to Fix It</h3>
+
+<p>If you do have a breadboard that has overly tight terminals there is an easy way to fix it although it does take a little time. Simply grab a pair of pliers and a length of male header (4 to 5 pins long). Grab the short side of the header pins firmly with the pliers and then push the header pins into the terminals. With a length of 5 pins you can handle an entire vertical row at a time. That&rsquo;s all there is to it. After doing this your components should slide easily and securely into your breadboard. Here&rsquo;s a vine showing the process.</p>
+
+<p><iframe class='vine-embed' src='https://vine.co/v/MmxpprQ1Wlg/embed/simple' width='600' height='600' frameborder='0'></iframe><script async src='//platform.vine.co/static/scripts/embed.js' charset='utf-8'></script></p>
+]]></content>
+  </entry>
+  
+</feed>
