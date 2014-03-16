@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-03-12T23:50:20-06:00</updated>
+  <updated>2014-03-15T23:58:00-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[µCast #14: Memory Usage on the Raspberry Pi]]></title>
+    <link href="http://blog.microcasts.tv/2014/03/15/memory-usage-on-the-raspberry-pi/"/>
+    <updated>2014-03-15T23:37:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/03/15/memory-usage-on-the-raspberry-pi</id>
+    <content type="html"><![CDATA[<p>In this µCast we cover the very basics of RAM usage on the Raspberry Pi and show you how to figure out how much memory your Pi is using at any given time and how to get some of it back.</p>
+
+<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/EqyVlTP4R5M" frameborder="0" allowfullscreen></iframe>
+
+
+
+
+<!-- more -->
+
+
+<h2>Sample Code</h2>
+
+<p>The following chunks of code are just quick examples of how you can query memory information using Python or NodeJS. <strong>This code is not production ready as it does little to no error checking.</strong></p>
+
+<h3>NodeJS Sample</h3>
+
+<div><script src='https://gist.github.com/sidwarkd/9578213.js?file=pi_mem.js'></script>
+<noscript><pre><code>'use strict'
+
+// A very simple nodeJS script that demonstrates how you can access
+// memory usage information similar to how free -m works on the
+// Raspberry Pi. Goes with µCast #14. http://youtu.be/EqyVlTP4R5M
+ 
+ 
+// Usage: node pi_mem.js
+// Example Output
+//
+// total    used    free    cached
+// 469      65      404     31
+// Memory Usage:    7%
+
+var fs = require('fs');
+
+var PiStats = function(){
+
+  var memInfo = {};
+
+  function getValFromLine(line){
+    var match = line.match(/[0-9]+/gi);
+    if(match !== null)
+      return parseInt(match[0]);
+    else
+      return null;
+  }
+
+  var getMemoryInfo = function(cb){
+    fs.readFile('/proc/meminfo', 'utf8', function(err, data){
+      if(err){
+        cb(err);
+        return;
+      }
+      var lines = data.split('\n');
+      memInfo.total = Math.floor(getValFromLine(lines[0]) / 1024);
+      memInfo.free = Math.floor(getValFromLine(lines[1]) / 1024);
+      memInfo.cached = Math.floor(getValFromLine(lines[3]) / 1024);
+      memInfo.used = memInfo.total - memInfo.free;
+      memInfo.percentUsed = Math.ceil(((memInfo.used - memInfo.cached) / memInfo.total) * 100);
+
+      cb(null, memInfo);
+    });
+  };
+
+  return{
+    getMemoryInfo: getMemoryInfo,
+    printMemoryInfo: function(){
+      getMemoryInfo(function(err, data){
+        console.log(&quot;total\tused\tfree\tcached&quot;);
+        console.log( data.total + &quot;\t&quot; + data.used + &quot;\t&quot; + data.free + &quot;\t&quot; + data.cached );
+        console.log(&quot;Memory Usage:\t&quot; + data.percentUsed + &quot;%&quot;);
+      });
+    }
+  };
+}();
+
+PiStats.printMemoryInfo();</code></pre></noscript></div>
+
+
+<h3>Python Sample</h3>
+
+<div><script src='https://gist.github.com/sidwarkd/9578213.js?file=pi_mem.py'></script>
+<noscript><pre><code># A very simple python script that demonstrates how you can access
+# memory usage information similar to how free -m works on the
+# Raspberry Pi. Goes with µCast #14. http://youtu.be/EqyVlTP4R5M
+
+
+# Usage: python pi_mem.py
+# Example Output
+#
+# total    used    free    cached
+# 469      65      404     31
+# Memory Usage:    7%
+
+class PiStats(object):
+  def __init__(self):
+    self.total_memory = None
+    self.free_memory = None
+    self.cached_memory = None
+
+  def update_stats(self):
+    # Read memory usage from /proc/meminfo
+    with open('/proc/meminfo', 'r') as mem_file:
+      # Remove the text description, kB, and whitespace before
+      # turning file lines into an int
+      for i, line in enumerate(mem_file):
+        if i == 0: # Total line
+          self.total_memory = int(line.strip(&quot;MemTotal: \tkB\n&quot;)) / 1024
+        elif i == 1: # Free line 
+          self.free_memory = int(line.strip(&quot;MemFree: \tkB\n&quot;)) / 1024
+        elif i == 3: # Cached line
+          self.cached_memory = int(line.strip(&quot;Cached: \tkB\n&quot;)) / 1024
+
+
+  def get_memory_info(self):
+    # In linux the cached memory is available for program use so we'll
+    # include it in the free amount when calculating the usage percent
+    self.update_stats()
+    used_val = (self.total_memory - self.free_memory)
+    free_val = (self.free_memory)
+    percent_val = float(used_val - self.cached_memory) / float(self.total_memory)
+    return {'total': self.total_memory, 'cached': self.cached_memory,  'used': used_val, 'free': free_val, 'percent': round(percent_val, 3) * 100.00 }
+
+
+stats = PiStats()
+meminfo = stats.get_memory_info()
+
+print &quot;total\tused\tfree\tcached&quot;
+print &quot;%i\t%i\t%i\t%i&quot;%(meminfo['total'],meminfo['used'],meminfo['free'],meminfo['cached'])
+print &quot;Memory Usage:\t%i%%&quot;%(meminfo['percent'])</code></pre></noscript></div>
+
+
+
+
+      ]]>
+
+    </content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[&micro;Tip: Fixing Tight Breadboards]]></title>
