@@ -8,8 +8,11 @@ categories: [RaspberryPi]
 
 I recently came across an instructable about [streaming temperature data to plot.ly][instr]. I wanted to go through their example setup but didn't have the same kind of temperature sensor. So I created a screencast showing how I modified their source code to use the streaming service with my [TMP102 Sensor from Sparkfun][tmp102].
 
+My modified code can be found [as a gist on github][gist]
+
 <iframe width="560" height="315" src="//www.youtube.com/embed/IIcM1nR-omg" frameborder="0" allowfullscreen></iframe>
 
 
 [instr]: http://www.instructables.com/id/Streaming-Data-Visualization-Plotly-Raspberry-Pi/?ALLSTEPS
 [tmp102]: https://www.sparkfun.com/products/11931
+[gist]: https://gist.github.com/sidwarkd/9614055
