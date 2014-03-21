@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/raspberrypi/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-03-17T23:33:57-06:00</updated>
+  <updated>2014-03-20T22:48:49-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -15,13 +15,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[µCast #14: Memory Usage on the Raspberry Pi]]></title>
-    <link href="http://blog.microcasts.tv/2014/03/15/memory-usage-on-the-raspberry-pi/"/>
-    <updated>2014-03-15T23:37:00-06:00</updated>
-    <id>http://blog.microcasts.tv/2014/03/15/memory-usage-on-the-raspberry-pi</id>
-    <content type="html"><![CDATA[<p>In this µCast we cover the very basics of RAM usage on the Raspberry Pi and show you how to figure out how much memory your Pi is using at any given time and how to get some of it back.</p>
+    <title type="html"><![CDATA[µCast #15: CPU Usage on the Raspberry Pi]]></title>
+    <link href="http://blog.microcasts.tv/2014/03/20/cpu-usage-on-the-raspberry-pi/"/>
+    <updated>2014-03-20T22:41:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/03/20/cpu-usage-on-the-raspberry-pi</id>
+    <content type="html"><![CDATA[<p>In this µCast we cover the very basics of CPU usage on the Raspberry Pi and show you how to figure out how hard your ARM processor is working in realtime.</p>
 
-<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/EqyVlTP4R5M" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/DqGVTUsMuFI" frameborder="0" allowfullscreen></iframe>
 
 
 
@@ -31,11 +31,11 @@
 
 <h2>Sample Code</h2>
 
-<p>The following chunks of code are just quick examples of how you can query memory information using Python or NodeJS. <strong>This code is not production ready as it does little to no error checking.</strong></p>
+<p>The following chunks of code contain the memory examples from µCast #14 as well as the CPU usage code in Python or NodeJS. <strong>This code is not production ready as it does little to no error checking.</strong></p>
 
 <h3>NodeJS Sample</h3>
 
-<p><div><script src='https://gist.github.com/sidwarkd/9578213.js?file=pi_mem.js'></script>
+<p><div><script src='https://gist.github.com/sidwarkd/9578213.js?file=pi_stats.js'></script>
 <noscript><pre><code>'use strict'
 
 // A very simple nodeJS script that demonstrates how you can access
@@ -55,6 +55,8 @@ var fs = require('fs');
 var PiStats = function(){
 
   var memInfo = {};
+  var currentCPUInfo = {total:0, active:0};
+  var lastCPUInfo = {total:0, active:0};
 
   function getValFromLine(line){
     var match = line.match(/[0-9]+/gi);
@@ -81,41 +83,87 @@ var PiStats = function(){
     });
   };
 
+  var calculateCPUPercentage = function(oldVals, newVals){
+    var totalDiff = newVals.total - oldVals.total;
+    var activeDiff = newVals.active - oldVals.active;
+    return Math.ceil((activeDiff / totalDiff) * 100);
+  };
+
+  var getCPUInfo = function(cb){
+    lastCPUInfo.active = currentCPUInfo.active;
+    lastCPUInfo.idle = currentCPUInfo.idle;
+    lastCPUInfo.total = currentCPUInfo.total;
+
+    fs.readFile('/proc/stat', 'utf8', function(err, data){
+      if(err){
+        if(cb !== undefined)
+          cb(err);
+        return;
+      }
+      var lines = data.split('\n');
+      var cpuTimes = lines[0].match(/[0-9]+/gi);
+      currentCPUInfo.total = 0;
+      // We'll count both idle and iowait as idle time
+      currentCPUInfo.idle = parseInt(cpuTimes[3]) + parseInt(cpuTimes[4]);
+      for (var i = 0; i &lt; cpuTimes.length; i++){
+        currentCPUInfo.total += parseInt(cpuTimes[i]);
+      }
+      currentCPUInfo.active = currentCPUInfo.total - currentCPUInfo.idle
+      currentCPUInfo.percentUsed = calculateCPUPercentage(lastCPUInfo, currentCPUInfo);
+
+      if(cb !== undefined)
+        cb(null, currentCPUInfo);
+    });
+  };
+
   return{
     getMemoryInfo: getMemoryInfo,
+    getCPUInfo: getCPUInfo,
     printMemoryInfo: function(){
       getMemoryInfo(function(err, data){
         console.log(&quot;total\tused\tfree\tcached&quot;);
         console.log( data.total + &quot;\t&quot; + data.used + &quot;\t&quot; + data.free + &quot;\t&quot; + data.cached );
         console.log(&quot;Memory Usage:\t&quot; + data.percentUsed + &quot;%&quot;);
       });
+    },
+    printCPUInfo: function(){
+      getCPUInfo(function(err, data){
+        console.log(&quot;Current CPU Usage: &quot; + data.percentUsed + &quot;%&quot;);
+      });
     }
   };
 }();
 
-PiStats.printMemoryInfo();</code></pre></noscript></div>
+PiStats.printMemoryInfo();
+console.log(&quot;&quot;)
+setInterval(PiStats.printCPUInfo, 1000);
+</code></pre></noscript></div>
 </p>
 
 <h3>Python Sample</h3>
 
-<p><div><script src='https://gist.github.com/sidwarkd/9578213.js?file=pi_mem.py'></script>
+<p><div><script src='https://gist.github.com/sidwarkd/9578213.js?file=pi_stats.py'></script>
 <noscript><pre><code># A very simple python script that demonstrates how you can access
-# memory usage information similar to how free -m works on the
-# Raspberry Pi. Goes with µCast #14. http://youtu.be/EqyVlTP4R5M
+# memory and cpu usage information similar to how free and top 
+# work on the Raspberry Pi. Goes with uCast #14 and #15.
 
+# Usage: python pi_stats.py
 
-# Usage: python pi_mem.py
-# Example Output
-#
-# total    used    free    cached
-# 469      65      404     31
-# Memory Usage:    7%
+import re, time, sys
 
 class PiStats(object):
   def __init__(self):
     self.total_memory = None
     self.free_memory = None
     self.cached_memory = None
+    self.lastCPUInfo = {'total':0, 'active':0}
+    self.currentCPUInfo = {'total':0, 'active':0}
+    self.temp_in_celsius = None
+
+  def calculate_cpu_percentage(self):
+    total_diff = self.currentCPUInfo['total'] - self.lastCPUInfo['total']
+    active_diff = self.currentCPUInfo['active'] - self.lastCPUInfo['active']
+    return round(float(active_diff) / float(total_diff), 3) * 100.00
 
   def update_stats(self):
     # Read memory usage from /proc/meminfo
@@ -130,23 +178,264 @@ class PiStats(object):
         elif i == 3: # Cached line
           self.cached_memory = int(line.strip(&quot;Cached: \tkB\n&quot;)) / 1024
 
+    self.lastCPUInfo['total'] = self.currentCPUInfo['total']
+    self.lastCPUInfo['active'] = self.currentCPUInfo['active']
+    self.currentCPUInfo['total'] = 0
+    with open('/proc/stat', 'r') as cpu_file:
+      for i, line in enumerate(cpu_file):
+        if i == 0: 
+          cpuStats = re.findall('([0-9]+)', line.strip())
+          self.currentCPUInfo['idle'] = int(cpuStats[3]) + int(cpuStats[4])
+          for t in cpuStats:
+            self.currentCPUInfo['total'] += int(t)
+
+          self.currentCPUInfo['active'] = self.currentCPUInfo['total'] - self.currentCPUInfo['idle']
+          self.currentCPUInfo['percent'] = self.calculate_cpu_percentage()
+
 
   def get_memory_info(self):
     # In linux the cached memory is available for program use so we'll
     # include it in the free amount when calculating the usage percent
-    self.update_stats()
     used_val = (self.total_memory - self.free_memory)
     free_val = (self.free_memory)
     percent_val = float(used_val - self.cached_memory) / float(self.total_memory)
     return {'total': self.total_memory, 'cached': self.cached_memory,  'used': used_val, 'free': free_val, 'percent': round(percent_val, 3) * 100.00 }
 
+  def get_cpu_info(self):
+    return self.currentCPUInfo
+
 
 stats = PiStats()
+stats.update_stats()
 meminfo = stats.get_memory_info()
 
 print &quot;total\tused\tfree\tcached&quot;
 print &quot;%i\t%i\t%i\t%i&quot;%(meminfo['total'],meminfo['used'],meminfo['free'],meminfo['cached'])
-print &quot;Memory Usage:\t%i%%&quot;%(meminfo['percent'])</code></pre></noscript></div>
+print &quot;Memory Usage:\t%i%%&quot;%(meminfo['percent'])
+print &quot;\n&quot;
+
+try:
+  while True:
+    cpu_info = stats.get_cpu_info()
+    print &quot;CPU Usage:\t%i%%&quot;%(cpu_info['percent'])
+    time.sleep(2);
+    stats.update_stats()
+except KeyboardInterrupt:
+  print &quot;Exiting.\n&quot;
+  sys.exit(0)</code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[µCast #14: Memory Usage on the Raspberry Pi]]></title>
+    <link href="http://blog.microcasts.tv/2014/03/15/memory-usage-on-the-raspberry-pi/"/>
+    <updated>2014-03-15T23:37:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/03/15/memory-usage-on-the-raspberry-pi</id>
+    <content type="html"><![CDATA[<p>In this µCast we cover the very basics of RAM usage on the Raspberry Pi and show you how to figure out how much memory your Pi is using at any given time and how to get some of it back.</p>
+
+<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/EqyVlTP4R5M" frameborder="0" allowfullscreen></iframe>
+
+
+
+
+<!-- more -->
+
+
+<h2>Sample Code</h2>
+
+<p>The following chunks of code are just quick examples of how you can query memory information using Python or NodeJS. <strong>This code is not production ready as it does little to no error checking.</strong></p>
+
+<h3>NodeJS Sample</h3>
+
+<p><div><script src='https://gist.github.com/sidwarkd/9578213.js?file=pi_stats.js'></script>
+<noscript><pre><code>'use strict'
+
+// A very simple nodeJS script that demonstrates how you can access
+// memory usage information similar to how free -m works on the
+// Raspberry Pi. Goes with µCast #14. http://youtu.be/EqyVlTP4R5M
+ 
+ 
+// Usage: node pi_mem.js
+// Example Output
+//
+// total    used    free    cached
+// 469      65      404     31
+// Memory Usage:    7%
+
+var fs = require('fs');
+
+var PiStats = function(){
+
+  var memInfo = {};
+  var currentCPUInfo = {total:0, active:0};
+  var lastCPUInfo = {total:0, active:0};
+
+  function getValFromLine(line){
+    var match = line.match(/[0-9]+/gi);
+    if(match !== null)
+      return parseInt(match[0]);
+    else
+      return null;
+  }
+
+  var getMemoryInfo = function(cb){
+    fs.readFile('/proc/meminfo', 'utf8', function(err, data){
+      if(err){
+        cb(err);
+        return;
+      }
+      var lines = data.split('\n');
+      memInfo.total = Math.floor(getValFromLine(lines[0]) / 1024);
+      memInfo.free = Math.floor(getValFromLine(lines[1]) / 1024);
+      memInfo.cached = Math.floor(getValFromLine(lines[3]) / 1024);
+      memInfo.used = memInfo.total - memInfo.free;
+      memInfo.percentUsed = Math.ceil(((memInfo.used - memInfo.cached) / memInfo.total) * 100);
+
+      cb(null, memInfo);
+    });
+  };
+
+  var calculateCPUPercentage = function(oldVals, newVals){
+    var totalDiff = newVals.total - oldVals.total;
+    var activeDiff = newVals.active - oldVals.active;
+    return Math.ceil((activeDiff / totalDiff) * 100);
+  };
+
+  var getCPUInfo = function(cb){
+    lastCPUInfo.active = currentCPUInfo.active;
+    lastCPUInfo.idle = currentCPUInfo.idle;
+    lastCPUInfo.total = currentCPUInfo.total;
+
+    fs.readFile('/proc/stat', 'utf8', function(err, data){
+      if(err){
+        if(cb !== undefined)
+          cb(err);
+        return;
+      }
+      var lines = data.split('\n');
+      var cpuTimes = lines[0].match(/[0-9]+/gi);
+      currentCPUInfo.total = 0;
+      // We'll count both idle and iowait as idle time
+      currentCPUInfo.idle = parseInt(cpuTimes[3]) + parseInt(cpuTimes[4]);
+      for (var i = 0; i &lt; cpuTimes.length; i++){
+        currentCPUInfo.total += parseInt(cpuTimes[i]);
+      }
+      currentCPUInfo.active = currentCPUInfo.total - currentCPUInfo.idle
+      currentCPUInfo.percentUsed = calculateCPUPercentage(lastCPUInfo, currentCPUInfo);
+
+      if(cb !== undefined)
+        cb(null, currentCPUInfo);
+    });
+  };
+
+  return{
+    getMemoryInfo: getMemoryInfo,
+    getCPUInfo: getCPUInfo,
+    printMemoryInfo: function(){
+      getMemoryInfo(function(err, data){
+        console.log(&quot;total\tused\tfree\tcached&quot;);
+        console.log( data.total + &quot;\t&quot; + data.used + &quot;\t&quot; + data.free + &quot;\t&quot; + data.cached );
+        console.log(&quot;Memory Usage:\t&quot; + data.percentUsed + &quot;%&quot;);
+      });
+    },
+    printCPUInfo: function(){
+      getCPUInfo(function(err, data){
+        console.log(&quot;Current CPU Usage: &quot; + data.percentUsed + &quot;%&quot;);
+      });
+    }
+  };
+}();
+
+PiStats.printMemoryInfo();
+console.log(&quot;&quot;)
+setInterval(PiStats.printCPUInfo, 1000);
+</code></pre></noscript></div>
+</p>
+
+<h3>Python Sample</h3>
+
+<p><div><script src='https://gist.github.com/sidwarkd/9578213.js?file=pi_stats.py'></script>
+<noscript><pre><code># A very simple python script that demonstrates how you can access
+# memory and cpu usage information similar to how free and top 
+# work on the Raspberry Pi. Goes with uCast #14 and #15.
+
+# Usage: python pi_stats.py
+
+import re, time, sys
+
+class PiStats(object):
+  def __init__(self):
+    self.total_memory = None
+    self.free_memory = None
+    self.cached_memory = None
+    self.lastCPUInfo = {'total':0, 'active':0}
+    self.currentCPUInfo = {'total':0, 'active':0}
+    self.temp_in_celsius = None
+
+  def calculate_cpu_percentage(self):
+    total_diff = self.currentCPUInfo['total'] - self.lastCPUInfo['total']
+    active_diff = self.currentCPUInfo['active'] - self.lastCPUInfo['active']
+    return round(float(active_diff) / float(total_diff), 3) * 100.00
+
+  def update_stats(self):
+    # Read memory usage from /proc/meminfo
+    with open('/proc/meminfo', 'r') as mem_file:
+      # Remove the text description, kB, and whitespace before
+      # turning file lines into an int
+      for i, line in enumerate(mem_file):
+        if i == 0: # Total line
+          self.total_memory = int(line.strip(&quot;MemTotal: \tkB\n&quot;)) / 1024
+        elif i == 1: # Free line 
+          self.free_memory = int(line.strip(&quot;MemFree: \tkB\n&quot;)) / 1024
+        elif i == 3: # Cached line
+          self.cached_memory = int(line.strip(&quot;Cached: \tkB\n&quot;)) / 1024
+
+    self.lastCPUInfo['total'] = self.currentCPUInfo['total']
+    self.lastCPUInfo['active'] = self.currentCPUInfo['active']
+    self.currentCPUInfo['total'] = 0
+    with open('/proc/stat', 'r') as cpu_file:
+      for i, line in enumerate(cpu_file):
+        if i == 0: 
+          cpuStats = re.findall('([0-9]+)', line.strip())
+          self.currentCPUInfo['idle'] = int(cpuStats[3]) + int(cpuStats[4])
+          for t in cpuStats:
+            self.currentCPUInfo['total'] += int(t)
+
+          self.currentCPUInfo['active'] = self.currentCPUInfo['total'] - self.currentCPUInfo['idle']
+          self.currentCPUInfo['percent'] = self.calculate_cpu_percentage()
+
+
+  def get_memory_info(self):
+    # In linux the cached memory is available for program use so we'll
+    # include it in the free amount when calculating the usage percent
+    used_val = (self.total_memory - self.free_memory)
+    free_val = (self.free_memory)
+    percent_val = float(used_val - self.cached_memory) / float(self.total_memory)
+    return {'total': self.total_memory, 'cached': self.cached_memory,  'used': used_val, 'free': free_val, 'percent': round(percent_val, 3) * 100.00 }
+
+  def get_cpu_info(self):
+    return self.currentCPUInfo
+
+
+stats = PiStats()
+stats.update_stats()
+meminfo = stats.get_memory_info()
+
+print &quot;total\tused\tfree\tcached&quot;
+print &quot;%i\t%i\t%i\t%i&quot;%(meminfo['total'],meminfo['used'],meminfo['free'],meminfo['cached'])
+print &quot;Memory Usage:\t%i%%&quot;%(meminfo['percent'])
+print &quot;\n&quot;
+
+try:
+  while True:
+    cpu_info = stats.get_cpu_info()
+    print &quot;CPU Usage:\t%i%%&quot;%(cpu_info['percent'])
+    time.sleep(2);
+    stats.update_stats()
+except KeyboardInterrupt:
+  print &quot;Exiting.\n&quot;
+  sys.exit(0)</code></pre></noscript></div>
 </p>
 ]]></content>
   </entry>
@@ -335,35 +624,6 @@ print &quot;Memory Usage:\t%i%%&quot;%(meminfo['percent'])</code></pre></noscrip
 
 
 <p>In addition to covering each of these topics I also show you how to get your Raspberry Pi connected to Twitter. It&rsquo;s the first class on Skillshare to cover the Raspberry Pi and contains just <strong>over 3 hours of video instruction</strong>. It&rsquo;s packed with tips and tricks for creating your own hardware projects and students that enroll get access to a cheat sheet I&rsquo;ve put together for creating hardware projects with the Raspberry Pi. If you&rsquo;d like to enroll use the link at the top of this post to <strong>get 50% off</strong> and get the class for only $12.50 USD.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Running Python Scripts from Dropbox on the Raspberry Pi]]></title>
-    <link href="http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/"/>
-    <updated>2014-01-27T22:59:00-07:00</updated>
-    <id>http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi</id>
-    <content type="html"><![CDATA[<p>If you&rsquo;ve ever tried writing code on your Raspberry Pi from just the plain terminal window then you&rsquo;ve probably used Nano or Vim. If you&rsquo;re like me you wished you could have used your favorite IDE or text editor on another machine. When I develop for the Raspberry Pi my normal use case is to SSH in and write code via Nano. While this works just fine I&rsquo;d prefer to have the bigger real estate afforded by my desktop monitors.</p>
-
-<h3>What is <code>preheat</code></h3>
-
-<p><code>preheat</code> is my solution to this problem. It allows me to pull scripts down from my Dropbox account at execution time. When I finally decided I didn&rsquo;t want to code directly on the Pi anymore the very first thing that came to my mind was to install <a href="http://dropbox.com">Dropbox</a> on the Pi and just have it sync with a folder on my dev machine. It only took a few searches to realize that a Dropbox client for the Pi doesn&rsquo;t exist. So I found a few other solutions like <a href="http://en.wikipedia.org/wiki/Rsync">rsync</a>, <a href="http://owncloud.org">ownCloud</a> and others but everything I found was either too much work or just plain overkill for what I needed. So <code>preheat</code> was born.</p>
-
-<p>It&rsquo;s a simple Python script that will query your Dropbox account for the file you want to run and pull it down. So normally I&rsquo;d use the following to run a script I&rsquo;m working on:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo python myscript.py
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>With <code>preheat</code> I would run it like this:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo python preheat myscript.py
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>I don&rsquo;t need to have <strong>myscript.py</strong> on the Raspberry Pi. It&rsquo;s on my desktop machine in a dropbox folder being updated every time I change it. When I run it via <code>preheat</code> it will scan my Dropbox account, find it, and pull it down for me.</p>
-
-<p>If you&rsquo;d like to see how it works <a href="https://github.com/sidwarkd/preheat">check out the source code on Github</a></p>
 ]]></content>
   </entry>
   

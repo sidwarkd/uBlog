@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>&micro;Tip: Fixing Tight Breadboards - The &micro;Blog
+  <title>µCast #15: CPU Usage on the Raspberry Pi - The &micro;Blog
 </title>
   <meta name="author" content="K-SID">
 
@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.microcasts.tv/2014/03/12/fixing-tight-breadboards">
+  <link rel="canonical" href="http://blog.microcasts.tv/2014/03/20/cpu-usage-on-the-raspberry-pi">
   <link href="/favicon.png" type="image/png" rel="icon">
   <link href="/atom.xml" rel="alternate" title="The &micro;Blog
 " type="application/atom+xml">
@@ -113,7 +113,7 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-03-12T23:33:00-06:00" pubdate data-updated="true">Mar 12<span>th</span>, 2014</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-03-20T22:41:00-06:00" pubdate data-updated="true">Mar 20<span>th</span>, 2014</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://blog.microcasts.tv">Comments</a>
@@ -122,25 +122,219 @@
     
     
     <h1 class="entry-title">
-        &micro;Tip: Fixing Tight Breadboards
+        µCast #15: CPU Usage on the Raspberry Pi
         
     </h1>
     
   </header>
 
 
-<div class="entry-content clearfix"><p>Have you ever bought a breadboard that had extremely tight connection terminals? The kind that you can&rsquo;t connect anything to because everything just bends. I get that breadboards need to securely hold things but not being able to easily insert a resistor or capacitor is just ridiculous.</p>
+<div class="entry-content clearfix"><p>In this µCast we cover the very basics of CPU usage on the Raspberry Pi and show you how to figure out how hard your ARM processor is working in realtime.</p>
 
-<p>My suggestion is the find a breadboard the is as smooth as butter to connect to and never stray from it. Surprisingly enough, I find Radio Shack breadboards to have very nice connection terminals that require no break-in.</p>
-
-<h3>How to Fix It</h3>
-
-<p>If you do have a breadboard that has overly tight terminals there is an easy way to fix it although it does take a little time. Simply grab a pair of pliers and a length of male header (4 to 5 pins long). Grab the short side of the header pins firmly with the pliers and then push the header pins into the terminals. With a length of 5 pins you can handle an entire vertical row at a time. That&rsquo;s all there is to it. After doing this your components should slide easily and securely into your breadboard. Here&rsquo;s a vine showing the process.</p>
-
-<iframe class='vine-embed' src='https://vine.co/v/MmxpprQ1Wlg/embed/simple' width='600' height='600' frameborder='0'></iframe>
+<iframe width="560" height="315" src="//www.youtube.com/embed/DqGVTUsMuFI" frameborder="0" allowfullscreen></iframe>
 
 
-<script async src='//platform.vine.co/static/scripts/embed.js' charset='utf-8'></script>
+
+
+<!-- more -->
+
+
+<h2>Sample Code</h2>
+
+<p>The following chunks of code contain the memory examples from µCast #14 as well as the CPU usage code in Python or NodeJS. <strong>This code is not production ready as it does little to no error checking.</strong></p>
+
+<h3>NodeJS Sample</h3>
+
+<div><script src='https://gist.github.com/sidwarkd/9578213.js?file=pi_stats.js'></script>
+<noscript><pre><code>'use strict'
+
+// A very simple nodeJS script that demonstrates how you can access
+// memory usage information similar to how free -m works on the
+// Raspberry Pi. Goes with µCast #14. http://youtu.be/EqyVlTP4R5M
+ 
+ 
+// Usage: node pi_mem.js
+// Example Output
+//
+// total    used    free    cached
+// 469      65      404     31
+// Memory Usage:    7%
+
+var fs = require('fs');
+
+var PiStats = function(){
+
+  var memInfo = {};
+  var currentCPUInfo = {total:0, active:0};
+  var lastCPUInfo = {total:0, active:0};
+
+  function getValFromLine(line){
+    var match = line.match(/[0-9]+/gi);
+    if(match !== null)
+      return parseInt(match[0]);
+    else
+      return null;
+  }
+
+  var getMemoryInfo = function(cb){
+    fs.readFile('/proc/meminfo', 'utf8', function(err, data){
+      if(err){
+        cb(err);
+        return;
+      }
+      var lines = data.split('\n');
+      memInfo.total = Math.floor(getValFromLine(lines[0]) / 1024);
+      memInfo.free = Math.floor(getValFromLine(lines[1]) / 1024);
+      memInfo.cached = Math.floor(getValFromLine(lines[3]) / 1024);
+      memInfo.used = memInfo.total - memInfo.free;
+      memInfo.percentUsed = Math.ceil(((memInfo.used - memInfo.cached) / memInfo.total) * 100);
+
+      cb(null, memInfo);
+    });
+  };
+
+  var calculateCPUPercentage = function(oldVals, newVals){
+    var totalDiff = newVals.total - oldVals.total;
+    var activeDiff = newVals.active - oldVals.active;
+    return Math.ceil((activeDiff / totalDiff) * 100);
+  };
+
+  var getCPUInfo = function(cb){
+    lastCPUInfo.active = currentCPUInfo.active;
+    lastCPUInfo.idle = currentCPUInfo.idle;
+    lastCPUInfo.total = currentCPUInfo.total;
+
+    fs.readFile('/proc/stat', 'utf8', function(err, data){
+      if(err){
+        if(cb !== undefined)
+          cb(err);
+        return;
+      }
+      var lines = data.split('\n');
+      var cpuTimes = lines[0].match(/[0-9]+/gi);
+      currentCPUInfo.total = 0;
+      // We'll count both idle and iowait as idle time
+      currentCPUInfo.idle = parseInt(cpuTimes[3]) + parseInt(cpuTimes[4]);
+      for (var i = 0; i &lt; cpuTimes.length; i++){
+        currentCPUInfo.total += parseInt(cpuTimes[i]);
+      }
+      currentCPUInfo.active = currentCPUInfo.total - currentCPUInfo.idle
+      currentCPUInfo.percentUsed = calculateCPUPercentage(lastCPUInfo, currentCPUInfo);
+
+      if(cb !== undefined)
+        cb(null, currentCPUInfo);
+    });
+  };
+
+  return{
+    getMemoryInfo: getMemoryInfo,
+    getCPUInfo: getCPUInfo,
+    printMemoryInfo: function(){
+      getMemoryInfo(function(err, data){
+        console.log(&quot;total\tused\tfree\tcached&quot;);
+        console.log( data.total + &quot;\t&quot; + data.used + &quot;\t&quot; + data.free + &quot;\t&quot; + data.cached );
+        console.log(&quot;Memory Usage:\t&quot; + data.percentUsed + &quot;%&quot;);
+      });
+    },
+    printCPUInfo: function(){
+      getCPUInfo(function(err, data){
+        console.log(&quot;Current CPU Usage: &quot; + data.percentUsed + &quot;%&quot;);
+      });
+    }
+  };
+}();
+
+PiStats.printMemoryInfo();
+console.log(&quot;&quot;)
+setInterval(PiStats.printCPUInfo, 1000);
+</code></pre></noscript></div>
+
+
+<h3>Python Sample</h3>
+
+<div><script src='https://gist.github.com/sidwarkd/9578213.js?file=pi_stats.py'></script>
+<noscript><pre><code># A very simple python script that demonstrates how you can access
+# memory and cpu usage information similar to how free and top 
+# work on the Raspberry Pi. Goes with uCast #14 and #15.
+
+# Usage: python pi_stats.py
+
+import re, time, sys
+
+class PiStats(object):
+  def __init__(self):
+    self.total_memory = None
+    self.free_memory = None
+    self.cached_memory = None
+    self.lastCPUInfo = {'total':0, 'active':0}
+    self.currentCPUInfo = {'total':0, 'active':0}
+    self.temp_in_celsius = None
+
+  def calculate_cpu_percentage(self):
+    total_diff = self.currentCPUInfo['total'] - self.lastCPUInfo['total']
+    active_diff = self.currentCPUInfo['active'] - self.lastCPUInfo['active']
+    return round(float(active_diff) / float(total_diff), 3) * 100.00
+
+  def update_stats(self):
+    # Read memory usage from /proc/meminfo
+    with open('/proc/meminfo', 'r') as mem_file:
+      # Remove the text description, kB, and whitespace before
+      # turning file lines into an int
+      for i, line in enumerate(mem_file):
+        if i == 0: # Total line
+          self.total_memory = int(line.strip(&quot;MemTotal: \tkB\n&quot;)) / 1024
+        elif i == 1: # Free line 
+          self.free_memory = int(line.strip(&quot;MemFree: \tkB\n&quot;)) / 1024
+        elif i == 3: # Cached line
+          self.cached_memory = int(line.strip(&quot;Cached: \tkB\n&quot;)) / 1024
+
+    self.lastCPUInfo['total'] = self.currentCPUInfo['total']
+    self.lastCPUInfo['active'] = self.currentCPUInfo['active']
+    self.currentCPUInfo['total'] = 0
+    with open('/proc/stat', 'r') as cpu_file:
+      for i, line in enumerate(cpu_file):
+        if i == 0: 
+          cpuStats = re.findall('([0-9]+)', line.strip())
+          self.currentCPUInfo['idle'] = int(cpuStats[3]) + int(cpuStats[4])
+          for t in cpuStats:
+            self.currentCPUInfo['total'] += int(t)
+
+          self.currentCPUInfo['active'] = self.currentCPUInfo['total'] - self.currentCPUInfo['idle']
+          self.currentCPUInfo['percent'] = self.calculate_cpu_percentage()
+
+
+  def get_memory_info(self):
+    # In linux the cached memory is available for program use so we'll
+    # include it in the free amount when calculating the usage percent
+    used_val = (self.total_memory - self.free_memory)
+    free_val = (self.free_memory)
+    percent_val = float(used_val - self.cached_memory) / float(self.total_memory)
+    return {'total': self.total_memory, 'cached': self.cached_memory,  'used': used_val, 'free': free_val, 'percent': round(percent_val, 3) * 100.00 }
+
+  def get_cpu_info(self):
+    return self.currentCPUInfo
+
+
+stats = PiStats()
+stats.update_stats()
+meminfo = stats.get_memory_info()
+
+print &quot;total\tused\tfree\tcached&quot;
+print &quot;%i\t%i\t%i\t%i&quot;%(meminfo['total'],meminfo['used'],meminfo['free'],meminfo['cached'])
+print &quot;Memory Usage:\t%i%%&quot;%(meminfo['percent'])
+print &quot;\n&quot;
+
+try:
+  while True:
+    cpu_info = stats.get_cpu_info()
+    print &quot;CPU Usage:\t%i%%&quot;%(cpu_info['percent'])
+    time.sleep(2);
+    stats.update_stats()
+except KeyboardInterrupt:
+  print &quot;Exiting.\n&quot;
+  sys.exit(0)</code></pre></noscript></div>
+
+
 
 </div>
 
@@ -165,13 +359,13 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-03-12T23:33:00-06:00" pubdate data-updated="true">Mar 12<span>th</span>, 2014</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-03-20T22:41:00-06:00" pubdate data-updated="true">Mar 20<span>th</span>, 2014</time>
           
 
 <span class="glyphicon glyphicon-tags"></span>&nbsp;
 <span class="categories">
   
-    <a class='category' href='/blog/categories/tips/'>tips</a>
+    <a class='category' href='/blog/categories/raspberrypi/'>RaspberryPi</a>
   
 </span>
 
@@ -180,7 +374,7 @@
         
           <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2014/03/12/fixing-tight-breadboards/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2014/03/12/fixing-tight-breadboards/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2014/03/20/cpu-usage-on-the-raspberry-pi/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2014/03/20/cpu-usage-on-the-raspberry-pi/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -194,10 +388,8 @@
         
           <ul class="meta text-muted pager">
             
-            <li class="previous"><a href="/2014/03/01/raspi-plotly-with-tmp102-sensor/" title="Previous Post: Raspi-Plotly With TMP102 Sensor">&laquo; Raspi-Plotly With TMP102 Sensor</a></li>
+            <li class="previous"><a href="/2014/03/15/memory-usage-on-the-raspberry-pi/" title="Previous Post: µCast #14: Memory Usage on the Raspberry Pi">&laquo; µCast #14: Memory Usage on the Raspberry Pi</a></li>
             
-            
-            <li class="next"><a href="/2014/03/15/memory-usage-on-the-raspberry-pi/" title="Next Post: µCast #14: Memory Usage on the Raspberry Pi">µCast #14: Memory Usage on the Raspberry Pi &raquo;</a></li>
             
           </ul>
         
@@ -232,11 +424,11 @@
   
   <div id="recent_posts" class="list-group">
     
-    <a class="list-group-item " href="/2014/03/20/cpu-usage-on-the-raspberry-pi/">µCast #15: CPU Usage on the Raspberry Pi</a>
+    <a class="list-group-item active" href="/2014/03/20/cpu-usage-on-the-raspberry-pi/">µCast #15: CPU Usage on the Raspberry Pi</a>
     
     <a class="list-group-item " href="/2014/03/15/memory-usage-on-the-raspberry-pi/">µCast #14: Memory Usage on the Raspberry Pi</a>
     
-    <a class="list-group-item active" href="/2014/03/12/fixing-tight-breadboards/">&micro;Tip: Fixing Tight Breadboards</a>
+    <a class="list-group-item " href="/2014/03/12/fixing-tight-breadboards/">&micro;Tip: Fixing Tight Breadboards</a>
     
     <a class="list-group-item " href="/2014/03/01/raspi-plotly-with-tmp102-sensor/">Raspi-Plotly With TMP102 Sensor</a>
     
@@ -325,8 +517,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.microcasts.tv/2014/03/12/fixing-tight-breadboards/';
-        var disqus_url = 'http://blog.microcasts.tv/2014/03/12/fixing-tight-breadboards/';
+        var disqus_identifier = 'http://blog.microcasts.tv/2014/03/20/cpu-usage-on-the-raspberry-pi/';
+        var disqus_url = 'http://blog.microcasts.tv/2014/03/20/cpu-usage-on-the-raspberry-pi/';
         var disqus_script = 'embed.js';
       
     (function () {

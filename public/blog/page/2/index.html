@@ -117,6 +117,78 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-10-25T23:33:00-06:00" pubdate data-updated="true">Oct 25<span>th</span>, 2013</time>
+        
+           | <a href="/2013/10/25/query-temperature-on-raspberry-pi/#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv/2013/10/25/query-temperature-on-raspberry-pi/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/2013/10/25/query-temperature-on-raspberry-pi/">Query Temperature on Raspberry Pi</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>I recently installed a Raspberry Pi in a server closet at home. I have it connected to an older laser printer so it acts as a print server. Since it is in a small space I want to be able to monitor the temperature from time to time. After some searching online I found two ways to do this from the command line that work quite well.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>/opt/vc/bin/vcgencmd measure_temp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The output of this command looks like this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>/opt/vc/bin/vcgencmd measure_temp
+</span><span class='line'><span class="nv">temp</span><span class="o">=</span>43.3<span class="err">&#39;</span>C
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The other way to display this information is to <strong>cat</strong> the contents of a file:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>cat /sys/class/thermal/thermal_zone0/temp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This time you will need to divide by 1000 to get the temp in degrees Celsius.</p>
+
+<p>Output:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>43312
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;ve notice that the two results can differ slightly but not by more than a few tenths of a degree Celsius.</p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-10-09T13:45:00-06:00" pubdate data-updated="true">Oct 9<span>th</span>, 2013</time>
         
            | <a href="/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/#disqus_thread"
@@ -279,6 +351,8 @@
   
   <div id="recent_posts" class="list-group">
     
+    <a class="list-group-item " href="/2014/03/20/cpu-usage-on-the-raspberry-pi/">µCast #15: CPU Usage on the Raspberry Pi</a>
+    
     <a class="list-group-item " href="/2014/03/15/memory-usage-on-the-raspberry-pi/">µCast #14: Memory Usage on the Raspberry Pi</a>
     
     <a class="list-group-item " href="/2014/03/12/fixing-tight-breadboards/">&micro;Tip: Fixing Tight Breadboards</a>
@@ -286,8 +360,6 @@
     <a class="list-group-item " href="/2014/03/01/raspi-plotly-with-tmp102-sensor/">Raspi-Plotly With TMP102 Sensor</a>
     
     <a class="list-group-item " href="/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/">Tracking Olympic Medals With the Raspberry Pi</a>
-    
-    <a class="list-group-item " href="/2014/02/06/salvaging-a-00-usb-microphone/">Salvaging a $100 USB Microphone</a>
     
   </div>
 </section>
@@ -333,7 +405,7 @@
     
     
     <a class="list-group-item " href="/blog/categories/raspberrypi/index.html">
-        <span class="badge">7</span>
+        <span class="badge">8</span>
         RaspberryPi
       </a>
     

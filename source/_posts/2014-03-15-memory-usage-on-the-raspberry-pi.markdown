@@ -16,7 +16,7 @@ In this µCast we cover the very basics of RAM usage on the Raspberry Pi and sho
 The following chunks of code are just quick examples of how you can query memory information using Python or NodeJS. **This code is not production ready as it does little to no error checking.**
 
 ### NodeJS Sample
-{% gist sidwarkd/9578213 pi_mem.js %} 
+{% gist sidwarkd/9578213 pi_stats.js %} 
 
 ### Python Sample
-{% gist sidwarkd/9578213 pi_mem.py %} 
+{% gist sidwarkd/9578213 pi_stats.py %} 
