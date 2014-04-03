@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/raspberrypi/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-03-20T22:48:49-06:00</updated>
+  <updated>2014-04-02T23:47:34-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Raspberry Pi Hacking Cheat Sheet]]></title>
+    <link href="http://blog.microcasts.tv/2014/04/02/raspberry-pi-hacking-cheat-sheet/"/>
+    <updated>2014-04-02T23:29:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/04/02/raspberry-pi-hacking-cheat-sheet</id>
+    <content type="html"><![CDATA[<h1 style="text-align:center"><a href="http://blog.microcasts.tv/assets/Unleash_The_Pi_Cheat_Sheet_v1.pdf"><img src="http://blog.microcasts.tv/images/cheat_sheet_img.jpg" alt="Cheat Sheet Image"/></a></h1>
+
+
+<p>As part of my Skillshare class <a href="http://www.skillshare.com/classes/technology/Unleash-The-Raspberry-Pi-Through-Physical-Computing/2109089069">Unleash The Raspberry Pi Through Physical Computing</a> I created a cheat sheet that I reference when working on hardware projects involving the Pi.</p>
+
+<p>You may find it useful when working on your own projects so feel free to download and share. Let me know if you think I&rsquo;m missing something important. I&rsquo;m working on an HTML version and will update this post when it&rsquo;s ready.</p>
+
+<p><a href="/assets/Unleash_The_Pi_Cheat_Sheet_v1.pdf">Rasperry Pi Hacker&rsquo;s Cheat Sheet</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[µCast #15: CPU Usage on the Raspberry Pi]]></title>
@@ -601,29 +617,6 @@ except KeyboardInterrupt:
 <p>It&rsquo;s a great example of how the Raspberry Pi is great for rapid prototyping of an idea. The full code can be found <a href="https://gist.github.com/sidwarkd/9108668">in this gist</a>.</p>
 
 <p>What Olympic-themed hardware projects can you think of?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Raspberry Pi Skillshare Class Available]]></title>
-    <link href="http://blog.microcasts.tv/2014/02/04/raspberry-pi-skillshare-class/"/>
-    <updated>2014-02-04T21:16:00-07:00</updated>
-    <id>http://blog.microcasts.tv/2014/02/04/raspberry-pi-skillshare-class</id>
-    <content type="html"><![CDATA[<p><strong>[UPDATE]:</strong> After a lot of thought I&rsquo;ve decided to release the class for free.  You can still use the link below but the cost is now $0. I would greatly appreciate any feedback on the course because I want it to be as useful as possible.</p>
-
-<p>My class <a href="http://skl.sh/1cTcEbF">Unleash The Raspberry Pi Through Physical Computing</a> is now available on Skillshare. The class covers the 3 main hardware capabilities exposed by the GPIO header on the Pi:</p>
-
-<ul>
-<li> Digital I/O</li>
-<li> SPI</li>
-<li> I2C</li>
-</ul>
-
-
-<h1 style="text-align:center"><img src="http://blog.microcasts.tv/images/completed_clean_light_angle.jpg" alt="Simple Home Monitor with Raspberry Pi"/></h1>
-
-
-<p>In addition to covering each of these topics I also show you how to get your Raspberry Pi connected to Twitter. It&rsquo;s the first class on Skillshare to cover the Raspberry Pi and contains just <strong>over 3 hours of video instruction</strong>. It&rsquo;s packed with tips and tricks for creating your own hardware projects and students that enroll get access to a cheat sheet I&rsquo;ve put together for creating hardware projects with the Raspberry Pi. If you&rsquo;d like to enroll use the link at the top of this post to <strong>get 50% off</strong> and get the class for only $12.50 USD.</p>
 ]]></content>
   </entry>
   

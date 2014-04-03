@@ -117,6 +117,65 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-10-26T00:16:00-06:00" pubdate data-updated="true">Oct 26<span>th</span>, 2013</time>
+        
+           | <a href="/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/">Installing MPLABX on Ubuntu: 64-bit Tip</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>While trying to install MPLABX on my Ubuntu machine I was having issues running the installer. Nothing would happen. After some searching I found that the installer cannot be run in a 64-bit environment without installing some 32-bit dependencies first. To fix simply run:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install libc6:i386
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will install the minimal 32-bit libraries. If you are still having issues you can install the full 32-bit library set with:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install ia32-libs
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here is the original forum question that led me to the solution.</p>
+
+<ul>
+<li> <a href="http://askubuntu.com/questions/145716/cannot-install-mplab-ide-x-from-the-terminal-silently-exits">Cannot install MPLAB IDE X from the terminal &ndash; silently exits</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-10-25T23:33:00-06:00" pubdate data-updated="true">Oct 25<span>th</span>, 2013</time>
         
            | <a href="/2013/10/25/query-temperature-on-raspberry-pi/#disqus_thread"
@@ -351,6 +410,8 @@
   
   <div id="recent_posts" class="list-group">
     
+    <a class="list-group-item " href="/2014/04/02/raspberry-pi-hacking-cheat-sheet/">Raspberry Pi Hacking Cheat Sheet</a>
+    
     <a class="list-group-item " href="/2014/03/20/cpu-usage-on-the-raspberry-pi/">µCast #15: CPU Usage on the Raspberry Pi</a>
     
     <a class="list-group-item " href="/2014/03/15/memory-usage-on-the-raspberry-pi/">µCast #14: Memory Usage on the Raspberry Pi</a>
@@ -358,8 +419,6 @@
     <a class="list-group-item " href="/2014/03/12/fixing-tight-breadboards/">&micro;Tip: Fixing Tight Breadboards</a>
     
     <a class="list-group-item " href="/2014/03/01/raspi-plotly-with-tmp102-sensor/">Raspi-Plotly With TMP102 Sensor</a>
-    
-    <a class="list-group-item " href="/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/">Tracking Olympic Medals With the Raspberry Pi</a>
     
   </div>
 </section>
@@ -405,7 +464,7 @@
     
     
     <a class="list-group-item " href="/blog/categories/raspberrypi/index.html">
-        <span class="badge">8</span>
+        <span class="badge">9</span>
         RaspberryPi
       </a>
     

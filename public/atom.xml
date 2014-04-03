@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-03-20T22:48:49-06:00</updated>
+  <updated>2014-04-02T23:47:34-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Raspberry Pi Hacking Cheat Sheet]]></title>
+    <link href="http://blog.microcasts.tv/2014/04/02/raspberry-pi-hacking-cheat-sheet/"/>
+    <updated>2014-04-02T23:29:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/04/02/raspberry-pi-hacking-cheat-sheet</id>
+    <content type="html"><![CDATA[<h1 style="text-align:center"><a href="http://blog.microcasts.tv/assets/Unleash_The_Pi_Cheat_Sheet_v1.pdf"><img src="http://blog.microcasts.tv/images/cheat_sheet_img.jpg" alt="Cheat Sheet Image"/></a></h1>
+
+
+<p>As part of my Skillshare class <a href="http://www.skillshare.com/classes/technology/Unleash-The-Raspberry-Pi-Through-Physical-Computing/2109089069">Unleash The Raspberry Pi Through Physical Computing</a> I created a cheat sheet that I reference when working on hardware projects involving the Pi.</p>
+
+<p>You may find it useful when working on your own projects so feel free to download and share. Let me know if you think I&rsquo;m missing something important. I&rsquo;m working on an HTML version and will update this post when it&rsquo;s ready.</p>
+
+<p><a href="http://blog.microcasts.tv/assets/Unleash_The_Pi_Cheat_Sheet_v1.pdf">Rasperry Pi Hacker&rsquo;s Cheat Sheet</a></p>
+
+      ]]>
+
+    </content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[µCast #15: CPU Usage on the Raspberry Pi]]></title>
