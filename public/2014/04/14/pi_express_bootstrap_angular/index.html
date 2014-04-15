@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>XC8: Problem Running Post-Install Step - The &micro;Blog
+  <title>µCast #16: Pi + Express + Bootstrap + Angular FTW! - The &micro;Blog
 </title>
   <meta name="author" content="K-SID">
 
@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step">
+  <link rel="canonical" href="http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular">
   <link href="/favicon.png" type="image/png" rel="icon">
   <link href="/atom.xml" rel="alternate" title="The &micro;Blog
 " type="application/atom+xml">
@@ -113,7 +113,7 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-08-09T23:59:00-06:00" pubdate data-updated="true">Aug 9<span>th</span>, 2013</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-14T23:19:00-06:00" pubdate data-updated="true">Apr 14<span>th</span>, 2014</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://blog.microcasts.tv">Comments</a>
@@ -122,24 +122,175 @@
     
     
     <h1 class="entry-title">
-        XC8: Problem Running Post-Install Step
+        µCast #16: Pi + Express + Bootstrap + Angular FTW!
         
     </h1>
     
   </header>
 
 
-<div class="entry-content clearfix"><p>While installing the Microchip XC8 compiler today on my Windows 8 machine I ran into an issue at the end of the install and got the following message box.</p>
+<div class="entry-content clearfix"><p>About a month ago I came across the <a href="http://lifehacker.com/command-pi-monitors-your-raspberry-pi-from-your-phone-1561340630">CommandPi</a> iOS app. It looked interesting so I paid the 99 cents and downloaded it to my iPad. The problem was, it didn&rsquo;t work. I would provide my SSH credentials and after logging in the program would crash. So like any curious developer, instead of waiting for a fix I set out to write my own.</p>
 
-<p><img src="/images/xc8_install_error.png"></p>
+<p>To be fair to the creator of <a href="https://itunes.apple.com/us/app/command-pi/id830462681?mt=8">CommandPi</a>, what you are about to see is not meant to take anything away from that app. The app creator has put together a very nice UI and the crashing issue has been fixed. I just wanted to see how easy or hard it would be to create a knock off using <a href="http://expressjs.com/">ExpressJS</a>, <a href="http://angularjs.org/">Angular</a> and <a href="http://getbootstrap.com/">Bootstrap</a>.</p>
 
-<p>I assume this is because the regsvr32.exe wasn&rsquo;t run with elevated privileges. If you get this error at the end of your install the fix is quite simple. We just need to run the failed command from an elevated privilege command prompt.  To do this right click on your Command Prompt icon (from your start page or do a search to find it) and select <em>&ldquo;Run As Administrator&rdquo;</em>.  This should open your command prompt window and default you to the <strong>System32</strong> folder. Without changing directories you simply run the failed command as it was listed in your error message.  In my case I ran:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>regsvr32.exe /s "C:\Program Files\Microchip\xc8\v1.12\bin\MPLABXC8.dll"</span></code></pre></td></tr></table></div></figure>
+<br/>
 
 
-<p><strong>NOTE:</strong> Your path may be different so make sure you see what the error message says before closing it.</p>
+<iframe width="560" height="315" src="//www.youtube.com/embed/zprWNhB0NeU" frameborder="0" allowfullscreen></iframe>
+
+
+
+
+<!-- more -->
+
+
+
+
+<br/>
+
+
+<br/>
+
+
+<p>In <a href="http://blog.microcasts.tv/2014/03/15/memory-usage-on-the-raspberry-pi/">µCast #14</a> and <a href="http://blog.microcasts.tv/2014/03/20/cpu-usage-on-the-raspberry-pi/">µCast #15</a> we created the plumbing necessary to grab most of the information necessary to create our app. We also expose the <a href="http://blog.microcasts.tv/2013/10/25/query-temperature-on-raspberry-pi/">temperature reading given by the Pi</a>. This episode was shot in a single take (with light editing for time) showing how to pull various technologies together to create a web application for monitoring our Raspberry Pi.</p>
+
+<p>This is the pinode_stats.gist used in the video.</p>
+
+<div><script src='https://gist.github.com/sidwarkd/10226198.js?file=pinode_stats.js'></script>
+<noscript><pre><code>'use strict'
+
+// An example of accessing system information on the Raspberry Pi with NodeJS
+
+var fs = require('fs');
+
+var PiStats = function(){
+  var stats = {};
+  var _currentCPUInfo = {total:0, active:0};
+  var _previousCPUInfo = {total:0, active:0};
+
+  var memInfo = {};
+  var currentCPUInfo = {total:0, active:0};
+  var lastCPUInfo = {total:0, active:0};
+
+  function getValFromLine(line){
+    var match = line.match(/[0-9]+/gi);
+    if(match !== null)
+      return parseInt(match[0]);
+    else
+      return null;
+  }
+
+  var getMemoryInfo = function(cb){
+    fs.readFile('/proc/meminfo', 'utf8', function(err, data){
+      if(err){
+        if(cb !== undefined)
+          cb(err);
+        return;
+      }
+      var lines = data.split('\n');
+      stats.memTotal = Math.floor(getValFromLine(lines[0]) / 1024);
+      stats.memFree = Math.floor(getValFromLine(lines[1]) / 1024);
+      stats.memCached = Math.floor(getValFromLine(lines[3]) / 1024);
+      stats.memUsed = stats.memTotal - stats.memFree;
+      stats.memPercentUsed = Math.ceil(((stats.memUsed - stats.memCached) / stats.memTotal) * 100);
+
+      if(cb !== undefined)
+        cb(null, stats);
+    });
+  };
+
+  var calculateCPUPercentage = function(oldVals, newVals){
+    var totalDiff = newVals.total - oldVals.total;
+    var activeDiff = newVals.active - oldVals.active;
+    return Math.ceil((activeDiff / totalDiff) * 100);
+  };
+
+  var getCPUInfo = function(cb){
+    _previousCPUInfo.active = _currentCPUInfo.active;
+    _previousCPUInfo.idle = _currentCPUInfo.idle;
+    _previousCPUInfo.total = _currentCPUInfo.total;
+
+    fs.readFile('/proc/stat', 'utf8', function(err, data){
+      if(err){
+        if(cb !== undefined)
+          cb(err);
+        return;
+      }
+      var lines = data.split('\n');
+      var cpuTimes = lines[0].match(/[0-9]+/gi);
+      _currentCPUInfo.total = 0;
+      // We'll count both idle and iowait as idle time
+      _currentCPUInfo.idle = parseInt(cpuTimes[3]) + parseInt(cpuTimes[4]);
+      for (var i = 0; i &lt; cpuTimes.length; i++){
+        _currentCPUInfo.total += parseInt(cpuTimes[i]);
+      }
+      _currentCPUInfo.active = _currentCPUInfo.total - _currentCPUInfo.idle
+      _currentCPUInfo.percentUsed = calculateCPUPercentage(_previousCPUInfo, _currentCPUInfo);
+
+      stats.cpuUsage = _currentCPUInfo.percentUsed;
+
+      if(cb !== undefined)
+        cb(null, stats);
+    });
+  };
+
+  var getCurrentTemperature = function(cb){
+    // Uncomment the next 3 lines for testing on regular linux and comment
+    // out the fs.readFile block
+    //stats.tempC = 42.3;
+    //stats.tempF = 102.5;
+    //cb(null, stats);
+    fs.readFile('/sys/class/thermal/thermal_zone0/temp', 'utf8', function(err, data){
+      var temp = data.match(/[0-9]+/gi);
+      stats.tempC = parseInt(temp[0]) / 1000;
+      stats.tempF = stats.tempC * 1.80 + 32.00;
+
+      if(cb !== undefined)
+        cb(null, stats);
+    });
+  }
+
+  return{
+    getMemoryInfo: getMemoryInfo,
+    getCPUInfo: getCPUInfo,
+    update: function(cb){
+      getMemoryInfo(function(err, data){
+        getCPUInfo(function(err1, data1){
+          getCurrentTemperature(function(err2, data2){
+            cb(err2, data2);
+          });
+        });
+      });
+    },
+    printMemoryInfo: function(){
+      getMemoryInfo(function(err, data){
+        console.log(&quot;total\tused\tfree\tcached&quot;);
+        console.log( data.total + &quot;\t&quot; + data.used + &quot;\t&quot; + data.free + &quot;\t&quot; + data.cached );
+        console.log(&quot;Memory Usage:\t&quot; + data.percentUsed + &quot;%&quot;);
+        return;
+      });
+    },
+    printCPUInfo: function(){
+      getCPUInfo(function(err, data){
+        console.log(&quot;Current CPU Usage: &quot; + data.percentUsed + &quot;%&quot;);
+      });
+    }
+  };
+}();
+
+module.exports = PiStats;
+
+// Example usage
+
+// var stats = require('./pinode_stats.js');
+// stats.update(function(err, data){
+//   console.log(data);
+// });
+
+</code></pre></noscript></div>
+
+
+
 </div>
 
 
@@ -163,13 +314,13 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-08-09T23:59:00-06:00" pubdate data-updated="true">Aug 9<span>th</span>, 2013</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-14T23:19:00-06:00" pubdate data-updated="true">Apr 14<span>th</span>, 2014</time>
           
 
 <span class="glyphicon glyphicon-tags"></span>&nbsp;
 <span class="categories">
   
-    <a class='category' href='/blog/categories/microchip/'>Microchip</a>, <a class='category' href='/blog/categories/windows-8/'>Windows 8</a>, <a class='category' href='/blog/categories/xc8/'>XC8</a>
+    <a class='category' href='/blog/categories/angular/'>Angular</a>, <a class='category' href='/blog/categories/nodejs/'>NodeJS</a>, <a class='category' href='/blog/categories/raspberry-pi/'>Raspberry Pi</a>
   
 </span>
 
@@ -178,7 +329,7 @@
         
           <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -192,8 +343,8 @@
         
           <ul class="meta text-muted pager">
             
+            <li class="previous"><a href="/2014/04/02/raspberry-pi-hacking-cheat-sheet/" title="Previous Post: Raspberry Pi Hacking Cheat Sheet">&laquo; Raspberry Pi Hacking Cheat Sheet</a></li>
             
-            <li class="next"><a href="/2013/08/19/some-love-for-the-beginners/" title="Next Post: Some Love for the Beginners">Some Love for the Beginners &raquo;</a></li>
             
           </ul>
         
@@ -228,7 +379,7 @@
   
   <div id="recent_posts" class="list-group">
     
-    <a class="list-group-item " href="/2014/04/14/pi_express_bootstrap_angular/">µCast #16: Pi + Express + Bootstrap + Angular FTW!</a>
+    <a class="list-group-item active" href="/2014/04/14/pi_express_bootstrap_angular/">µCast #16: Pi + Express + Bootstrap + Angular FTW!</a>
     
     <a class="list-group-item " href="/2014/04/02/raspberry-pi-hacking-cheat-sheet/">Raspberry Pi Hacking Cheat Sheet</a>
     
@@ -321,8 +472,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step/';
-        var disqus_url = 'http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step/';
+        var disqus_identifier = 'http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular/';
+        var disqus_url = 'http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular/';
         var disqus_script = 'embed.js';
       
     (function () {
