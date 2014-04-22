@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-04-14T23:47:10-06:00</updated>
+  <updated>2014-04-21T22:04:17-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -19,7 +19,9 @@
     <link href="http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular/"/>
     <updated>2014-04-14T23:19:00-06:00</updated>
     <id>http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular</id>
-    <content type="html"><![CDATA[<p>About a month ago I came across the <a href="http://lifehacker.com/command-pi-monitors-your-raspberry-pi-from-your-phone-1561340630">CommandPi</a> iOS app. It looked interesting so I paid the 99 cents and downloaded it to my iPad. The problem was, it didn&rsquo;t work. I would provide my SSH credentials and after logging in the program would crash. So like any curious developer, instead of waiting for a fix I set out to write my own.</p>
+    <content type="html"><![CDATA[<p><strong>[UPDATE]:</strong> I&rsquo;ve had requests to post the finished code on Github for those that want to just play with the completed app. It&rsquo;s now available at <a href="https://github.com/sidwarkd/pimonitor">https://github.com/sidwarkd/pimonitor</a>.</p>
+
+<p>About a month ago I came across the <a href="http://lifehacker.com/command-pi-monitors-your-raspberry-pi-from-your-phone-1561340630">CommandPi</a> iOS app. It looked interesting so I paid the 99 cents and downloaded it to my iPad. The problem was, it didn&rsquo;t work. I would provide my SSH credentials and after logging in the program would crash. So like any curious developer, instead of waiting for a fix I set out to write my own.</p>
 
 <p>To be fair to the creator of <a href="https://itunes.apple.com/us/app/command-pi/id830462681?mt=8">CommandPi</a>, what you are about to see is not meant to take anything away from that app. The app creator has put together a very nice UI and the crashing issue has been fixed. I just wanted to see how easy or hard it would be to create a knock off using <a href="http://expressjs.com/">ExpressJS</a>, <a href="http://angularjs.org/">Angular</a> and <a href="http://getbootstrap.com/">Bootstrap</a>.</p>
 

@@ -6,6 +6,7 @@ comments: true
 categories: [Raspberry Pi, NodeJS, Angular]
 ---
 
+**[UPDATE]:** I've had requests to post the finished code on Github for those that want to just play with the completed app. It's now available at [https://github.com/sidwarkd/pimonitor][repo].
 
 About a month ago I came across the [CommandPi][CommandPi] iOS app. It looked interesting so I paid the 99 cents and downloaded it to my iPad. The problem was, it didn't work. I would provide my SSH credentials and after logging in the program would crash. So like any curious developer, instead of waiting for a fix I set out to write my own.
 
@@ -26,6 +27,7 @@ This is the pinode_stats.gist used in the video.
 
 {% gist sidwarkd/10226198 pinode_stats.js %} 
 
+[repo]:https://github.com/sidwarkd/pimonitor
 [CommandPi]:http://lifehacker.com/command-pi-monitors-your-raspberry-pi-from-your-phone-1561340630
 [app]:https://itunes.apple.com/us/app/command-pi/id830462681?mt=8
 [express]:http://expressjs.com/
