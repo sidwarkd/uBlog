@@ -3,7 +3,7 @@ layout: post
 title: "Raspberry Pi Hacking Cheat Sheet"
 date: 2014-04-02 23:29
 comments: true
-categories: RaspberryPi
+categories: [RaspberryPi]
 ---
 
 <h1 style="text-align:center"><a href="/assets/Unleash_The_Pi_Cheat_Sheet_v1.pdf"><img src="/images/cheat_sheet_img.jpg" alt="Cheat Sheet Image"/></a></h1>

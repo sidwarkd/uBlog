@@ -3,7 +3,7 @@ layout: post
 title: "&micro;Tip: Fixing Tight Breadboards"
 date: 2014-03-12 23:33
 comments: true
-categories: tips
+categories: [tips]
 ---
 
 Have you ever bought a breadboard that had extremely tight connection terminals? The kind that you can't connect anything to because everything just bends. I get that breadboards need to securely hold things but not being able to easily insert a resistor or capacitor is just ridiculous.

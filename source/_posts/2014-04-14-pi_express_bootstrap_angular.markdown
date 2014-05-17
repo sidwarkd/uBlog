@@ -3,7 +3,7 @@ layout: post
 title: "µCast #16: Pi + Express + Bootstrap + Angular FTW!"
 date: 2014-04-14 23:19
 comments: true
-categories: [Raspberry Pi, NodeJS, Angular]
+categories: [RaspberryPi, NodeJS, Angular]
 ---
 
 **[UPDATE]:** I've had requests to post the finished code on Github for those that want to just play with the completed app. It's now available at [https://github.com/sidwarkd/pimonitor][repo].

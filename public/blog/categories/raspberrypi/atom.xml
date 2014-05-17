@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/raspberrypi/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-04-21T22:04:17-06:00</updated>
+  <updated>2014-05-16T23:10:26-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,250 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Raspberry Pi Python Library]]></title>
+    <link href="http://blog.microcasts.tv/2014/05/16/raspberry-pi-python-library/"/>
+    <updated>2014-05-16T00:15:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/05/16/raspberry-pi-python-library</id>
+    <content type="html"><![CDATA[<h3>TLDR</h3>
+
+<p>I created a python module that makes interacting with specific hardware easy. You can find it here:
+<a href="https://github.com/sidwarkd/ucasts_pi">&micro;Casts Raspberry Pi Library</a></p>
+
+<hr/>
+
+
+<p>I&rsquo;ve found myself writing quite a bit of code lately to interface with different pieces of hardware on the Raspberry Pi. I finally realized that for every new project I was copying the same code from the previous project to do things like turn on an LED or read the state of a switch. I decided that it was time to take all of that work and put it into a library that I could easily reuse with each project.</p>
+
+<h2>Simple Example</h2>
+
+<p>The python and node modules I&rsquo;ve used to create projects in the past are very simple and generally easy to use. What they don&rsquo;t provide, and aren&rsquo;t meant to provide, is a higher level of abstraction around certain pieces of hardware. For example, let&rsquo;s look at the <a href="https://www.sparkfun.com/products/11931">TMP102 Sensor</a>.</p>
+
+<h1 style="text-align:center;"><img src="/images/tmp102.jpg" width="300" height="300"></h1>
+
+
+<p style="text-align:center;"><small><em>TMP102 image provided by Sparkfun as <a style="color:red;" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a></em></small></p>
+
+
+
+
+<!-- more -->
+
+
+<p>It&rsquo;s an I²C temperature sensor that will return a reading of the current temperature. But like any I²C module you need to know things like what registers to set and read to get that reading and how the reading is returned by the sensor. For this sensor the current reading is accessed via register 0x00 of the module and is returned as a 12-bit value which requires a two byte read. Then you have to know that the value you get back is an integer that needs to be multiplied by .0625 to get a reading in degrees Celsius. Here&rsquo;s what the code looks like.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">smbus</span>
+</span><span class='line'><span class="n">bus</span> <span class="o">=</span> <span class="n">smbus</span><span class="o">.</span><span class="n">SMBus</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">temp</span> <span class="o">=</span> <span class="n">bus</span><span class="o">.</span><span class="n">read_word_data</span><span class="p">(</span><span class="mh">0x48</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="n">byte1_mask</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b0000000011111111</span>
+</span><span class='line'><span class="n">byte2_mask</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b1111111100000000</span>
+</span><span class='line'><span class="n">byte1</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">byte1_mask</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">4</span>
+</span><span class='line'><span class="n">byte2</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">byte2_mask</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">12</span>
+</span><span class='line'><span class="n">temp_c</span> <span class="o">=</span> <span class="n">byte2</span> <span class="o">|</span> <span class="n">byte1</span>
+</span><span class='line'><span class="n">temp_c</span> <span class="o">*=</span> <span class="o">.</span><span class="mo">0625</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Not overly complicated but it took some work and time reading through the datasheet. Now apply this to everything in your project; display, buttons, switches, etc.</p>
+
+<h2>Gimme the Abstraction</h2>
+
+<p>What I wanted was to drop a module into my project that had all of this code I previously figured out wrapped up nicely and ready to use. So here is how I get a temperature reading from the TMP102 with the ucasts Raspberry Pi python module.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">ucasts</span> <span class="kn">import</span> <span class="n">TMP102</span>
+</span><span class='line'><span class="n">temp_sensor</span> <span class="o">=</span> <span class="n">TMP102</span><span class="p">()</span>
+</span><span class='line'><span class="n">tempF</span> <span class="o">=</span> <span class="n">temp_sensor</span><span class="o">.</span><span class="n">get_temp_in_f</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The library handles the I²C bus and all other sensor-specific details. I&rsquo;ve added a handful of components already and intend to expand it as I experiment with more modules for &micro;Cast episodes. I&rsquo;ve tried to thoroughly document it so it&rsquo;s easy to pick up and use.</p>
+
+<p><a href="https://github.com/sidwarkd/ucasts_pi">&micro;Casts Raspberry Pi Library</a></p>
+
+<p>If you do use the library I&rsquo;d love to hear about it and I&rsquo;m always happy to answer any questions.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[µCast #16: Pi + Express + Bootstrap + Angular FTW!]]></title>
+    <link href="http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular/"/>
+    <updated>2014-04-14T23:19:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular</id>
+    <content type="html"><![CDATA[<p><strong>[UPDATE]:</strong> I&rsquo;ve had requests to post the finished code on Github for those that want to just play with the completed app. It&rsquo;s now available at <a href="https://github.com/sidwarkd/pimonitor">https://github.com/sidwarkd/pimonitor</a>.</p>
+
+<p>About a month ago I came across the <a href="http://lifehacker.com/command-pi-monitors-your-raspberry-pi-from-your-phone-1561340630">CommandPi</a> iOS app. It looked interesting so I paid the 99 cents and downloaded it to my iPad. The problem was, it didn&rsquo;t work. I would provide my SSH credentials and after logging in the program would crash. So like any curious developer, instead of waiting for a fix I set out to write my own.</p>
+
+<p>To be fair to the creator of <a href="https://itunes.apple.com/us/app/command-pi/id830462681?mt=8">CommandPi</a>, what you are about to see is not meant to take anything away from that app. The app creator has put together a very nice UI and the crashing issue has been fixed. I just wanted to see how easy or hard it would be to create a knock off using <a href="http://expressjs.com/">ExpressJS</a>, <a href="http://angularjs.org/">Angular</a> and <a href="http://getbootstrap.com/">Bootstrap</a>.</p>
+
+<br/>
+
+
+<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/zprWNhB0NeU" frameborder="0" allowfullscreen></iframe>
+
+
+
+
+<!-- more -->
+
+
+
+
+<br/>
+
+
+<br/>
+
+
+<p>In <a href="http://blog.microcasts.tv/2014/03/15/memory-usage-on-the-raspberry-pi/">µCast #14</a> and <a href="http://blog.microcasts.tv/2014/03/20/cpu-usage-on-the-raspberry-pi/">µCast #15</a> we created the plumbing necessary to grab most of the information necessary to create our app. We also expose the <a href="http://blog.microcasts.tv/2013/10/25/query-temperature-on-raspberry-pi/">temperature reading given by the Pi</a>. This episode was shot in a single take (with light editing for time) showing how to pull various technologies together to create a web application for monitoring our Raspberry Pi.</p>
+
+<p>This is the pinode_stats.gist used in the video.</p>
+
+<p><div><script src='https://gist.github.com/sidwarkd/10226198.js?file=pinode_stats.js'></script>
+<noscript><pre><code>'use strict'
+
+// An example of accessing system information on the Raspberry Pi with NodeJS
+
+var fs = require('fs');
+
+var PiStats = function(){
+  var stats = {};
+  var _currentCPUInfo = {total:0, active:0};
+  var _previousCPUInfo = {total:0, active:0};
+
+  var memInfo = {};
+  var currentCPUInfo = {total:0, active:0};
+  var lastCPUInfo = {total:0, active:0};
+
+  function getValFromLine(line){
+    var match = line.match(/[0-9]+/gi);
+    if(match !== null)
+      return parseInt(match[0]);
+    else
+      return null;
+  }
+
+  var getMemoryInfo = function(cb){
+    fs.readFile('/proc/meminfo', 'utf8', function(err, data){
+      if(err){
+        if(cb !== undefined)
+          cb(err);
+        return;
+      }
+      var lines = data.split('\n');
+      stats.memTotal = Math.floor(getValFromLine(lines[0]) / 1024);
+      stats.memFree = Math.floor(getValFromLine(lines[1]) / 1024);
+      stats.memCached = Math.floor(getValFromLine(lines[3]) / 1024);
+      stats.memUsed = stats.memTotal - stats.memFree;
+      stats.memPercentUsed = Math.ceil(((stats.memUsed - stats.memCached) / stats.memTotal) * 100);
+
+      if(cb !== undefined)
+        cb(null, stats);
+    });
+  };
+
+  var calculateCPUPercentage = function(oldVals, newVals){
+    var totalDiff = newVals.total - oldVals.total;
+    var activeDiff = newVals.active - oldVals.active;
+    return Math.ceil((activeDiff / totalDiff) * 100);
+  };
+
+  var getCPUInfo = function(cb){
+    _previousCPUInfo.active = _currentCPUInfo.active;
+    _previousCPUInfo.idle = _currentCPUInfo.idle;
+    _previousCPUInfo.total = _currentCPUInfo.total;
+
+    fs.readFile('/proc/stat', 'utf8', function(err, data){
+      if(err){
+        if(cb !== undefined)
+          cb(err);
+        return;
+      }
+      var lines = data.split('\n');
+      var cpuTimes = lines[0].match(/[0-9]+/gi);
+      _currentCPUInfo.total = 0;
+      // We'll count both idle and iowait as idle time
+      _currentCPUInfo.idle = parseInt(cpuTimes[3]) + parseInt(cpuTimes[4]);
+      for (var i = 0; i &lt; cpuTimes.length; i++){
+        _currentCPUInfo.total += parseInt(cpuTimes[i]);
+      }
+      _currentCPUInfo.active = _currentCPUInfo.total - _currentCPUInfo.idle
+      _currentCPUInfo.percentUsed = calculateCPUPercentage(_previousCPUInfo, _currentCPUInfo);
+
+      stats.cpuUsage = _currentCPUInfo.percentUsed;
+
+      if(cb !== undefined)
+        cb(null, stats);
+    });
+  };
+
+  var getCurrentTemperature = function(cb){
+    // Uncomment the next 3 lines for testing on regular linux and comment
+    // out the fs.readFile block
+    //stats.tempC = 42.3;
+    //stats.tempF = 102.5;
+    //cb(null, stats);
+    fs.readFile('/sys/class/thermal/thermal_zone0/temp', 'utf8', function(err, data){
+      var temp = data.match(/[0-9]+/gi);
+      stats.tempC = parseInt(temp[0]) / 1000;
+      stats.tempF = stats.tempC * 1.80 + 32.00;
+
+      if(cb !== undefined)
+        cb(null, stats);
+    });
+  }
+
+  return{
+    getMemoryInfo: getMemoryInfo,
+    getCPUInfo: getCPUInfo,
+    update: function(cb){
+      getMemoryInfo(function(err, data){
+        getCPUInfo(function(err1, data1){
+          getCurrentTemperature(function(err2, data2){
+            cb(err2, data2);
+          });
+        });
+      });
+    },
+    printMemoryInfo: function(){
+      getMemoryInfo(function(err, data){
+        console.log(&quot;total\tused\tfree\tcached&quot;);
+        console.log( data.total + &quot;\t&quot; + data.used + &quot;\t&quot; + data.free + &quot;\t&quot; + data.cached );
+        console.log(&quot;Memory Usage:\t&quot; + data.percentUsed + &quot;%&quot;);
+        return;
+      });
+    },
+    printCPUInfo: function(){
+      getCPUInfo(function(err, data){
+        console.log(&quot;Current CPU Usage: &quot; + data.percentUsed + &quot;%&quot;);
+      });
+    }
+  };
+}();
+
+module.exports = PiStats;
+
+// Example usage
+
+// var stats = require('./pinode_stats.js');
+// stats.update(function(err, data){
+//   console.log(data);
+// });
+
+</code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Raspberry Pi Hacking Cheat Sheet]]></title>
@@ -453,170 +697,6 @@ except KeyboardInterrupt:
   print &quot;Exiting.\n&quot;
   sys.exit(0)</code></pre></noscript></div>
 </p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Raspi-Plotly With TMP102 Sensor]]></title>
-    <link href="http://blog.microcasts.tv/2014/03/01/raspi-plotly-with-tmp102-sensor/"/>
-    <updated>2014-03-01T23:40:00-07:00</updated>
-    <id>http://blog.microcasts.tv/2014/03/01/raspi-plotly-with-tmp102-sensor</id>
-    <content type="html"><![CDATA[<p>I recently came across an instructable about <a href="http://www.instructables.com/id/Streaming-Data-Visualization-Plotly-Raspberry-Pi/?ALLSTEPS">streaming temperature data to plot.ly</a>. I wanted to go through their example setup but didn&rsquo;t have the same kind of temperature sensor. So I created a screencast showing how I modified their source code to use the streaming service with my <a href="https://www.sparkfun.com/products/11931">TMP102 Sensor from Sparkfun</a>.</p>
-
-<p>My modified code can be found <a href="https://gist.github.com/sidwarkd/9614055">as a gist on github</a></p>
-
-<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/IIcM1nR-omg" frameborder="0" allowfullscreen></iframe>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tracking Olympic Medals with the Raspberry Pi]]></title>
-    <link href="http://blog.microcasts.tv/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/"/>
-    <updated>2014-02-20T00:07:00-07:00</updated>
-    <id>http://blog.microcasts.tv/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m not sure why I waited so long to do this now that the Olympics are coming to an end. The thought came to me today, &ldquo;I wonder how long it would take me to hack together a script to track and display medal counts.&rdquo; Well, I had to find out and below is the result. <strong>Disclaimer:</strong> I was not going for neat, well-organized code here.  I was going for speed so please be gentle.</p>
-
-<h2>The Platform</h2>
-
-<p>I cheated a little bit in that I already had the Pi configured and some hardware ready to go from my <a href="http://www.skillshare.com/classes/technology/Unleash-The-Raspberry-Pi-Through-Physical-Computing/2109089069/">Skillshare Class</a> (which is now free if you want to check it out) so I figured I&rsquo;d just use what I already had. The project from the Skillshare class includes an LED, temperature sensor, and other things but all I really needed for this project was the <a href="https://www.sparkfun.com/products/11442">seven segment display from Sparkfun</a>. I was ready to immediately start coding in Python.</p>
-
-<h2>The Data Feed</h2>
-
-<p>My first step was to find a suitable data source for the medal count. It really came down to two sources and how easily it would be to parse the data.  The first was <a href="http://www.nbcolympics.com/medals">NBC</a> and the second was the official <a href="http://www.sochi2014.com/en/medal-standings">Sochi Olympics site</a>. I liked the official site a little better because the html for the medals had specific css classes that would make extracting the data very straighforward. The problem I ran into though was when I ran my initial version of the script I got a <strong>Forbidden</strong> response.</p>
-
-<h1 style="text-align:center"><img src="/images/sochi_forbidden.jpg" title="Forbidden Response" alt="Forbidden Response"></h1>
-
-
-<p>I assume this has something to do with the Agent header and them trying to prevent people like me from mooching off their site. Well played sochi.ru, well played.  Fortunately for us the good folks at NBC do not have the same concern so that&rsquo;s where I ended up getting the data.  Here is what part of the page looks like and has a url of <a href="http://www.nbcolympics.com/medals">http://www.nbcolympics.com/medals</a>.</p>
-
-<h1 style="text-align:center"><img src="/images/medal_count_display.jpg" title="Medal Count Display" alt="Medal Count Display"></h1>
-
-
-<p>So how do we fetch just the medal counts that we want to display?  Well, in Chrome all we have to do is right-click on the text &ldquo;United States of America&rdquo; and do <strong>Inspect Element</strong> to expose the page HTML which looks like this.</p>
-
-<h1 style="text-align:center"><img src="/images/medal_count_html.jpg" title="Medal Count HTML" alt="Medal Count HTML"></h1>
-
-
-<p>This was my first time parsing HTML in Python so there are probably much better ways to do this. If so please tell me about it in the comments so I can learn something new. I chose to use some simple XPATH to locate the anchor element with the country name and then navigate to the neighboring elements with the medal counts in them.  The result was this.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'>  <span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;http://www.nbcolympics.com/medals&quot;</span><span class="o">&gt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">nbcolympics</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">medals</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;&amp;</span><span class="n">rdquo</span><span class="p">;)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">html</span> <span class="o">=</span> <span class="n">lxml</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">result</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="o">//</span><span class="n">a</span><span class="p">[</span><span class="n">text</span><span class="p">()</span><span class="o">=&amp;</span><span class="n">ldquo</span><span class="p">;</span> <span class="n">United</span> <span class="n">States</span> <span class="n">of</span> <span class="n">America</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;]</span><span class="o">/</span><span class="nd">@href</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;)</span>
-</span><span class='line'>  <span class="n">nameNode</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getparent</span><span class="p">()</span><span class="o">.</span><span class="n">getparent</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">goldNode</span> <span class="o">=</span> <span class="n">nameNode</span><span class="o">.</span><span class="n">getnext</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">silverNode</span> <span class="o">=</span> <span class="n">goldNode</span><span class="o">.</span><span class="n">getnext</span><span class="p">()</span>
-</span><span class='line'>  <span class="n">bronzeNode</span> <span class="o">=</span> <span class="n">silverNode</span><span class="o">.</span><span class="n">getnext</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Getting the actual integer value of the medal counts was then trivial. Remember, parsing out of the HTML will give you the values in strings.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'>  <span class="n">gold_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">goldNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-</span><span class='line'>  <span class="n">silver_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">silverNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-</span><span class='line'>  <span class="n">bronze_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bronzeNode</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Displaying the Data</h2>
-
-<p>With the data in hand it was just a matter of getting it onto the 7 segment display. In my Skillshare class I show how to configure and use SPI on the Pi to display stuff on a simple seven segment display so I already had all of the code for that. I just needed to format the display string appropriately. As my real estate was limited I decided to just use simple strings like &ldquo;to:23&rdquo; for the total count, &ldquo;go:14&rdquo; for gold, etc. I display each count 3 times and then query NBC again for an updated count. The interval could be much greater I suppose as medals don&rsquo;t change every 10 seconds.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'>  <span class="k">def</span> <span class="nf">display_medal_counts</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">gold</span><span class="p">,</span> <span class="n">silver</span><span class="p">,</span> <span class="n">bronze</span><span class="p">):</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">total</span> <span class="o">=</span> <span class="n">gold</span> <span class="o">+</span> <span class="n">silver</span> <span class="o">+</span> <span class="n">bronze</span>
-</span><span class='line'><span class="n">totalstr</span> <span class="o">=</span> <span class="s">&quot;to&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
-</span><span class='line'><span class="n">goldstr</span> <span class="o">=</span> <span class="s">&quot;go&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gold</span><span class="p">)</span>
-</span><span class='line'><span class="n">silverstr</span> <span class="o">=</span> <span class="s">&quot;si&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">silver</span><span class="p">)</span>
-</span><span class='line'><span class="n">bronzestr</span> <span class="o">=</span> <span class="s">&quot;br&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">bronze</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">totalstr</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
-</span><span class='line'>    <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">goldstr</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
-</span><span class='line'>    <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">silverstr</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
-</span><span class='line'>    <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">clear_display</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">bronzestr</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">spi_send</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="p">[</span><span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">])</span>
-</span><span class='line'>    <span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Wrap Up</h2>
-
-<p>Throwing this together took me a little over an hour, much of which was spent learning how to parse HTML in Python. Here&rsquo;s a Vine to show it working. Not sure why the &lsquo;G&rsquo; doesn&rsquo;t use the middle hyphen segment.</p>
-
-<iframe class="vine-embed" src="https://vine.co/v/MZTDJTxIKBp/embed/simple" width="480" height="480" frameborder="0"></iframe>
-
-
-<script async src="http://blog.microcasts.tv//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>
-
-
-<br/>
-
-
-<br/>
-
-
-<p>It&rsquo;s a great example of how the Raspberry Pi is great for rapid prototyping of an idea. The full code can be found <a href="https://gist.github.com/sidwarkd/9108668">in this gist</a>.</p>
-
-<p>What Olympic-themed hardware projects can you think of?</p>
 ]]></content>
   </entry>
   

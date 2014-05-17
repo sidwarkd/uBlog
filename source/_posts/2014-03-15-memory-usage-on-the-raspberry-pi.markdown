@@ -3,7 +3,7 @@ layout: post
 title: "µCast #14: Memory Usage on the Raspberry Pi"
 date: 2014-03-15 23:37
 comments: true
-categories: RaspberryPi
+categories: [RaspberryPi]
 ---
 
 In this µCast we cover the very basics of RAM usage on the Raspberry Pi and show you how to figure out how much memory your Pi is using at any given time and how to get some of it back.

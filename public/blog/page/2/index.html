@@ -117,6 +117,68 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-01-27T22:59:00-07:00" pubdate data-updated="true">Jan 27<span>th</span>, 2014</time>
+        
+           | <a href="/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/">Running Python Scripts From Dropbox on the Raspberry Pi</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>If you&rsquo;ve ever tried writing code on your Raspberry Pi from just the plain terminal window then you&rsquo;ve probably used Nano or Vim. If you&rsquo;re like me you wished you could have used your favorite IDE or text editor on another machine. When I develop for the Raspberry Pi my normal use case is to SSH in and write code via Nano. While this works just fine I&rsquo;d prefer to have the bigger real estate afforded by my desktop monitors.</p>
+
+<h3>What is <code>preheat</code></h3>
+
+<p><code>preheat</code> is my solution to this problem. It allows me to pull scripts down from my Dropbox account at execution time. When I finally decided I didn&rsquo;t want to code directly on the Pi anymore the very first thing that came to my mind was to install <a href="http://dropbox.com">Dropbox</a> on the Pi and just have it sync with a folder on my dev machine. It only took a few searches to realize that a Dropbox client for the Pi doesn&rsquo;t exist. So I found a few other solutions like <a href="http://en.wikipedia.org/wiki/Rsync">rsync</a>, <a href="http://owncloud.org">ownCloud</a> and others but everything I found was either too much work or just plain overkill for what I needed. So <code>preheat</code> was born.</p>
+
+<p>It&rsquo;s a simple Python script that will query your Dropbox account for the file you want to run and pull it down. So normally I&rsquo;d use the following to run a script I&rsquo;m working on:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo python myscript.py
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With <code>preheat</code> I would run it like this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo python preheat myscript.py
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I don&rsquo;t need to have <strong>myscript.py</strong> on the Raspberry Pi. It&rsquo;s on my desktop machine in a dropbox folder being updated every time I change it. When I run it via <code>preheat</code> it will scan my Dropbox account, find it, and pull it down for me.</p>
+
+<p>If you&rsquo;d like to see how it works <a href="https://github.com/sidwarkd/preheat">check out the source code on Github</a></p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-11-03T00:30:00-06:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2013</time>
         
            | <a href="/2013/11/03/eagle-how-to-export-board-image/#disqus_thread"
@@ -465,6 +527,8 @@
   
   <div id="recent_posts" class="list-group">
     
+    <a class="list-group-item " href="/2014/05/16/raspberry-pi-python-library/">Raspberry Pi Python Library</a>
+    
     <a class="list-group-item " href="/2014/04/14/pi_express_bootstrap_angular/">µCast #16: Pi + Express + Bootstrap + Angular FTW!</a>
     
     <a class="list-group-item " href="/2014/04/02/raspberry-pi-hacking-cheat-sheet/">Raspberry Pi Hacking Cheat Sheet</a>
@@ -472,8 +536,6 @@
     <a class="list-group-item " href="/2014/03/20/cpu-usage-on-the-raspberry-pi/">µCast #15: CPU Usage on the Raspberry Pi</a>
     
     <a class="list-group-item " href="/2014/03/15/memory-usage-on-the-raspberry-pi/">µCast #14: Memory Usage on the Raspberry Pi</a>
-    
-    <a class="list-group-item " href="/2014/03/12/fixing-tight-breadboards/">&micro;Tip: Fixing Tight Breadboards</a>
     
   </div>
 </section>
@@ -519,8 +581,14 @@
     
     
     <a class="list-group-item " href="/blog/categories/raspberrypi/index.html">
-        <span class="badge">9</span>
+        <span class="badge">11</span>
         RaspberryPi
+      </a>
+    
+    
+    <a class="list-group-item " href="/blog/categories/python/index.html">
+        <span class="badge">2</span>
+        Python
       </a>
     
   </div>

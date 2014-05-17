@@ -3,7 +3,7 @@ layout: post
 title: "µCast #15: CPU Usage on the Raspberry Pi"
 date: 2014-03-20 22:41
 comments: true
-categories: RaspberryPi
+categories: [RaspberryPi]
 ---
 
 In this µCast we cover the very basics of CPU usage on the Raspberry Pi and show you how to figure out how hard your ARM processor is working in realtime.
