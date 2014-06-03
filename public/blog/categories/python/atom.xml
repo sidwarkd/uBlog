@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-05-16T23:10:26-06:00</updated>
+  <updated>2014-06-02T23:29:49-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Openwest 2014 Presentation]]></title>
+    <link href="http://blog.microcasts.tv/2014/06/02/openwest-2014-presentation/"/>
+    <updated>2014-06-02T23:06:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/06/02/openwest-2014-presentation</id>
+    <content type="html"><![CDATA[<p>My presentation from the Openwest Conference has posted to YouTube.</p>
+
+<div class="videoblob">
+<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/fSqFgc-U_ZI" frameborder="0" allowfullscreen></iframe>
+</div>
+
+
+<p>Really appreciated the opportunity I had to present and loved meeting some new people. Looking forward to attending next year.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Raspberry Pi Python Library]]></title>
