@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ExpressJS | The &micro;Blog
+]]></title>
+  <link href="http://blog.microcasts.tv/blog/categories/expressjs/atom.xml" rel="self"/>
+  <link href="http://blog.microcasts.tv/"/>
+  <updated>2014-06-25T09:39:34-06:00</updated>
+  <id>http://blog.microcasts.tv/</id>
+  <author>
+    <name><![CDATA[K-SID]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[µCast #17: Control Hardware Remotely With Socket.IO]]></title>
+    <link href="http://blog.microcasts.tv/2014/06/21/using-socket-io-to-control-the-raspberry-pi-remotely/"/>
+    <updated>2014-06-21T00:13:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/06/21/using-socket-io-to-control-the-raspberry-pi-remotely</id>
+    <content type="html"><![CDATA[<p>If you&rsquo;ve been paying attention to hardware lately you&rsquo;ve probably noticed how people have gone insane over remotely accessing their devices. In this &micro;Cast I&rsquo;ll show you a simple way to get your project setup so that you can talk to it and control it via the interwebs. The best part, it only takes about 20 minutes.</p>
+
+<br/>
+
+
+<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/z3O26CC9nAc" frameborder="0" allowfullscreen></iframe>
+
+
+<!-- more -->
+
+
+<p>We&rsquo;ll pull together all kinds of awesomeness using</p>
+
+<ul>
+<li><a href="http://socket.io/download/">SocketIO</a></li>
+<li><a href="http://nodejs.org">Node</a></li>
+<li><a href="http://expressjs.com">Express</a></li>
+<li><a href="https://heroku.com">Heroku</a> by using the <a href="https://toolbelt.heroku.com/">Heroku Toolbelt</a></li>
+<li><a href="http://jquery.com/">jQuery</a></li>
+<li>and more</li>
+</ul>
+
+
+<p>Credit to <a href="https://twitter.com/HugoGiraudel">Hugo Giraudel</a> for the <a href="http://tympanus.net/codrops/2012/09/13/button-switches-with-checkboxes-and-css3-fanciness/">awesome CSS styled checkbox</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

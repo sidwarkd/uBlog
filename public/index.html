@@ -117,6 +117,57 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-06-21T00:13:00-06:00" pubdate data-updated="true">Jun 21<span>st</span>, 2014</time>
+        
+           | <a href="/2014/06/21/using-socket-io-to-control-the-raspberry-pi-remotely/#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv/2014/06/21/using-socket-io-to-control-the-raspberry-pi-remotely/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/2014/06/21/using-socket-io-to-control-the-raspberry-pi-remotely/">µCast #17: Control Hardware Remotely With Socket.IO</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>If you&rsquo;ve been paying attention to hardware lately you&rsquo;ve probably noticed how people have gone insane over remotely accessing their devices. In this &micro;Cast I&rsquo;ll show you a simple way to get your project setup so that you can talk to it and control it via the interwebs. The best part, it only takes about 20 minutes.</p>
+
+<br/>
+
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/z3O26CC9nAc" frameborder="0" allowfullscreen></iframe>
+
+
+</div>
+  
+  
+    <footer>
+      <a class="btn btn-default" rel="full-article" href="/2014/06/21/using-socket-io-to-control-the-raspberry-pi-remotely/">Read on &rarr;</a>
+    </footer>
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-06-02T23:06:00-06:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2014</time>
         
            | <a href="/2014/06/02/openwest-2014-presentation/#disqus_thread"
@@ -687,100 +738,6 @@
 
         </article>
       
-      
-        <article class="post">
-          
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-02-06T21:47:00-07:00" pubdate data-updated="true">Feb 6<span>th</span>, 2014</time>
-        
-           | <a href="/2014/02/06/salvaging-a-00-usb-microphone/#disqus_thread"
-             data-disqus-identifier="http://blog.microcasts.tv/2014/02/06/salvaging-a-00-usb-microphone/">Comments</a>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/2014/02/06/salvaging-a-00-usb-microphone/">Salvaging a $100 USB Microphone</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content clearfix"><h2>Back Story</h2>
-
-<p>A while back a good friend of mine gave me a <a href="http://www.amazon.com/Blue-Microphones-Yeti-USB-Microphone/dp/B002VA464S/ref=sr_1_1?ie=UTF8&amp;qid=1391757018&amp;sr=8-1&amp;keywords=blue+microphone+yeti">Blue Yeti microphone</a> from work that he said they were going to throw away because the mini USB port had ripped out of it. I told him I&rsquo;d take it and see if I could fix it. It seemed like the only thing wrong with it was that the connector had literally been ripped out of the case. How they were able to accomplish that I don&rsquo;t know. So I did what any self-respecting DIYer would do: I called Blue and asked if they could give me the part number for the USB connector.</p>
-
-<blockquote><p>&#8220;I&#8217;m sorry, I can&#8217;t give you that information. It&#8217;s proprietary&#8221;</p></blockquote>
-
-
-<p>Really? A standard mini USB connector is proprietary? Give me a break Blue. So I did what any self-respecting Twitter user would do.</p>
-
-<p> <blockquote class="twitter-tweet" lang="en"><p>Wow <a href="https://twitter.com/BlueMicrophones">@BlueMicrophones</a> won&#39;t give me the mini usb part number so I can fix a busted mic someone trashed. Not very <a href="https://twitter.com/search?q=%23DIY&amp;src=hash">#DIY</a> friendly. <a href="https://twitter.com/search?q=%23servicefail&amp;src=hash">#servicefail</a></p>&mdash; Kevin Sidwar (@KevinSidwar) <a href="https://twitter.com/KevinSidwar/statuses/336590188488826880">May 20, 2013</a></blockquote></p>
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<h2>The Repair</h2>
-
-<p>Having vented my rage on Twitter I logged on to <a href="http://www.mouser.com/Connectors/USB-Connectors/_/N-88hmf/">Mouser</a> to find a suitable replacement. I found one that I thought would work but never got around to ordering it. Fast forward almost a year and I decide I want to try to fix it but don&rsquo;t want to find the part again and wait for it to ship so I figured I might be able to just hack up a USB cable and solder it directly to the PCB where the connector ripped out. Here&rsquo;s how it looked when I took it apart.</p>
-
-<h1 style="text-align:center"><img src="/images/broken_mini_usb.jpg" title="Broken Mini USB Connector" alt="Broken Mini USB Connector"></h1>
-
-
-<p>Again, how they managed to do this is beyond me. But it came off fairly clean so all I needed to do was remove the legs from the connector and solder in leads from a USB cable I cut. But which wires go to which holes? Well, if you take a closer look at the back side of the PCB you can get a pretty decent idea of which connections are which. We know that USB uses 4 connections: Supply, Ground, D+, and D-.</p>
-
-<h1 style="text-align:center"><img src="/images/usb_connections.jpg" title="Closeup of UBS connection traces" alt="Closeup of UBS connection traces"></h1>
-
-
-<p>From this image we can guess that the thicker traces are the power lines and the thinner ones are the USB data lines. One of the connection holes isn&rsquo;t connected to anything. So figuring out which power line is ground was easy. Just set the meter to continuity mode, connect one probe to a known ground point (like an internal metal mount) and then see which of the thick traces gives you the continuity beep. That coupled with this diagram I found for a similar USB connector allowed me to identify D+ and D-.</p>
-
-<h1 style="text-align:center"><img src="/images/usb_connector_pinout.jpg" title="Pinout connections" alt="Pinout connections"></h1>
-
-
-<h2>Soldering</h2>
-
-<p>The solder work on this job was a little challenging for me. I quickly gave up on trying to solder the USB cable directly to the connector holes as the tiny wires were hard to handle. Instead I soldered some 22AWG leads from the connector holes that could exit the mic case through the mini USB opening and then I soldered the USB cable wires to those leads. Here are some shots of that.</p>
-
-<h1 style="text-align:center"><img src="/images/leads_soldered.jpg" title="Leads soldered on" alt="Leads soldered on"></h1>
-
-
-
-
-<h1 style="text-align:center"><img src="/images/leads_usb_opening.jpg" title="Leads coming out of case" alt="Leads coming out of case"></h1>
-
-
-<p>I made sure all of the USB wires were isolated from each other using shrink wrap and then finished the whole job up with a big piece of shrink wrap over everything to leave a nice clean look. When I plugged it in it worked first time.</p>
-
-<h2>Moral</h2>
-
-<p>With just a little knowledge and some soldering skills there are lots of things that can be reclaimed from the junk pile.</p>
-
-<p>In closing I&rsquo;d like to thank corporate america for having so much money that they just trash $100 mics because connectors break off. More importantly though I&rsquo;d like to send a big &ldquo;Suck It&rdquo; to Blue for hating on the DIY fix-it community. It&rsquo;s just a mini USB connector. I didn&rsquo;t need company secrets to fix it.</p>
-
-<h1 style="text-align:center"><img src="/images/repaired_mic.jpg" title="Repaired Mic" alt="Repaired Mic"></h1>
-
-
-<p>P.S. Blue, if you had simply given me the part number I would have sung your praises on social networks and to anybody in the tech space that would listen. I also would have gone to you first as soon as I needed a new mic. Instead I&rsquo;ll never recommend your microphones to anybody and will personally never pay you a cent for one.</p>
-</div>
-  
-  
-
-
-        </article>
-      
     </div>
 
     <ul class="pager">
@@ -814,6 +771,8 @@
   
   <div id="recent_posts" class="list-group">
     
+    <a class="list-group-item " href="/2014/06/21/using-socket-io-to-control-the-raspberry-pi-remotely/">µCast #17: Control Hardware Remotely With Socket.IO</a>
+    
     <a class="list-group-item " href="/2014/06/02/openwest-2014-presentation/">Openwest 2014 Presentation</a>
     
     <a class="list-group-item " href="/2014/05/16/raspberry-pi-python-library/">Raspberry Pi Python Library</a>
@@ -821,8 +780,6 @@
     <a class="list-group-item " href="/2014/04/14/pi_express_bootstrap_angular/">µCast #16: Pi + Express + Bootstrap + Angular FTW!</a>
     
     <a class="list-group-item " href="/2014/04/02/raspberry-pi-hacking-cheat-sheet/">Raspberry Pi Hacking Cheat Sheet</a>
-    
-    <a class="list-group-item " href="/2014/03/20/cpu-usage-on-the-raspberry-pi/">µCast #15: CPU Usage on the Raspberry Pi</a>
     
   </div>
 </section>
@@ -868,7 +825,7 @@
     
     
     <a class="list-group-item " href="/blog/categories/raspberrypi/index.html">
-        <span class="badge">12</span>
+        <span class="badge">13</span>
         RaspberryPi
       </a>
     
@@ -876,6 +833,12 @@
     <a class="list-group-item " href="/blog/categories/python/index.html">
         <span class="badge">3</span>
         Python
+      </a>
+    
+    
+    <a class="list-group-item " href="/blog/categories/nodejs/index.html">
+        <span class="badge">2</span>
+        NodeJS
       </a>
     
   </div>
