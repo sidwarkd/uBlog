@@ -15,7 +15,11 @@ The whole thing took me about 4 hours once I resolved my API issue (I originally
 
 <!-- more -->
 
-## How it Works
+## Proof It Works
+<br/>
+<iframe width="560" height="315" src="//www.youtube.com/embed/9c45uJmmYs4" frameborder="0" allowfullscreen></iframe>
+
+## How It Works
 You send a Yo to UCASTS to subscribe ---> My live yo counter increments ---> Anytime I push the magic button all of my subscribers get a Yo!.
 
 In terms of hardware you can customize this process to be very customizable.
