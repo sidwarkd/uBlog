@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-06-25T09:39:34-06:00</updated>
+  <updated>2014-06-26T09:36:35-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,278 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[A Physical Yo Button]]></title>
+    <link href="http://blog.microcasts.tv/2014/06/25/a-physical-yo-button/"/>
+    <updated>2014-06-25T15:03:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/06/25/a-physical-yo-button</id>
+    <content type="html"><![CDATA[<p>I think we&rsquo;re all still trying to figure out what Yo&rsquo;s place is in the internet family but as of right now it&rsquo;s basically a viral app. As soon as I found out there was an API for it I just knew I had to attach some hardware to it. Here&rsquo;s a demo of what I put together.</p>
+
+<p>The whole thing took me about 4 hours once I resolved my API issue (I originally gave them the wrong URL for the callback and had to email them to fix it). I want to share the process in case other people want to integrate Yo with hardware.</p>
+
+<h1 style="text-align:center;"><img src="http://blog.microcasts.tv/images/yo_post.jpg" width="640" height="400"></h1>
+
+
+
+
+<!-- more -->
+
+
+<h2>How it Works</h2>
+
+<p>You send a Yo to UCASTS to subscribe &mdash;&ndash;> My live yo counter increments &mdash;&ndash;> Anytime I push the magic button all of my subscribers get a Yo!.</p>
+
+<p>In terms of hardware you can customize this process to be very customizable.</p>
+
+<ol>
+<li> User subscribes to your Yo feed</li>
+<li> A callback allows you to execute some action when someone subscribes</li>
+<li> You now have the ability to easily send a Yo to all of your subscribers based on any trigger you can think of.</li>
+</ol>
+
+
+<h2>Understanding the API</h2>
+
+<p>To sign up for the API just head over to <a href="http://yoapi.justyo.co/">http://yoapi.justyo.co/</a>. You&rsquo;ll be walked through a few simple steps to get things set up. If you want notifications when people subscribe you&rsquo;ll need to specify a callback url that the api can call. Once you&rsquo;ve finished filling out the form you&rsquo;ll have to wait for Yo to email you your api token. Mine took overnight but I didn&rsquo;t register until later in the afternoon.</p>
+
+<p>Once you have your api token all you have to do to send a Yo to all of your subscribers is POST your api token to <strong>api.justyo.co/yoall/</strong></p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl --data “api_token<span class="o">=[</span>your_api_token<span class="o">]</span>” http://api.justyo.co/yoall/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s all there is to it.</p>
+
+<h2>The Server</h2>
+
+<p>So there are really two parts to this. We need a backend to handle the callback requests from the Yo api and a client running on the Pi to handle our hardware interaction. Let&rsquo;s start with the server. This is really quite simple. I created an <a href="http://expressjs.com">Express</a> website that I pushed to <a href="https://heroku.com">Heroku</a> and then pointed one of my domains to it. In <a href="http://blog.microcasts.tv/2014/06/21/using-socket-io-to-control-the-raspberry-pi-remotely/">&micro;Cast #17</a> I showed how to set up <a href="http://socket.io/download/">Socket.IO</a> with Express and that&rsquo;s all I did here with one change. Because the socket.io server reuses the regular express server I had to define a route in the <strong>www</strong> file which also meant I had to move the 404 and error handler there. Here&rsquo;s what I ended up with in <strong>www</strong>.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="err">#</span><span class="o">!</span><span class="err">/usr/bin/env node</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">debug</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">)(</span><span class="s1">&#39;microcasts-tv&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../app&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">io</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">,</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">3000</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/new&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">io</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;yoReceived&#39;</span><span class="p">,</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">username</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/new&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">io</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;yoReceived&#39;</span><span class="p">,</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">username</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">/// catch 404 and forward to error handler</span>
+</span><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">err</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Not Found&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">err</span><span class="p">.</span><span class="nx">status</span> <span class="o">=</span> <span class="mi">404</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">/// error handlers</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// development error handler</span>
+</span><span class='line'><span class="c1">// will print stacktrace</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;env&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;development&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">status</span> <span class="o">||</span> <span class="mi">500</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">message</span><span class="o">:</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">error</span><span class="o">:</span> <span class="nx">err</span>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// production error handler</span>
+</span><span class='line'><span class="c1">// no stacktraces leaked to user</span>
+</span><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">status</span> <span class="o">||</span> <span class="mi">500</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">message</span><span class="o">:</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">error</span><span class="o">:</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">),</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;Express server listening on port &#39;</span> <span class="o">+</span> <span class="nx">server</span><span class="p">.</span><span class="nx">address</span><span class="p">().</span><span class="nx">port</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">io</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;socket.io&#39;</span><span class="p">).</span><span class="nx">listen</span><span class="p">(</span><span class="nx">server</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So when a request to my callback url happens I simply emit a message to the client running on the Raspberry Pi.</p>
+
+<h2>The Pi Client</h2>
+
+<p>The client piece of this project was fairly simple given the fact that I already had a display and button wired up on a breadboard and connected to a Pi. The first piece to the client is listening for websocket messages from the server to detect new subscribers. That&rsquo;s as easy as:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">socket</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;socket.io-client&quot;</span><span class="p">)(</span><span class="s1">&#39;http://yo.microcasts.tv&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">yoCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Connected to server&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;yoReceived&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">username</span><span class="p">){</span>
+</span><span class='line'>    <span class="c1">// Increment the yo count and update display</span>
+</span><span class='line'>    <span class="nx">yoCount</span><span class="o">++</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">updateDisplay</span><span class="p">(</span><span class="nx">yoCount</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;m using the <a href="https://www.npmjs.org/package/spi">spi</a> package to connect to <a href="https://www.sparkfun.com/products/11442">my display</a>. I don&rsquo;t store the count anywhere locally at this point. I just count the Yos I&rsquo;ve gotten since launching the program but it would be trivial to store that info and track your Yo total. Every time I get a new websocket message I just update the display.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">spi</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SPI</span><span class="p">.</span><span class="nx">Spi</span><span class="p">(</span><span class="s1">&#39;/dev/spidev0.0&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">spi</span><span class="p">.</span><span class="nx">open</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">updateDisplay</span><span class="p">(</span><span class="nx">text</span><span class="p">){</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">clearMsg</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Buffer</span><span class="p">([</span><span class="mh">0x76</span><span class="p">]);</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">clearRx</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Buffer</span><span class="p">([</span><span class="mh">0x00</span><span class="p">]);</span>
+</span><span class='line'>  <span class="nx">spi</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">clearMsg</span><span class="p">,</span> <span class="nx">clearRx</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dev</span><span class="p">,</span> <span class="nx">buf</span><span class="p">){});</span>
+</span><span class='line'>  <span class="nx">spi</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dev</span><span class="p">,</span> <span class="nx">buf</span><span class="p">){});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The final piece to the client is sending a Yo to all of my followers when I push a button. Since the API is so simple we can accomplish that with just 12 lines of code if we use <a href="https://www.npmjs.org/package/requestify">Requestify</a>:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">gpio18</span> <span class="o">=</span> <span class="nx">gpio</span><span class="p">.</span><span class="kr">export</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="p">{</span><span class="nx">direction</span><span class="o">:</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="nx">ready</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){}});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Listen for button presses</span>
+</span><span class='line'><span class="nx">gpio18</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">value</span> <span class="o">===</span> <span class="mi">1</span><span class="p">){</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;You pressed the button&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">requestify</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;http://api.justyo.co/yoall/&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">api_token</span><span class="o">:</span> <span class="s2">&quot;1fa9ba862f5887e3637bc71267560701&quot;</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Yo sent to subscribers!&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>My one regret with this project was that I didn&rsquo;t have one of these from Sparkfun on hand:</p>
+
+<h1 style="text-align:center;"><img src="http://blog.microcasts.tv/images/blue_dome_button.jpg" width="300" height="300"></h1>
+
+
+<p style="text-align:center;"><small><em>Image provided by Sparkfun as <a style="color:red;" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a></em></small></p>
+
+
+<p>I create <a href="https://gist.github.com/sidwarkd/355de4e13f624825a838">a Gist that has the meat of the code</a> if you&rsquo;re interested.</p>
+
+<p>Got any ideas on how to integrate hardware with the Yo API? I&rsquo;d love to here about it.</p>
+
+<p><strong>If this article brought you any value at all I&rsquo;d really appreciate it if you would share it using the buttons below</strong></p>
+
+      ]]>
+
+    </content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[µCast #17: Control Hardware Remotely With Socket.IO]]></title>
