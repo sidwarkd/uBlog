@@ -145,7 +145,7 @@ gpio18.on('change', function(value){
   if (value === 1){
     console.log("You pressed the button");
     requestify.post('http://api.justyo.co/yoall/', {
-      api_token: "1fa9ba862f5887e3637bc71267560701"
+      api_token: "[your token]"
     })
     .then(function(response){
       console.log("Yo sent to subscribers!");
