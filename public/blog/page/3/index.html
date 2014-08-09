@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Installing MPLABX on Ubuntu: 64-bit Tip - The &micro;Blog
+  <title>The &micro;Blog
 </title>
   <meta name="author" content="K-SID">
 
@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip">
+  <link rel="canonical" href="http://blog.microcasts.tv/blog/page/3">
   <link href="/favicon.png" type="image/png" rel="icon">
   <link href="/atom.xml" rel="alternate" title="The &micro;Blog
 " type="application/atom+xml">
@@ -95,8 +95,12 @@
         <div id="content">
           <div class="row">
   <div class="page-content col-md-9">
-    <article class="hentry" role="article">
+    <div class="blog-index">
       
+      
+      
+        <article class="post">
+          
   <header class="page-header">
     
       <p class="meta text-muted text-uppercase">
@@ -113,123 +117,61 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-10-26T00:16:00-06:00" pubdate data-updated="true">Oct 26<span>th</span>, 2013</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-08-09T23:59:00-06:00" pubdate data-updated="true">Aug 9<span>th</span>, 2013</time>
         
-           | <a href="#disqus_thread"
-             data-disqus-identifier="http://blog.microcasts.tv">Comments</a>
+           | <a href="/2013/08/09/xc8-problem-running-post-install-step/#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step/">Comments</a>
         
       </p>
     
     
-    <h1 class="entry-title">
-        Installing MPLABX on Ubuntu: 64-bit Tip
-        
-    </h1>
+      <h1 class="entry-title"><a href="/2013/08/09/xc8-problem-running-post-install-step/">XC8: Problem Running Post-Install Step</a></h1>
     
   </header>
 
 
-<div class="entry-content clearfix"><p>While trying to install MPLABX on my Ubuntu machine I was having issues running the installer. Nothing would happen. After some searching I found that the installer cannot be run in a 64-bit environment without installing some 32-bit dependencies first. To fix simply run:</p>
+  <div class="entry-content clearfix"><p>While installing the Microchip XC8 compiler today on my Windows 8 machine I ran into an issue at the end of the install and got the following message box.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install libc6:i386
-</span></code></pre></td></tr></table></div></figure>
+<p><img src="/images/xc8_install_error.png"></p>
 
+<p>I assume this is because the regsvr32.exe wasn&rsquo;t run with elevated privileges. If you get this error at the end of your install the fix is quite simple. We just need to run the failed command from an elevated privilege command prompt.  To do this right click on your Command Prompt icon (from your start page or do a search to find it) and select <em>&ldquo;Run As Administrator&rdquo;</em>.  This should open your command prompt window and default you to the <strong>System32</strong> folder. Without changing directories you simply run the failed command as it was listed in your error message.  In my case I ran:</p>
 
-<p>This will install the minimal 32-bit libraries. If you are still having issues you can install the full 32-bit library set with:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install ia32-libs
-</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>regsvr32.exe /s "C:\Program Files\Microchip\xc8\v1.12\bin\MPLABXC8.dll"</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Here is the original forum question that led me to the solution.</p>
-
-<ul>
-<li> <a href="http://askubuntu.com/questions/145716/cannot-install-mplab-ide-x-from-the-terminal-silently-exits">Cannot install MPLAB IDE X from the terminal &ndash; silently exits</a></li>
-</ul>
-
+<p><strong>NOTE:</strong> Your path may be different so make sure you see what the error message says before closing it.</p>
 </div>
-
-
-      <footer>
-        <p class="meta text-muted">
-          
-  
-
-<span class="glyphicon glyphicon-user"></span> <span class="byline author vcard">Posted by <span class="fn">K-SID</span></span>
-
-          
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-10-26T00:16:00-06:00" pubdate data-updated="true">Oct 26<span>th</span>, 2013</time>
-          
-
-<span class="glyphicon glyphicon-tags"></span>&nbsp;
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/mplabx/'>MPLABX</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
-  
-</span>
-
-
-        </p>
-        
-          <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/" >Tweet</a>
   
   
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
 
-        
-        
-          <ul class="meta text-muted pager">
-            
-            <li class="previous"><a href="/2013/10/25/query-temperature-on-raspberry-pi/" title="Previous Post: Query Temperature on Raspberry Pi">&laquo; Query Temperature on Raspberry Pi</a></li>
-            
-            
-            <li class="next"><a href="/2013/11/03/eagle-how-to-export-board-image/" title="Next Post: Eagle How-To: Export Board Image">Eagle How-To: Export Board Image &raquo;</a></li>
-            
-          </ul>
-        
-      </footer>
-    </article>
-    
-      <section>
-        <h1>Comments</h1>
-        <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-      </section>
-    
+
+        </article>
+      
+    </div>
+
+    <ul class="pager">
+      
+        <li class="previous disabled"><a href="#">&larr;&nbsp;Older</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+        <li class="next"><a href="/blog/page/2/">Newer&nbsp;&rarr;</a></li>
+      
+    </ul>
   </div>
 
   
-  <aside class="sidebar col-md-3">
-    
-      <section>
+    <aside class="sidebar col-md-3">
+      
+        <section>
 <div style="margin-top:15px;">
   <img class="left" src="/images/uCasts.png" />
   <p>
     This is the official blog of &micro;Casts. I want to help you get your electronics groove on so tune in for the latest updates, tips, and general embedded awesomeness.
   </p>
   <p>
-    I'd love to hear from you if you have any questions or feedback.
+    I&#8217;d love to hear from you if you have any questions or feedback.
   </p>
 </div>
 </section><section class="panel panel-default">
@@ -257,7 +199,7 @@
       <h3 class="panel-title">GitHub Repos</h3>
   </div>
   <div class="list-group" id="gh_repos">
-    <p class="loading">Status updating...</p>
+    <p class="loading">Status updating&#8230;</p>
   </div>
   
     <div class="gh-profile-link pull-right text-muted">
@@ -315,8 +257,8 @@
 
 
 
-    
-  </aside>
+      
+    </aside>
   
 </div>
 
@@ -343,10 +285,7 @@
       var disqus_shortname = 'ucastblog';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/';
-        var disqus_url = 'http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-06-26T10:37:38-06:00</updated>
+  <updated>2014-08-08T22:34:34-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[µCast #18: Configure the Serial Port on the Raspberry Pi]]></title>
+    <link href="http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/"/>
+    <updated>2014-08-08T22:08:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi</id>
+    <content type="html"><![CDATA[<p>Did you even know the Raspberry Pi had a serial port? If you did and have tried to use it in Raspbian you&rsquo;ve probably run in to some weird behavior. That&rsquo;s because, by default, the serial port is tied up by the operating system so it can&rsquo;t be reliably used in your projects. In this episode I show you how to configure the serial port so it can be used to make your awesome ideas reality.</p>
+
+<br/>
+
+
+<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/bKHLTn_nXUM" frameborder="0" allowfullscreen></iframe>
+
+
+<!-- more -->
+
+
+<h2>TL;DW</h2>
+
+<p>All you have to do is modify two files to reclaim the serial port from Raspbian. The rest of this post shows you how.</p>
+
+<h3>/etc/inittab</h3>
+
+<p>Comment out the line near the very bottom that spawns a getty using the serial port.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#Spawn a getty on Raspberry Pi serial line</span>
+</span><span class='line'><span class="c">#T0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100  &lt;---- comment this line</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>/boot/cmdline.txt</h3>
+
+<p>Be careful with this one as it contains the parameters sent to the kernel at startup. You need to remove any references to ttyAMA0,115200.</p>
+
+<p>So you would change this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dwc_otg.lpm_enable<span class="o">=</span>0 <span class="nv">console</span><span class="o">=</span>ttyAMA0,115200 <span class="nv">kgdboc</span><span class="o">=</span>ttyAMA0,115200 <span class="nv">console</span><span class="o">=</span>tty1 <span class="nv">root</span><span class="o">=</span>/dev/mmcblk0p2 <span class="nv">rootfstype</span><span class="o">=</span>ext4 rootwait
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dwc_otg.lpm_enable<span class="o">=</span>0 <span class="nv">console</span><span class="o">=</span>tty1 <span class="nv">root</span><span class="o">=</span>/dev/mmcblk0p2 <span class="nv">rootfstype</span><span class="o">=</span>ext4 rootwait
+</span></code></pre></td></tr></table></div></figure>
+
+
+      ]]>
+
+    </content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Physical Yo Button]]></title>
@@ -1849,28 +1903,6 @@ except KeyboardInterrupt:
 <h3>Play Nice</h3>
 
 <p>So why the blog post?  Well, it really comes down to a simple thought.  Can we please just play nice?  Can we show some love to the beginners?  Next time you see a &ldquo;stupid noob&rdquo; question in a forum, step up and help out.  Welcome them to the community and please, whatever you do, don&rsquo;t treat him/her like an illiterate waste of your time because that &ldquo;idiot&rdquo; is an actual person on the other side of the interwebs just looking for some help.</p>
-
-      ]]>
-
-    </content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[XC8: Problem Running Post-Install Step]]></title>
-    <link href="http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step/"/>
-    <updated>2013-08-09T23:59:00-06:00</updated>
-    <id>http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step</id>
-    <content type="html"><![CDATA[<p>While installing the Microchip XC8 compiler today on my Windows 8 machine I ran into an issue at the end of the install and got the following message box.</p>
-
-<p><img src="http://blog.microcasts.tv/images/xc8_install_error.png"></p>
-
-<p>I assume this is because the regsvr32.exe wasn&rsquo;t run with elevated privileges. If you get this error at the end of your install the fix is quite simple. We just need to run the failed command from an elevated privilege command prompt.  To do this right click on your Command Prompt icon (from your start page or do a search to find it) and select <em>&ldquo;Run As Administrator&rdquo;</em>.  This should open your command prompt window and default you to the <strong>System32</strong> folder. Without changing directories you simply run the failed command as it was listed in your error message.  In my case I ran:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>regsvr32.exe /s "C:\Program Files\Microchip\xc8\v1.12\bin\MPLABXC8.dll"</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>NOTE:</strong> Your path may be different so make sure you see what the error message says before closing it.</p>
 
       ]]>
 

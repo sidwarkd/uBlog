@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Installing MPLABX on Ubuntu: 64-bit Tip - The &micro;Blog
+  <title>µCast #18: Configure the Serial Port on the Raspberry Pi - The &micro;Blog
 </title>
   <meta name="author" content="K-SID">
 
@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip">
+  <link rel="canonical" href="http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi">
   <link href="/favicon.png" type="image/png" rel="icon">
   <link href="/atom.xml" rel="alternate" title="The &micro;Blog
 " type="application/atom+xml">
@@ -113,7 +113,7 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-10-26T00:16:00-06:00" pubdate data-updated="true">Oct 26<span>th</span>, 2013</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-08-08T22:08:00-06:00" pubdate data-updated="true">Aug 8<span>th</span>, 2014</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://blog.microcasts.tv">Comments</a>
@@ -122,32 +122,55 @@
     
     
     <h1 class="entry-title">
-        Installing MPLABX on Ubuntu: 64-bit Tip
+        µCast #18: Configure the Serial Port on the Raspberry Pi
         
     </h1>
     
   </header>
 
 
-<div class="entry-content clearfix"><p>While trying to install MPLABX on my Ubuntu machine I was having issues running the installer. Nothing would happen. After some searching I found that the installer cannot be run in a 64-bit environment without installing some 32-bit dependencies first. To fix simply run:</p>
+<div class="entry-content clearfix"><p>Did you even know the Raspberry Pi had a serial port? If you did and have tried to use it in Raspbian you&rsquo;ve probably run in to some weird behavior. That&rsquo;s because, by default, the serial port is tied up by the operating system so it can&rsquo;t be reliably used in your projects. In this episode I show you how to configure the serial port so it can be used to make your awesome ideas reality.</p>
+
+<br/>
+
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/bKHLTn_nXUM" frameborder="0" allowfullscreen></iframe>
+
+
+<!-- more -->
+
+
+<h2>TL;DW</h2>
+
+<p>All you have to do is modify two files to reclaim the serial port from Raspbian. The rest of this post shows you how.</p>
+
+<h3>/etc/inittab</h3>
+
+<p>Comment out the line near the very bottom that spawns a getty using the serial port.</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install libc6:i386
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#Spawn a getty on Raspberry Pi serial line</span>
+</span><span class='line'><span class="c">#T0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100  &lt;---- comment this line</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This will install the minimal 32-bit libraries. If you are still having issues you can install the full 32-bit library set with:</p>
+<h3>/boot/cmdline.txt</h3>
+
+<p>Be careful with this one as it contains the parameters sent to the kernel at startup. You need to remove any references to ttyAMA0,115200.</p>
+
+<p>So you would change this:</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install ia32-libs
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dwc_otg.lpm_enable<span class="o">=</span>0 <span class="nv">console</span><span class="o">=</span>ttyAMA0,115200 <span class="nv">kgdboc</span><span class="o">=</span>ttyAMA0,115200 <span class="nv">console</span><span class="o">=</span>tty1 <span class="nv">root</span><span class="o">=</span>/dev/mmcblk0p2 <span class="nv">rootfstype</span><span class="o">=</span>ext4 rootwait
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Here is the original forum question that led me to the solution.</p>
+<p>To this:</p>
 
-<ul>
-<li> <a href="http://askubuntu.com/questions/145716/cannot-install-mplab-ide-x-from-the-terminal-silently-exits">Cannot install MPLAB IDE X from the terminal &ndash; silently exits</a></li>
-</ul>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dwc_otg.lpm_enable<span class="o">=</span>0 <span class="nv">console</span><span class="o">=</span>tty1 <span class="nv">root</span><span class="o">=</span>/dev/mmcblk0p2 <span class="nv">rootfstype</span><span class="o">=</span>ext4 rootwait
+</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
@@ -172,13 +195,13 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-10-26T00:16:00-06:00" pubdate data-updated="true">Oct 26<span>th</span>, 2013</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-08-08T22:08:00-06:00" pubdate data-updated="true">Aug 8<span>th</span>, 2014</time>
           
 
 <span class="glyphicon glyphicon-tags"></span>&nbsp;
 <span class="categories">
   
-    <a class='category' href='/blog/categories/mplabx/'>MPLABX</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+    <a class='category' href='/blog/categories/raspberrypi/'>RaspberryPi</a>, <a class='category' href='/blog/categories/serial/'>Serial</a>
   
 </span>
 
@@ -187,7 +210,7 @@
         
           <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -201,10 +224,8 @@
         
           <ul class="meta text-muted pager">
             
-            <li class="previous"><a href="/2013/10/25/query-temperature-on-raspberry-pi/" title="Previous Post: Query Temperature on Raspberry Pi">&laquo; Query Temperature on Raspberry Pi</a></li>
+            <li class="previous"><a href="/2014/06/25/a-physical-yo-button/" title="Previous Post: A Physical Yo Button">&laquo; A Physical Yo Button</a></li>
             
-            
-            <li class="next"><a href="/2013/11/03/eagle-how-to-export-board-image/" title="Next Post: Eagle How-To: Export Board Image">Eagle How-To: Export Board Image &raquo;</a></li>
             
           </ul>
         
@@ -239,7 +260,7 @@
   
   <div id="recent_posts" class="list-group">
     
-    <a class="list-group-item " href="/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/">µCast #18: Configure the Serial Port on the Raspberry Pi</a>
+    <a class="list-group-item active" href="/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/">µCast #18: Configure the Serial Port on the Raspberry Pi</a>
     
     <a class="list-group-item " href="/2014/06/25/a-physical-yo-button/">A Physical Yo Button</a>
     
@@ -344,8 +365,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/';
-        var disqus_url = 'http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/';
+        var disqus_identifier = 'http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/';
+        var disqus_url = 'http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/';
         var disqus_script = 'embed.js';
       
     (function () {

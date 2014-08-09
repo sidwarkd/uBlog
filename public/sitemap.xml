@@ -89,6 +89,12 @@
         <lastmod>2014-06-26T10:37:28-06:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/
+        </loc>
+        <lastmod>2014-08-08T22:34:34-06:00</lastmod>
+    </url>
+    <url>
         <loc>http://blog.microcasts.tv/assets/bootstrap/getting-started.html</loc>
         <lastmod>2014-01-27T23:36:51-07:00</lastmod>
     </url>
@@ -114,7 +120,7 @@
     </url>
     <url>
         <loc>http://blog.microcasts.tv/assets/bootstrap/</loc>
-        <lastmod>2014-06-26T10:37:28-06:00</lastmod>
+        <lastmod>2014-08-08T22:34:34-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/robots.txt</loc>
@@ -122,10 +128,10 @@
     </url>
     <url>
         <loc>http://blog.microcasts.tv/blog/archives/</loc>
-        <lastmod>2014-06-26T10:37:28-06:00</lastmod>
+        <lastmod>2014-08-08T22:34:34-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/</loc>
-        <lastmod>2014-06-26T10:37:28-06:00</lastmod>
+        <lastmod>2014-08-08T22:34:34-06:00</lastmod>
     </url>
 </urlset>

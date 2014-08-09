@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Serial | The &micro;Blog
+]]></title>
+  <link href="http://blog.microcasts.tv/blog/categories/serial/atom.xml" rel="self"/>
+  <link href="http://blog.microcasts.tv/"/>
+  <updated>2014-08-08T22:34:34-06:00</updated>
+  <id>http://blog.microcasts.tv/</id>
+  <author>
+    <name><![CDATA[K-SID]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[µCast #18: Configure the Serial Port on the Raspberry Pi]]></title>
+    <link href="http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/"/>
+    <updated>2014-08-08T22:08:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi</id>
+    <content type="html"><![CDATA[<p>Did you even know the Raspberry Pi had a serial port? If you did and have tried to use it in Raspbian you&rsquo;ve probably run in to some weird behavior. That&rsquo;s because, by default, the serial port is tied up by the operating system so it can&rsquo;t be reliably used in your projects. In this episode I show you how to configure the serial port so it can be used to make your awesome ideas reality.</p>
+
+<br/>
+
+
+<iframe width="560" height="315" src="http://blog.microcasts.tv//www.youtube.com/embed/bKHLTn_nXUM" frameborder="0" allowfullscreen></iframe>
+
+
+<!-- more -->
+
+
+<h2>TL;DW</h2>
+
+<p>All you have to do is modify two files to reclaim the serial port from Raspbian. The rest of this post shows you how.</p>
+
+<h3>/etc/inittab</h3>
+
+<p>Comment out the line near the very bottom that spawns a getty using the serial port.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Spawn a getty on Raspberry Pi serial line&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;T0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100  &amp;lt;&amp;mdash;&amp;mdash; comment this line&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>/boot/cmdline.txt</h3>
+
+<p>Be careful with this one as it contains the parameters sent to the kernel at startup. You need to remove any references to ttyAMA0,115200.</p>
+
+<p>So you would change this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dwc_otg.lpm_enable<span class="o">=</span>0 <span class="nv">console</span><span class="o">=</span>ttyAMA0,115200 <span class="nv">kgdboc</span><span class="o">=</span>ttyAMA0,115200 <span class="nv">console</span><span class="o">=</span>tty1 <span class="nv">root</span><span class="o">=</span>/dev/mmcblk0p2 <span class="nv">rootfstype</span><span class="o">=</span>ext4 rootwait
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>To this:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>dwc_otg.lpm_enable<span class="o">=</span>0 <span class="nv">console</span><span class="o">=</span>tty1 <span class="nv">root</span><span class="o">=</span>/dev/mmcblk0p2 <span class="nv">rootfstype</span><span class="o">=</span>ext4 rootwait
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>
