@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/tips/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-08-08T22:34:34-06:00</updated>
+  <updated>2014-09-15T20:56:56-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Specs Aren't Everything]]></title>
+    <link href="http://blog.microcasts.tv/2014/09/15/specs-arent-everything/"/>
+    <updated>2014-09-15T15:18:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/09/15/specs-arent-everything</id>
+    <content type="html"><![CDATA[<p>In the last week I&rsquo;ve seen several articles pop up comparing the new Intel Edison to the Raspberry Pi to the Arduino to the [enter some other development platform here]. The problem with every single one of these is that they are missing the boat when it comes to choosing a development platform for your next project.</p>
+
+<h2>Specs Don&rsquo;t Matter&hellip;(Mostly)</h2>
+
+<p>The easy thing to do when you want to create a new piece of tech content is just compare the specs of the different platforms. This table was part of a recent ReadWrite article.</p>
+
+<h1 style="text-align:center"><a href="http://blog.microcasts.tv/images/compare_table.png"><img src="http://blog.microcasts.tv/images/compare_table.png" alt="Comparison Table"/></a></h1>
+
+
+<br/>
+
+
+<p>At a glance you can compare the CPU speed, memory and GPIO count. What it doesn&rsquo;t show, or even help with, is how to pick one for your next DIY project.</p>
+
+<h2>What Really Matters</h2>
+
+<p>So what really matters when picking a platform for your next project? Normally it has nothing to do with performance specs because almost any platform will be have plenty of performance to read your sensor and display the results or push it to the web. For me the most important questions aren&rsquo;t how much flash memory a platform has or what the input voltage is. It&rsquo;s a balancing act between a few key metrics.</p>
+
+<h3>Battery or Plugged In?</h3>
+
+<p>What do I mean by that? Well, first and foremost you need to ask yourself &ldquo;Is my project going to be battery powered or can it always be plugged in?&rdquo; Right away this is going to limit my choices. While I love the Raspberry Pi and know that it can be battery powered I&rsquo;m probably not going to choose it because it it such a power hog when compared to something like an Arduino Uno or Sparkcore.</p>
+
+<h3>Compute Intensive? How Intense?</h3>
+
+<p>After thining about the power constraints, the next thing I ask is what kind of compute power do I need. What I think most newcomers miss is that a massive share of beginner projects don&rsquo;t need an ARM processor running at 700MHz. But when you compare that to the 16MHz of the Arduino Uno you may think &ldquo;Well, that&rsquo;s not going to be powerful enough.&rdquo; Remember the Apollo missions that flew rockets into outerspace (whether you believe we landed on the moon or not&hellip;we did&hellip;it&rsquo;s certain that we did launch things into orbit)? The guidance computers on those spacecraft had approximately 64K, that&rsquo;s K not M or G, of memory and ran at an astonishingly fast, at the time, 2.048MHz. You can accomplish a LOT with very little in embedded systems.</p>
+
+<h3>Untangibles</h3>
+
+<p>The 3rd item I focus on is how much time I want to spend on the project. A lot of this relates to what language I can program in and what the community looks like for a certain platform. Is there a lot of shared code out there I can use or do I have to write it myself? The new Intel Edison may seem like a good fit for your project because of it&rsquo;s size and specs but the community is very young still so you probably can&rsquo;t count on a lot of examples to help you along if you get stuck. Maybe a spark core would be a better fit. This final category has a lot of sub categories. What if I just really want to develop in Javascript. Well then I have to look at something like a Tessel or Raspberry Pi.</p>
+
+<p>Sometimes you may have conflicting requirements like a device that needs to be battery powered but outputs 1080p video to a built in monitor. Just remember that there are other factors that, in my opinion, are more important than base specs. After all, if your project only needs 3 I/O pins it doesn&rsquo;t really matter if your platform has 10, 30, or 50.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[&micro;Tip: Fixing Tight Breadboards]]></title>

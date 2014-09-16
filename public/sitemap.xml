@@ -2,136 +2,140 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://blog.microcasts.tv/2013/08/09/xc8-problem-running-post-install-step/</loc>
-        <lastmod>2014-02-01T23:29:52-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2013/08/19/some-love-for-the-beginners/</loc>
-        <lastmod>2014-02-01T23:29:52-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.microcasts.tv/2013/10/09/monitor-government-shutdown-with-a-raspberry-pi/
         </loc>
-        <lastmod>2014-02-01T23:29:52-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2013/10/25/query-temperature-on-raspberry-pi/</loc>
-        <lastmod>2014-02-01T23:29:52-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/</loc>
-        <lastmod>2014-02-01T23:29:52-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image/</loc>
-        <lastmod>2014-02-01T23:29:52-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.microcasts.tv/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/
         </loc>
-        <lastmod>2014-02-01T23:29:52-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/02/04/raspberry-pi-skillshare-class/</loc>
-        <lastmod>2014-02-20T23:46:26-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/02/06/salvaging-a-00-usb-microphone/</loc>
-        <lastmod>2014-02-10T09:37:41-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.microcasts.tv/2014/02/20/tracking-olympic-medals-with-the-raspberry-pi/
         </loc>
-        <lastmod>2014-02-20T23:48:17-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/03/01/raspi-plotly-with-tmp102-sensor/</loc>
-        <lastmod>2014-03-17T23:33:52-06:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/03/12/fixing-tight-breadboards/</loc>
-        <lastmod>2014-05-16T00:17:26-06:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/03/15/memory-usage-on-the-raspberry-pi/</loc>
-        <lastmod>2014-05-16T00:17:19-06:00</lastmod>
+        <lastmod>2014-09-15T20:50:22-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/03/20/cpu-usage-on-the-raspberry-pi/</loc>
-        <lastmod>2014-05-16T00:17:00-06:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/04/02/raspberry-pi-hacking-cheat-sheet/</loc>
-        <lastmod>2014-05-16T00:16:51-06:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular/</loc>
-        <lastmod>2014-05-16T00:16:42-06:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/05/16/raspberry-pi-python-library/</loc>
-        <lastmod>2014-05-16T22:51:49-06:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/06/02/openwest-2014-presentation/</loc>
-        <lastmod>2014-06-02T23:29:49-06:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.microcasts.tv/2014/06/21/using-socket-io-to-control-the-raspberry-pi-remotely/
         </loc>
-        <lastmod>2014-06-25T09:39:34-06:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/2014/06/25/a-physical-yo-button/</loc>
-        <lastmod>2014-06-26T10:37:28-06:00</lastmod>
+        <lastmod>2014-09-15T12:18:41-06:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.microcasts.tv/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/
         </loc>
-        <lastmod>2014-08-08T22:34:34-06:00</lastmod>
+        <lastmod>2014-09-15T20:51:42-06:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.microcasts.tv/assets/bootstrap/getting-started.html</loc>
-        <lastmod>2014-01-27T23:36:51-07:00</lastmod>
+        <loc>http://blog.microcasts.tv/2014/09/15/specs-arent-everything/</loc>
+        <lastmod>2014-09-15T20:56:55-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/assets/bootstrap/about.html</loc>
-        <lastmod>2014-01-27T23:36:51-07:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.microcasts.tv/assets/bootstrap/javascript.html</loc>
-        <lastmod>2014-01-27T23:36:51-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:42-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/assets/bootstrap/components.html</loc>
-        <lastmod>2014-01-27T23:36:51-07:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.microcasts.tv/assets/bootstrap/customize.html</loc>
-        <lastmod>2014-01-27T23:36:51-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:42-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/assets/bootstrap/css.html</loc>
-        <lastmod>2014-01-27T23:36:51-07:00</lastmod>
+        <lastmod>2014-09-15T12:18:42-06:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.microcasts.tv/assets/bootstrap/customize.html</loc>
+        <lastmod>2014-09-15T12:18:42-06:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.microcasts.tv/assets/bootstrap/getting-started.html</loc>
+        <lastmod>2014-09-15T12:18:43-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/assets/bootstrap/</loc>
-        <lastmod>2014-08-08T22:34:34-06:00</lastmod>
+        <lastmod>2014-09-15T20:56:55-06:00</lastmod>
     </url>
     <url>
-        <loc>http://blog.microcasts.tv/robots.txt</loc>
-        <lastmod>2014-01-27T23:12:03-07:00</lastmod>
+        <loc>http://blog.microcasts.tv/assets/bootstrap/javascript.html</loc>
+        <lastmod>2014-09-15T12:18:43-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/blog/archives/</loc>
-        <lastmod>2014-08-08T22:34:34-06:00</lastmod>
+        <lastmod>2014-09-15T20:56:55-06:00</lastmod>
     </url>
     <url>
         <loc>http://blog.microcasts.tv/</loc>
-        <lastmod>2014-08-08T22:34:34-06:00</lastmod>
+        <lastmod>2014-09-15T20:56:55-06:00</lastmod>
+    </url>
+    <url>
+        <loc>http://blog.microcasts.tv/robots.txt</loc>
+        <lastmod>2014-09-15T12:18:45-06:00</lastmod>
     </url>
 </urlset>

@@ -12,7 +12,7 @@ Did you even know the Raspberry Pi had a serial port? If you did and have tried 
 <iframe width="560" height="315" src="//www.youtube.com/embed/bKHLTn_nXUM" frameborder="0" allowfullscreen></iframe>
 <!-- more -->
 
-##TL;DW
+##TL;DR
 All you have to do is modify two files to reclaim the serial port from Raspbian. The rest of this post shows you how.
 
 ### /etc/inittab

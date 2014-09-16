@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/raspberrypi/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-08-08T22:34:34-06:00</updated>
+  <updated>2014-09-15T20:56:56-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -30,7 +30,7 @@
 <!-- more -->
 
 
-<h2>TL;DW</h2>
+<h2>TL;DR</h2>
 
 <p>All you have to do is modify two files to reclaim the serial port from Raspbian. The rest of this post shows you how.</p>
 

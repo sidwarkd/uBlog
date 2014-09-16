@@ -6,7 +6,7 @@ comments: true
 categories: [RaspberryPi]
 ---
 
-In this µCast we cover the very basics of RAM usage on the Raspberry Pi and show you how to figure out how much memory your Pi is using at any given time and how to get some of it back.
+In this &micro;Cast we cover the very basics of RAM usage on the Raspberry Pi and show you how to figure out how much memory your Pi is using at any given time and how to get some of it back.
 
 <iframe width="560" height="315" src="//www.youtube.com/embed/EqyVlTP4R5M" frameborder="0" allowfullscreen></iframe>
 

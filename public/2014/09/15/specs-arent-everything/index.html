@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Eagle How-To: Export Board Image - The &micro;Blog
+  <title>Specs Aren't Everything - The &micro;Blog
 </title>
   <meta name="author" content="K-SID">
 
@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image">
+  <link rel="canonical" href="http://blog.microcasts.tv/2014/09/15/specs-arent-everything">
   <link href="/favicon.png" type="image/png" rel="icon">
   <link href="/atom.xml" rel="alternate" title="The &micro;Blog
 " type="application/atom+xml">
@@ -113,7 +113,7 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-11-03T00:30:00-06:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2013</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-09-15T15:18:00-06:00" pubdate data-updated="true">Sep 15<span>th</span>, 2014</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://blog.microcasts.tv">Comments</a>
@@ -122,29 +122,44 @@
     
     
     <h1 class="entry-title">
-        Eagle How-To: Export Board Image
+        Specs Aren't Everything
         
     </h1>
     
   </header>
 
 
-<div class="entry-content clearfix"><p>Sometimes when you&rsquo;re working on a board design you don&rsquo;t want to wait to get a prototype board from a fab house. For simple or one off boards you can just make them at home. In order to do that we need a way to get our board design out of Eagle and onto a PCB. Most home-etch processes I&rsquo;ve seen require, in some form, a to-scale printout of the board. Personally I use the <a href="http://www.pcbfx.com/">Pulsar PCB products</a> which I&rsquo;ve found to work very well. The following is my process for getting the board design printed out.</p>
+<div class="entry-content clearfix"><p>In the last week I&rsquo;ve seen several articles pop up comparing the new Intel Edison to the Raspberry Pi to the Arduino to the [enter some other development platform here]. The problem with every single one of these is that they are missing the boat when it comes to choosing a development platform for your next project.</p>
 
-<ol>
-<li>  Launch Eagle and open the board view of your project.</li>
-<li>  Turn the grid off via the <strong>View->Grid</strong> menu or using the command: &ldquo;grid off&rdquo;</li>
-<li>  Turn off all layers except the the ones that you want to print. I like to see layers 1, 17, 18 and 20. That&rsquo;s top, pads, vias and dimension. If your board is two sided you only want to print one side at a time.</li>
-<li>  If the background is black we need to make it white. Do this via the <strong>Options->User Interface</strong> dialog or use the command: &ldquo;set palette white;window;&rdquo;.</li>
-<li>  File->Export->Image</li>
-<li>  Select a destination file. I prefer to use the .png format.</li>
-<li>  Check the <strong>Monochrome</strong> checkbox</li>
-<li>  Change the resolution to a multiple of your screen dpi. The default screen resolution in Windows is 96 dpi so I normally use 384 which is 96 x 4.</li>
-<li>  Click <strong>Ok</strong> to export the image.</li>
-</ol>
+<h2>Specs Don&rsquo;t Matter&hellip;(Mostly)</h2>
+
+<p>The easy thing to do when you want to create a new piece of tech content is just compare the specs of the different platforms. This table was part of a recent ReadWrite article.</p>
+
+<h1 style="text-align:center"><a href="/images/compare_table.png"><img src="/images/compare_table.png" alt="Comparison Table"/></a></h1>
 
 
-<p>  You now have an image file of your board that should scale perfectly to size. I normally just drag it into a document in OpenOffice Writer. If it goes into your document full size you just need to scale it to 25% of original size and it will be perfectly to-scale.</p>
+<br/>
+
+
+<p>At a glance you can compare the CPU speed, memory and GPIO count. What it doesn&rsquo;t show, or even help with, is how to pick one for your next DIY project.</p>
+
+<h2>What Really Matters</h2>
+
+<p>So what really matters when picking a platform for your next project? Normally it has nothing to do with performance specs because almost any platform will be have plenty of performance to read your sensor and display the results or push it to the web. For me the most important questions aren&rsquo;t how much flash memory a platform has or what the input voltage is. It&rsquo;s a balancing act between a few key metrics.</p>
+
+<h3>Battery or Plugged In?</h3>
+
+<p>What do I mean by that? Well, first and foremost you need to ask yourself &ldquo;Is my project going to be battery powered or can it always be plugged in?&rdquo; Right away this is going to limit my choices. While I love the Raspberry Pi and know that it can be battery powered I&rsquo;m probably not going to choose it because it it such a power hog when compared to something like an Arduino Uno or Sparkcore.</p>
+
+<h3>Compute Intensive? How Intense?</h3>
+
+<p>After thining about the power constraints, the next thing I ask is what kind of compute power do I need. What I think most newcomers miss is that a massive share of beginner projects don&rsquo;t need an ARM processor running at 700MHz. But when you compare that to the 16MHz of the Arduino Uno you may think &ldquo;Well, that&rsquo;s not going to be powerful enough.&rdquo; Remember the Apollo missions that flew rockets into outerspace (whether you believe we landed on the moon or not&hellip;we did&hellip;it&rsquo;s certain that we did launch things into orbit)? The guidance computers on those spacecraft had approximately 64K, that&rsquo;s K not M or G, of memory and ran at an astonishingly fast, at the time, 2.048MHz. You can accomplish a LOT with very little in embedded systems.</p>
+
+<h3>Untangibles</h3>
+
+<p>The 3rd item I focus on is how much time I want to spend on the project. A lot of this relates to what language I can program in and what the community looks like for a certain platform. Is there a lot of shared code out there I can use or do I have to write it myself? The new Intel Edison may seem like a good fit for your project because of it&rsquo;s size and specs but the community is very young still so you probably can&rsquo;t count on a lot of examples to help you along if you get stuck. Maybe a spark core would be a better fit. This final category has a lot of sub categories. What if I just really want to develop in Javascript. Well then I have to look at something like a Tessel or Raspberry Pi.</p>
+
+<p>Sometimes you may have conflicting requirements like a device that needs to be battery powered but outputs 1080p video to a built in monitor. Just remember that there are other factors that, in my opinion, are more important than base specs. After all, if your project only needs 3 I/O pins it doesn&rsquo;t really matter if your platform has 10, 30, or 50.</p>
 </div>
 
 
@@ -168,13 +183,13 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-11-03T00:30:00-06:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2013</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-09-15T15:18:00-06:00" pubdate data-updated="true">Sep 15<span>th</span>, 2014</time>
           
 
 <span class="glyphicon glyphicon-tags"></span>&nbsp;
 <span class="categories">
   
-    <a class='category' href='/blog/categories/eagle/'>Eagle</a>
+    <a class='category' href='/blog/categories/beginner/'>beginner</a>, <a class='category' href='/blog/categories/tips/'>tips</a>
   
 </span>
 
@@ -183,7 +198,7 @@
         
           <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2014/09/15/specs-arent-everything/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2014/09/15/specs-arent-everything/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -197,10 +212,8 @@
         
           <ul class="meta text-muted pager">
             
-            <li class="previous"><a href="/2013/10/26/installing-mplabx-on-ubuntu-64-bit-tip/" title="Previous Post: Installing MPLABX on Ubuntu: 64-bit Tip">&laquo; Installing MPLABX on Ubuntu: 64-bit Tip</a></li>
+            <li class="previous"><a href="/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/" title="Previous Post: µCast #18: Configure the Serial Port on the Raspberry Pi">&laquo; µCast #18: Configure the Serial Port on the Raspberry Pi</a></li>
             
-            
-            <li class="next"><a href="/2014/01/27/running-python-scripts-from-dropbox-on-raspberry-pi/" title="Next Post: Running Python Scripts from Dropbox on the Raspberry Pi">Running Python Scripts from Dropbox on the Raspberry Pi &raquo;</a></li>
             
           </ul>
         
@@ -235,7 +248,7 @@
   
   <div id="recent_posts" class="list-group">
     
-    <a class="list-group-item " href="/2014/09/15/specs-arent-everything/">Specs Aren't Everything</a>
+    <a class="list-group-item active" href="/2014/09/15/specs-arent-everything/">Specs Aren't Everything</a>
     
     <a class="list-group-item " href="/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/">µCast #18: Configure the Serial Port on the Raspberry Pi</a>
     
@@ -352,8 +365,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image/';
-        var disqus_url = 'http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image/';
+        var disqus_identifier = 'http://blog.microcasts.tv/2014/09/15/specs-arent-everything/';
+        var disqus_url = 'http://blog.microcasts.tv/2014/09/15/specs-arent-everything/';
         var disqus_script = 'embed.js';
       
     (function () {
