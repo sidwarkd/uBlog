@@ -360,6 +360,12 @@ task :setup_github_pages, :repo do |t, args|
   puts "\n---\n## Now you can deploy to #{url} with `rake deploy` ##"
 end
 
+desc "Change the codepage when working on Windows"
+task :usewindows do
+    puts '* Changing the codepage'
+    `chcp 65001`
+end
+
 def ok_failed(condition)
   if (condition)
     puts "OK"

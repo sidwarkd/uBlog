@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/blog/categories/raspberrypi/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-09-16T23:13:13-06:00</updated>
+  <updated>2014-09-24T09:59:48-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cereal Box Pi Cases]]></title>
+    <link href="http://blog.microcasts.tv/2014/09/24/cereal-box-pi-cases/"/>
+    <updated>2014-09-24T09:32:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/09/24/cereal-box-pi-cases</id>
+    <content type="html"><![CDATA[<h1 style="text-align:center;"><img src="/images/cereal_cases.jpg" width="640" height="360"></h1>
+
+
+<p>So last week I found a pic on Imgur posted by quantumCity showing a <a href="https://imgur.com/gallery/8RLUdNb">Raspberry Pi case made from a manila folder</a>. Needless to say I found it to be a pretty neat way to throw together a case from something lying around the house that didn&rsquo;t consist of using Legos. He posted the CAD file and a pdf version so all you have to do is print it, transfer it, cut it, and fold it. It worked like a charm on the first try.</p>
+
+<!-- more -->
+
+
+<p>The only problem was that I found it to be a little flimsy for my taste, not to mention kinda plain. So I had the idea to try using a cereal box which is made of a sturdier, yet still thin enough, material. I raided the pantry and pretty soon had Captain Crunch staring on the case of my Model B+ Pi. After that I was obsessed and spent the time to create printouts for the Model A and B and want to share them with the community.</p>
+
+<h3>Sorry, No CAD Files</h3>
+
+<p>I found the original .dwg file to be a huge pain as I wasn&rsquo;t able to easily modify it and my PC didn&rsquo;t want to install any of the open source programs capable of working with it. So I created my models in <a href="http://www.sketchup.com/">SketchUp</a> and have included those files as well as a to-scale PDF that you can just print and use for each.</p>
+
+<ul>
+<li> <a href="/assets/ModelA_case.skp">Model A Sketchup File</a></li>
+<li> <a href="/assets/ModelA_case.pdf">Model A PDF</a></li>
+<li> <a href="/assets/ModelB_case.skp">Model B Sketchup File</a></li>
+<li> <a href="/assets/ModelB_case.pdf">Model B PDF</a></li>
+</ul>
+
+
+<p><strong>NOTE:</strong> If you try to print the PDF you need to make sure there is no scaling in the print settings like Fit to Page. Otherwise the dimensions won&rsquo;t be quite right.</p>
+
+<h3>Get Creative</h3>
+
+<p>There are so many things that could work as a medium here and I&rsquo;d love to see what people come up with. Feel free to modify the design too. You could cut out the back corner to allow access to the GPIO header or even cut some sweet vent designs if you&rsquo;re worried about overheating. If you make a case using one of the plans I would love it if you linked to a picture in the comments.</p>
+
+<h1 style="text-align:center;"><img src="/images/puffs_case_small.png" width="600" height="600"></h1>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[µCast #18: Configure the Serial Port on the Raspberry Pi]]></title>
@@ -423,80 +463,6 @@
 
 
 <p>Really appreciated the opportunity I had to present and loved meeting some new people. Looking forward to attending next year.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Raspberry Pi Python Library]]></title>
-    <link href="http://blog.microcasts.tv/2014/05/16/raspberry-pi-python-library/"/>
-    <updated>2014-05-16T00:15:00-06:00</updated>
-    <id>http://blog.microcasts.tv/2014/05/16/raspberry-pi-python-library</id>
-    <content type="html"><![CDATA[<h3>TLDR</h3>
-
-<p>I created a python module that makes interacting with specific hardware easy. You can find it here:
-<a href="https://github.com/sidwarkd/ucasts_pi">&micro;Casts Raspberry Pi Library</a></p>
-
-<hr/>
-
-
-<p>I&rsquo;ve found myself writing quite a bit of code lately to interface with different pieces of hardware on the Raspberry Pi. I finally realized that for every new project I was copying the same code from the previous project to do things like turn on an LED or read the state of a switch. I decided that it was time to take all of that work and put it into a library that I could easily reuse with each project.</p>
-
-<h2>Simple Example</h2>
-
-<p>The python and node modules I&rsquo;ve used to create projects in the past are very simple and generally easy to use. What they don&rsquo;t provide, and aren&rsquo;t meant to provide, is a higher level of abstraction around certain pieces of hardware. For example, let&rsquo;s look at the <a href="https://www.sparkfun.com/products/11931">TMP102 Sensor</a>.</p>
-
-<h1 style="text-align:center;"><img src="/images/tmp102.jpg" width="300" height="300"></h1>
-
-
-<p style="text-align:center;"><small><em>TMP102 image provided by Sparkfun as <a style="color:red;" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a></em></small></p>
-
-
-
-
-<!-- more -->
-
-
-<p>It&rsquo;s an I²C temperature sensor that will return a reading of the current temperature. But like any I²C module you need to know things like what registers to set and read to get that reading and how the reading is returned by the sensor. For this sensor the current reading is accessed via register 0x00 of the module and is returned as a 12-bit value which requires a two byte read. Then you have to know that the value you get back is an integer that needs to be multiplied by .0625 to get a reading in degrees Celsius. Here&rsquo;s what the code looks like.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">smbus</span>
-</span><span class='line'><span class="n">bus</span> <span class="o">=</span> <span class="n">smbus</span><span class="o">.</span><span class="n">SMBus</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="n">temp</span> <span class="o">=</span> <span class="n">bus</span><span class="o">.</span><span class="n">read_word_data</span><span class="p">(</span><span class="mh">0x48</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="n">byte1_mask</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b0000000011111111</span>
-</span><span class='line'><span class="n">byte2_mask</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b1111111100000000</span>
-</span><span class='line'><span class="n">byte1</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">byte1_mask</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">4</span>
-</span><span class='line'><span class="n">byte2</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">byte2_mask</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">12</span>
-</span><span class='line'><span class="n">temp_c</span> <span class="o">=</span> <span class="n">byte2</span> <span class="o">|</span> <span class="n">byte1</span>
-</span><span class='line'><span class="n">temp_c</span> <span class="o">*=</span> <span class="o">.</span><span class="mo">0625</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Not overly complicated but it took some work and time reading through the datasheet. Now apply this to everything in your project; display, buttons, switches, etc.</p>
-
-<h2>Gimme the Abstraction</h2>
-
-<p>What I wanted was to drop a module into my project that had all of this code I previously figured out wrapped up nicely and ready to use. So here is how I get a temperature reading from the TMP102 with the ucasts Raspberry Pi python module.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">ucasts</span> <span class="kn">import</span> <span class="n">TMP102</span>
-</span><span class='line'><span class="n">temp_sensor</span> <span class="o">=</span> <span class="n">TMP102</span><span class="p">()</span>
-</span><span class='line'><span class="n">tempF</span> <span class="o">=</span> <span class="n">temp_sensor</span><span class="o">.</span><span class="n">get_temp_in_f</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>The library handles the I²C bus and all other sensor-specific details. I&rsquo;ve added a handful of components already and intend to expand it as I experiment with more modules for &micro;Cast episodes. I&rsquo;ve tried to thoroughly document it so it&rsquo;s easy to pick up and use.</p>
-
-<p><a href="https://github.com/sidwarkd/ucasts_pi">&micro;Casts Raspberry Pi Library</a></p>
-
-<p>If you do use the library I&rsquo;d love to hear about it and I&rsquo;m always happy to answer any questions.</p>
 ]]></content>
   </entry>
   

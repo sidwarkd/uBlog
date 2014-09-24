@@ -5,7 +5,7 @@
 ]]></title>
   <link href="http://blog.microcasts.tv/atom.xml" rel="self"/>
   <link href="http://blog.microcasts.tv/"/>
-  <updated>2014-09-16T23:13:13-06:00</updated>
+  <updated>2014-09-24T09:59:48-06:00</updated>
   <id>http://blog.microcasts.tv/</id>
   <author>
     <name><![CDATA[K-SID]]></name>
@@ -13,6 +13,49 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cereal Box Pi Cases]]></title>
+    <link href="http://blog.microcasts.tv/2014/09/24/cereal-box-pi-cases/"/>
+    <updated>2014-09-24T09:32:00-06:00</updated>
+    <id>http://blog.microcasts.tv/2014/09/24/cereal-box-pi-cases</id>
+    <content type="html"><![CDATA[<h1 style="text-align:center;"><img src="http://blog.microcasts.tv/images/cereal_cases.jpg" width="640" height="360"></h1>
+
+
+<p>So last week I found a pic on Imgur posted by quantumCity showing a <a href="https://imgur.com/gallery/8RLUdNb">Raspberry Pi case made from a manila folder</a>. Needless to say I found it to be a pretty neat way to throw together a case from something lying around the house that didn&rsquo;t consist of using Legos. He posted the CAD file and a pdf version so all you have to do is print it, transfer it, cut it, and fold it. It worked like a charm on the first try.</p>
+
+<!-- more -->
+
+
+<p>The only problem was that I found it to be a little flimsy for my taste, not to mention kinda plain. So I had the idea to try using a cereal box which is made of a sturdier, yet still thin enough, material. I raided the pantry and pretty soon had Captain Crunch staring on the case of my Model B+ Pi. After that I was obsessed and spent the time to create printouts for the Model A and B and want to share them with the community.</p>
+
+<h3>Sorry, No CAD Files</h3>
+
+<p>I found the original .dwg file to be a huge pain as I wasn&rsquo;t able to easily modify it and my PC didn&rsquo;t want to install any of the open source programs capable of working with it. So I created my models in <a href="http://www.sketchup.com/">SketchUp</a> and have included those files as well as a to-scale PDF that you can just print and use for each.</p>
+
+<ul>
+<li> <a href="http://blog.microcasts.tv/assets/ModelA_case.skp">Model A Sketchup File</a></li>
+<li> <a href="http://blog.microcasts.tv/assets/ModelA_case.pdf">Model A PDF</a></li>
+<li> <a href="http://blog.microcasts.tv/assets/ModelB_case.skp">Model B Sketchup File</a></li>
+<li> <a href="http://blog.microcasts.tv/assets/ModelB_case.pdf">Model B PDF</a></li>
+</ul>
+
+
+<p><strong>NOTE:</strong> If you try to print the PDF you need to make sure there is no scaling in the print settings like Fit to Page. Otherwise the dimensions won&rsquo;t be quite right.</p>
+
+<h3>Get Creative</h3>
+
+<p>There are so many things that could work as a medium here and I&rsquo;d love to see what people come up with. Feel free to modify the design too. You could cut out the back corner to allow access to the GPIO header or even cut some sweet vent designs if you&rsquo;re worried about overheating. If you make a case using one of the plans I would love it if you linked to a picture in the comments.</p>
+
+<h1 style="text-align:center;"><img src="http://blog.microcasts.tv/images/puffs_case_small.png" width="600" height="600"></h1>
+
+
+
+
+      ]]>
+
+    </content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Kitchen Appliance Phase of Hardware]]></title>
@@ -1586,50 +1629,6 @@ except KeyboardInterrupt:
 <li> <a href="http://askubuntu.com/questions/145716/cannot-install-mplab-ide-x-from-the-terminal-silently-exits">Cannot install MPLAB IDE X from the terminal &ndash; silently exits</a></li>
 </ul>
 
-
-      ]]>
-
-    </content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Query Temperature on Raspberry Pi]]></title>
-    <link href="http://blog.microcasts.tv/2013/10/25/query-temperature-on-raspberry-pi/"/>
-    <updated>2013-10-25T23:33:00-06:00</updated>
-    <id>http://blog.microcasts.tv/2013/10/25/query-temperature-on-raspberry-pi</id>
-    <content type="html"><![CDATA[<p>I recently installed a Raspberry Pi in a server closet at home. I have it connected to an older laser printer so it acts as a print server. Since it is in a small space I want to be able to monitor the temperature from time to time. After some searching online I found two ways to do this from the command line that work quite well.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>/opt/vc/bin/vcgencmd measure_temp
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The output of this command looks like this:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>/opt/vc/bin/vcgencmd measure_temp
-</span><span class='line'><span class="nv">temp</span><span class="o">=</span>43.3<span class="err">&#39;</span>C
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The other way to display this information is to <strong>cat</strong> the contents of a file:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>pi@raspberrypi ~ <span class="nv">$ </span>cat /sys/class/thermal/thermal_zone0/temp
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This time you will need to divide by 1000 to get the temp in degrees Celsius.</p>
-
-<p>Output:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>43312
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I&rsquo;ve notice that the two results can differ slightly but not by more than a few tenths of a degree Celsius.</p>
 
       ]]>
 
