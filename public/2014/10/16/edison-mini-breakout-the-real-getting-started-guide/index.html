@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Edison Mini Breakout: The Real Getting Started Guide - The &micro;Blog
+</title>
+  <meta name="author" content="K-SID">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.microcasts.tv/2014/10/16/edison-mini-breakout-the-real-getting-started-guide">
+  <link href="/favicon.png" type="image/png" rel="icon">
+  <link href="/atom.xml" rel="alternate" title="The &micro;Blog
+" type="application/atom+xml">
+
+  <link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/assets/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+
+  <script src="/javascripts/libs/jquery/jquery-2.0.3.min.js"></script>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-38620480-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+  <body   >
+    <div id="wrap">
+      <header role="banner">
+        <nav class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img src="/images/uCasts.png"/> The &micro;Blog
+</a>
+        </div>
+
+        <div class="navbar-collapse collapse" style="padding-top:24px;">
+            <ul class="nav navbar-nav" style="margin-left:35px;">
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+                <li >
+                    <a href="/blog/archives">Archives</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="subscribe-rss" href="/atom.xml" title="subscribe via RSS">
+                        <span class="visible-xs">RSS</span>
+                        <img class="hidden-xs" src="/images/rss.png" alt="RSS">
+                    </a>
+                </li>
+                
+            </ul>
+            
+                <form class="search navbar-form navbar-right" action="http://google.com/search" method="GET">
+                    <input type="hidden" name="q" value="site:blog.microcasts.tv">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="q" placeholder="Search">
+                    </div>
+                </form>
+            
+        </div>
+    </div>
+</nav>
+
+
+      </header>
+      <div id="main" class="container">
+        <div id="content">
+          <div class="row">
+  <div class="page-content col-md-9">
+    <article class="hentry" role="article">
+      
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-10-16T13:45:00-06:00" pubdate data-updated="true">Oct 16<span>th</span>, 2014</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv">Comments</a>
+        
+      </p>
+    
+    
+    <h1 class="entry-title">
+        Edison Mini Breakout: The Real Getting Started Guide
+        
+    </h1>
+    
+  </header>
+
+
+<div class="entry-content clearfix"><h1 style="text-align:center;"><img src="/images/edison/wide_edison_breakout.jpg"></h1>
+
+
+<p>So I sat down the other night to finally start playing with my <a href="http://www.intel.com/content/www/us/en/do-it-yourself/edison.html">Intel Edison</a> board and quickly found out that the documentation for this thing really sucks. There are forums and pages and PDFs spread all over the Intel site and most of the content centers around using the Arduino breakout board. For those of us using the <a href="https://www.sparkfun.com/products/13025">mini breakout board</a> we are left to our own resourcefulness to get this thing up and running. There is even incorrect info in the <a href="https://communities.intel.com/docs/DOC-23147">Quickstart</a> that might leave beginners scratching their heads. If Intel wants this thing to get widespread community adoption it needs to spend significantly more time making the first experience a better one.</p>
+
+<p>Until then, here is my version of how to get started with the Edison mini breakout board. This is the guide I wish I had for my first experience.</p>
+
+<!-- more -->
+
+
+<h2>Unboxing and Setup</h2>
+
+<p>So Intel nailed the unboxing part. The Edison comes in a sweet box and opening it evokes a few oooohs and aaahs. That&rsquo;s about where it ends though. They have a getting started url right under the box lid which makes you think that they are really going to help you through the process but unfortunately you&rsquo;re mostly on your own at this point. The link has only partially relevant instructions to the mini breakout and even some of the relevant stuff has errors.</p>
+
+<p><strong>STOP:</strong> Installing a header is completely optional but if you intend to connect your Edison to external hardware at some point I recommend you solder one on now. You can always do it later but the tiny 70 pin Hirose connector makes me nervous so I&rsquo;d rather not stress it with unnecessary insertions and removals.</p>
+
+<h3>Install a Header (Optional)</h3>
+
+<p>If you intend to connect any external hardware to your Edison you&rsquo;re going to need access to the GPIO pins. These are located under the Edison itself on the breakout board.</p>
+
+<p>You can individually solder wires to this but I personally recommend breaking all of the pins out to a header for easy connection. This is really easy to do even for a beginner so don&rsquo;t be afraid. The pins are standard 0.1&#8221; spaced so any <a href="https://www.sparkfun.com/products/116">generic male header strip</a> will do. Break the header strip into 14 pin segments and install them side by side on a breadboard as seen below. Make sure the long end of the header strip pins is in the breadboard so the short side is pointing up.</p>
+
+<h1 style="text-align:center;"><img src="/images/edison/header_guide.jpg"></h1>
+
+
+<p>This will be your jig for soldering. Place the breakout board onto the pins so that the USB connectors are on top. Solding the headers in upside down will definitely ruin your day. The breakout should sit on the pins and feel nice and level. If installed correctly the header pins will just barely protrude from the holes. This ensures that they won&rsquo;t interfere with seating the Edison later on. If the pins stick out too far then you&rsquo;ve got your header installed upside down on the breadboard.</p>
+
+<h1 style="text-align:center;"><img src="/images/edison/header_pre_solder.jpg"></h1>
+
+
+<p>For soldering I highly recommend using a <a href="http://www.alliedelec.com/search/productdetail.aspx?SKU=70177953">flux pen</a>. It will help the solder flow into the joints. Take your time soldering and make sure you get a good solder flow on each joint and be careful not to over-apply solder as it will ball up on the pin and not create a good joint. Here is what mine looked like when I was done. You can see that there are a few joints that aren&rsquo;t as nice as the others but we should be okay. I used some rubbing alcohol and a clean t-shirt rag to clean the flux up after soldering.</p>
+
+<h1 style="text-align:center;"><img src="/images/edison/header_post_solder.jpg"></h1>
+
+
+<h3>Insert the Edison</h3>
+
+<p>Because of the mounting holes it&rsquo;s pretty much impossible to install the Edison the wrong way on the breakout board. Just be careful seating it as the 70 pin connector has very tiny contacts that can be damaged if you&rsquo;re not careful. Get the Edison nice and level over the connector and push straight down on it right about where the sticker is below the metal housing. You should hear a good sounding click.</p>
+
+<h1 style="text-align:center;"><img src="/images/edison/push_here.jpg"></h1>
+
+
+<p>Install the two nuts provided to hold the Edison in place.</p>
+
+<h2>Install Software and Drivers</h2>
+
+<p>The Quickstart guide provided by Intel has you install the Arduino IDE next. Now even though this isn&rsquo;t the Arduino breakout you can still write sketches and run them. You just have to break out the appropriate pins yourself. I&rsquo;m not interested in Arduino functionality so I opted to skip that part but if you want you can <a href="https://communities.intel.com/docs/DOC-23242">install that now</a>.</p>
+
+<p>The <a href="https://communities.intel.com/docs/DOC-23147#jive_content_id_Step_3__Install_required_drivers">driver installation step</a> from the Quickstart is one of the few items they nailed in the guide and you can follow the instructions <a href="https://communities.intel.com/docs/DOC-23147#jive_content_id_Step_3__Install_required_drivers">there</a>. Basically you&rsquo;re downloading and installing two sets of drivers: one for the FTDI interface and one for the Edison itself. Here are the links for both. Just click through the installations.</p>
+
+<h3>FTDI Drivers</h3>
+
+<ul>
+<li><a href="http://www.ftdichip.com/Drivers/CDM/CDM%20v2.10.00%20WHQL%20Certified.exe">FTDI Driver Setup</a></li>
+</ul>
+
+
+<h3>Edison Drivers</h3>
+
+<ul>
+<li><a href="http://downloadmirror.intel.com/24271/eng/IntelEdisonDriverSetup1.0.0.exe">Edison Windows Driver Setup</a></li>
+</ul>
+
+
+<h3>Terminal Emulator</h3>
+
+<ul>
+<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY</a></li>
+</ul>
+
+
+<p>For your computer to talk to the Edison at first you will need to use a serial connection. This is acheived over USB with the FTDI drivers which essentially speak USB to the FTDI chip on your breakout board and then the FTDI chip translates USB to serial for the Edison to understand. A terminal emulator is the program that runs on your PC that manages that connection. The most popular one is <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY</a> but you can use any terminal emulator you feel comfortable with.</p>
+
+<h2>Powering Your Edison</h2>
+
+<p>This one stumped me a little at first. There are two USB ports on the mini breakout and I assumed one was for power and communication and the other was for connecting devices to the Edison so it could act as a USB host. You probably didn&rsquo;t assume that but if you did you would be wrong&hellip;just like me. One of the USB ports is for communicating with your PC via the terminal emulator and the other is one of the ways you can power the Edison. As found in <a href="https://communities.intel.com/thread/55455">this thread</a> there are actually 3 different ways to power your Edison via the breakout board.</p>
+
+<ul>
+<li>5V via the USB connector</li>
+<li>7-12V via J21</li>
+<li>Single Cell LiPo battery via J2</li>
+</ul>
+
+
+<h1 style="text-align:center;"><img src="/images/edison/power_options.jpg"></h1>
+
+
+<h2>Configuring Your Edison</h2>
+
+<p>Once you&rsquo;ve decided on a power strategy for your Edison it&rsquo;s time to power it up and play with it. By default your Edison comes with <a href="https://www.yoctoproject.org/">Yocto Linux</a> installed but you&rsquo;ll need to configure it.</p>
+
+<ol>
+<li> Connect the Edison to your PC with the USB cable.</li>
+<li> Apply power. The easiest way to do this is via the second USB port. I didn&rsquo;t have a free port on my PC so I used a USB battery pack and it worked great.</li>
+<li> Launch Device Manager (Go to Start and search &ldquo;Device Manager&rdquo; if you can&rsquo;t find it)</li>
+<li> In Device Manager expand the <strong>Ports</strong> section and find the entry named <em>USB Serial Port (COM&hellip;)</em>. In parenthesis is the COM port your Edison can talk on. On my machine it&rsquo;s COM4.
+<img src="/images/edison/com_port.jpg"></li>
+<li> Launch your terminal emulator. These instructions assume you&rsquo;re using PuTTY.</li>
+<li> Set the following options for communication
+
+<ul>
+<li>Connection Type: <strong>Serial</strong></li>
+<li>Serial Line: <strong>[The COM value you found in step 4]</strong></li>
+<li>Speed: <strong>115200</strong></li>
+</ul>
+
+
+<p><img src="/images/edison/putty_config.jpg"></p></li>
+<li> Click <strong>Open</strong>
+
+<ul>
+<li><strong>NOTE: You are now about to start experiencing a super annoying defect in the Edison UART. This is what the datasheet says:</strong></li>
+</ul>
+
+
+<p><em>When Edison goes into low power sleep, the UART internal FIFO and interface is powered down. Therefore, a two-wire UART (Rx/Tx) will lose the first received character whenever Edison is in sleep mode.</em></p>
+
+<p><strong>Basically if you don&rsquo;t type anything for about 20 seconds or so the next time you press a key in the terminal it will wake up the Edison but not register your key. You&rsquo;ll have to hit it again. It&rsquo;s very annoying and I will post info on how to disable sleep mode as soon as I figure it out</strong></p></li>
+<li> Wait for the blank terminal window to appear.</li>
+<li> Hit <strong>Enter</strong> twice. You may have to hit it 3 times if you waited too long. Told you it was annoying.</li>
+<li> At the login prompt type <strong>root</strong></li>
+<li> At the next prompt type <strong>configure_edison</strong></li>
+</ol>
+
+
+<p>Follow the prompts through the configuration. If the Edison doesn&rsquo;t locate any WiFi networks at first just press <strong>0</strong> to have it rescan. Mine didn&rsquo;t find any the first time around for some reason.</p>
+
+<h2>Start Poking Around</h2>
+
+<p>Once you&rsquo;ve finished configuring your Edison you can essentially treat it like a Linux machine. I was surprised to find that it had NodeJS and NPM installed and was able to get an Express website up and running within a couple of minutes.</p>
+
+<p>A few things of note:</p>
+
+<ul>
+<li>If you want to create/edit files the Edison comes with Vim which can be launched with <strong>vi</strong></li>
+<li>To shut down the Edison use <strong>systemctl poweroff</strong></li>
+<li>If you&rsquo;re coming from Raspberry Pi land most of the Linux commands you already know still apply</li>
+</ul>
+
+
+<p>If you have any problems or questions feel free to <a href="https://twitter.com/kevinsidwar">reach out on Twitter</a>. I&rsquo;m always happy to help if I can.</p>
+
+<h1 style="text-align:center;"><img src="/images/edison/finger_edison.jpg" width="611" height="400"></h1>
+
+
+
+</div>
+
+
+      <footer>
+        <p class="meta text-muted">
+          
+  
+
+<span class="glyphicon glyphicon-user"></span> <span class="byline author vcard">Posted by <span class="fn">K-SID</span></span>
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-10-16T13:45:00-06:00" pubdate data-updated="true">Oct 16<span>th</span>, 2014</time>
+          
+
+<span class="glyphicon glyphicon-tags"></span>&nbsp;
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/edison/'>Edison</a>, <a class='category' href='/blog/categories/nodejs/'>NodeJS</a>
+  
+</span>
+
+
+        </p>
+        
+          <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.microcasts.tv/2014/10/16/edison-mini-breakout-the-real-getting-started-guide/" data-via="KevinSidwar" data-counturl="http://blog.microcasts.tv/2014/10/16/edison-mini-breakout-the-real-getting-started-guide/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+        
+        
+          <ul class="meta text-muted pager">
+            
+            <li class="previous"><a href="/2014/09/24/cereal-box-pi-cases/" title="Previous Post: Cereal Box Pi Cases">&laquo; Cereal Box Pi Cases</a></li>
+            
+            
+          </ul>
+        
+      </footer>
+    </article>
+    
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+      </section>
+    
+  </div>
+
+  
+  <aside class="sidebar col-md-3">
+    
+      <section>
+<div style="margin-top:15px;">
+  <img class="left" src="/images/uCasts.png" />
+  <p>
+    This is the official blog of &micro;Casts. I want to help you get your electronics groove on so tune in for the latest updates, tips, and general embedded awesomeness.
+  </p>
+  <p>
+    I'd love to hear from you if you have any questions or feedback.
+  </p>
+</div>
+</section><section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Recent Posts</h3>
+  </div>
+  
+  <div id="recent_posts" class="list-group">
+    
+    <a class="list-group-item active" href="/2014/10/16/edison-mini-breakout-the-real-getting-started-guide/">Edison Mini Breakout: The Real Getting Started Guide</a>
+    
+    <a class="list-group-item " href="/2014/09/24/cereal-box-pi-cases/">Cereal Box Pi Cases</a>
+    
+    <a class="list-group-item " href="/2014/09/16/the-kitchen-appliance-phase-of-hardware/">The Kitchen Appliance Phase of Hardware</a>
+    
+    <a class="list-group-item " href="/2014/09/15/specs-arent-everything/">Specs Aren't Everything</a>
+    
+    <a class="list-group-item " href="/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/">µCast #18: Configure the Serial Port on the Raspberry Pi</a>
+    
+  </div>
+</section>
+
+<section class="panel panel-default clearfix">
+  <div class="panel-heading">
+      <h3 class="panel-title">GitHub Repos</h3>
+  </div>
+  <div class="list-group" id="gh_repos">
+    <p class="loading">Status updating...</p>
+  </div>
+  
+    <div class="gh-profile-link pull-right text-muted">
+      <a href="https://github.com/sidwarkd">@sidwarkd</a> on GitHub
+    </div>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'sidwarkd',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Top Categories</h3>
+  </div>
+  <div class="list-group">
+    
+    
+    <a class="list-group-item " href="/blog/categories/beginner/index.html">
+        <span class="badge">2</span>
+        beginner
+      </a>
+    
+    
+    <a class="list-group-item " href="/blog/categories/raspberrypi/index.html">
+        <span class="badge">16</span>
+        RaspberryPi
+      </a>
+    
+    
+    <a class="list-group-item " href="/blog/categories/python/index.html">
+        <span class="badge">3</span>
+        Python
+      </a>
+    
+    
+    <a class="list-group-item " href="/blog/categories/tips/index.html">
+        <span class="badge">3</span>
+        tips
+      </a>
+    
+    
+    <a class="list-group-item " href="/blog/categories/nodejs/index.html">
+        <span class="badge">3</span>
+        NodeJS
+      </a>
+    
+  </div>
+</section>
+
+
+
+
+    
+  </aside>
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+    <footer role="contentinfo"><div class="container">
+    
+<p class="text-muted credits">
+  Copyright &copy; 2014 - K-SID<br>
+  <small>
+      <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>,
+      <span class="credit">customized with <a href="https://github.com/kAworu/octostrap3">octostrap3</a></span>.
+  </small>
+</p>
+
+</div>
+</footer>
+    <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/javascripts/modernizr-2.0.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ucastblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.microcasts.tv/2014/10/16/edison-mini-breakout-the-real-getting-started-guide/';
+        var disqus_url = 'http://blog.microcasts.tv/2014/10/16/edison-mini-breakout-the-real-getting-started-guide/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+  </body>
+</html>
