@@ -117,6 +117,63 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-14T23:19:00-06:00" pubdate data-updated="true">Apr 14<span>th</span>, 2014</time>
+        
+           | <a href="/2014/04/14/pi_express_bootstrap_angular/#disqus_thread"
+             data-disqus-identifier="http://blog.microcasts.tv/2014/04/14/pi_express_bootstrap_angular/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/2014/04/14/pi_express_bootstrap_angular/">µCast #16: Pi + Express + Bootstrap + Angular FTW!</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p><strong>[UPDATE]:</strong> I&rsquo;ve had requests to post the finished code on Github for those that want to just play with the completed app. It&rsquo;s now available at <a href="https://github.com/sidwarkd/pimonitor">https://github.com/sidwarkd/pimonitor</a>.</p>
+
+<p>About a month ago I came across the <a href="http://lifehacker.com/command-pi-monitors-your-raspberry-pi-from-your-phone-1561340630">CommandPi</a> iOS app. It looked interesting so I paid the 99 cents and downloaded it to my iPad. The problem was, it didn&rsquo;t work. I would provide my SSH credentials and after logging in the program would crash. So like any curious developer, instead of waiting for a fix I set out to write my own.</p>
+
+<p>To be fair to the creator of <a href="https://itunes.apple.com/us/app/command-pi/id830462681?mt=8">CommandPi</a>, what you are about to see is not meant to take anything away from that app. The app creator has put together a very nice UI and the crashing issue has been fixed. I just wanted to see how easy or hard it would be to create a knock off using <a href="http://expressjs.com/">ExpressJS</a>, <a href="http://angularjs.org/">Angular</a> and <a href="http://getbootstrap.com/">Bootstrap</a>.</p>
+
+<br/>
+
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/zprWNhB0NeU" frameborder="0" allowfullscreen></iframe>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a class="btn btn-default" rel="full-article" href="/2014/04/14/pi_express_bootstrap_angular/">Read on &rarr;</a>
+    </footer>
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-02T23:29:00-06:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2014</time>
         
            | <a href="/2014/04/02/raspberry-pi-hacking-cheat-sheet/#disqus_thread"
@@ -728,61 +785,6 @@
 
         </article>
       
-      
-        <article class="post">
-          
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2013-11-03T00:30:00-06:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2013</time>
-        
-           | <a href="/2013/11/03/eagle-how-to-export-board-image/#disqus_thread"
-             data-disqus-identifier="http://blog.microcasts.tv/2013/11/03/eagle-how-to-export-board-image/">Comments</a>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/2013/11/03/eagle-how-to-export-board-image/">Eagle How-To: Export Board Image</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content clearfix"><p>Sometimes when you&rsquo;re working on a board design you don&rsquo;t want to wait to get a prototype board from a fab house. For simple or one off boards you can just make them at home. In order to do that we need a way to get our board design out of Eagle and onto a PCB. Most home-etch processes I&rsquo;ve seen require, in some form, a to-scale printout of the board. Personally I use the <a href="http://www.pcbfx.com/">Pulsar PCB products</a> which I&rsquo;ve found to work very well. The following is my process for getting the board design printed out.</p>
-
-<ol>
-<li>  Launch Eagle and open the board view of your project.</li>
-<li>  Turn the grid off via the <strong>View->Grid</strong> menu or using the command: &ldquo;grid off&rdquo;</li>
-<li>  Turn off all layers except the the ones that you want to print. I like to see layers 1, 17, 18 and 20. That&rsquo;s top, pads, vias and dimension. If your board is two sided you only want to print one side at a time.</li>
-<li>  If the background is black we need to make it white. Do this via the <strong>Options->User Interface</strong> dialog or use the command: &ldquo;set palette white;window;&rdquo;.</li>
-<li>  File->Export->Image</li>
-<li>  Select a destination file. I prefer to use the .png format.</li>
-<li>  Check the <strong>Monochrome</strong> checkbox</li>
-<li>  Change the resolution to a multiple of your screen dpi. The default screen resolution in Windows is 96 dpi so I normally use 384 which is 96 x 4.</li>
-<li>  Click <strong>Ok</strong> to export the image.</li>
-</ol>
-
-
-<p>  You now have an image file of your board that should scale perfectly to size. I normally just drag it into a document in OpenOffice Writer. If it goes into your document full size you just need to scale it to 25% of original size and it will be perfectly to-scale.</p>
-</div>
-  
-  
-
-
-        </article>
-      
     </div>
 
     <ul class="pager">
@@ -816,6 +818,8 @@
   
   <div id="recent_posts" class="list-group">
     
+    <a class="list-group-item " href="/2014/12/03/5-stocking-stuffer-ideas-for-your-number-iot-nerd/">5 Stocking Stuffer Ideas for Your #IoT Nerd</a>
+    
     <a class="list-group-item " href="/2014/10/16/edison-mini-breakout-the-real-getting-started-guide/">Edison Mini Breakout: The Real Getting Started Guide</a>
     
     <a class="list-group-item " href="/2014/09/24/cereal-box-pi-cases/">Cereal Box Pi Cases</a>
@@ -823,8 +827,6 @@
     <a class="list-group-item " href="/2014/09/16/the-kitchen-appliance-phase-of-hardware/">The Kitchen Appliance Phase of Hardware</a>
     
     <a class="list-group-item " href="/2014/09/15/specs-arent-everything/">Specs Aren&#8217;t Everything</a>
-    
-    <a class="list-group-item " href="/2014/08/08/configure-the-serial-port-on-the-raspberry-pi/">µCast #18: Configure the Serial Port on the Raspberry Pi</a>
     
   </div>
 </section>
@@ -876,7 +878,7 @@
     
     
     <a class="list-group-item " href="/blog/categories/raspberrypi/index.html">
-        <span class="badge">16</span>
+        <span class="badge">17</span>
         RaspberryPi
       </a>
     
@@ -896,6 +898,12 @@
     <a class="list-group-item " href="/blog/categories/nodejs/index.html">
         <span class="badge">3</span>
         NodeJS
+      </a>
+    
+    
+    <a class="list-group-item " href="/blog/categories/edison/index.html">
+        <span class="badge">2</span>
+        Edison
       </a>
     
   </div>

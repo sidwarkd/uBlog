@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: SparkCore | The &micro;Blog
+]]></title>
+  <link href="http://blog.microcasts.tv/blog/categories/sparkcore/atom.xml" rel="self"/>
+  <link href="http://blog.microcasts.tv/"/>
+  <updated>2014-12-03T22:32:08-07:00</updated>
+  <id>http://blog.microcasts.tv/</id>
+  <author>
+    <name><![CDATA[K-SID]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[5 Stocking Stuffer Ideas For Your #IoT Nerd]]></title>
+    <link href="http://blog.microcasts.tv/2014/12/03/5-stocking-stuffer-ideas-for-your-number-iot-nerd/"/>
+    <updated>2014-12-03T20:41:00-07:00</updated>
+    <id>http://blog.microcasts.tv/2014/12/03/5-stocking-stuffer-ideas-for-your-number-iot-nerd</id>
+    <content type="html"><![CDATA[<p><meta name="twitter:card" content="#IoT Stocking Stuffers">
+<meta name="twitter:site" content="@KevinSidwar">
+<meta name="twitter:creator" content="@KevinSidwar">
+<meta name="twitter:title" content="5 Stocking Stuffer Ideas for Your #IoT Nerd">
+<meta name="twitter:description" content="A few stocking stuffer ideas for that special someone in your life who is down with the Internet of Things.">
+<meta name="twitter:image:src" content="http://blog.microcasts.tv/images/iot_stocking_stuffers.jpg"></p>
+
+<h1 style="text-align:center;"><img src="/images/iot_stocking_stuffers.jpg"></h1>
+
+
+<p>The holiday season is fast approaching and you&rsquo;re facing the daunting task of shopping for that Internet of Things Someone in your life. Well don&rsquo;t fret because we are actually really easy to shop for. If it blinks, plugs into a computer, or just screams nerd we&rsquo;ll probably love it. But just in case you need a few extra ideas here are some stocking stuffers that are always appreciated.</p>
+
+<h2>1. An #IoT Platform</h2>
+
+<p><img class="right" src="/images/pi_a_plus.jpg" width="300" height="300" title="Raspberry Pi A+" >
+While a little pricey for a stocking stuffer these things are getting so small that they might got lost in all the wrapping paper if you put them under the tree. Here are a few that your nerdy loved one wouldn&rsquo;t complain about getting.</p>
+
+<ul>
+<li><a href="http://www.element14.com/community/community/raspberry-pi/raspberry-pi-aplus">Raspberry Pi Model A+</a> &ndash; $20</li>
+<li><a href="https://store.spark.io/">Spark Core</a> &ndash; $39 (Don&rsquo;t get the Photon as it won&rsquo;t ship till next Spring)</li>
+<li><a href="https://shop.trycelery.com/page/tec">Tessel</a> &ndash; $75</li>
+<li><a href="https://www.sparkfun.com/products/13025">Intel Edison</a> &ndash; $75</li>
+</ul>
+
+
+<h2>2. Battery Pack</h2>
+
+<p><img class="right" src="/images/usb_battery.jpg" width="200" height="200" title="USB Battery Pack" >
+When powering our IoT projects sometimes it&rsquo;s annoying to plug it into a computer or find a wall adapter. Since many of the platforms can be powered from a USB port a battery pack that has one built in is a perfect gift. Here are a few suggestions. The higher the mAh the longer the battery will last between charges.</p>
+
+<ul>
+<li><a href="https://www.adafruit.com/products/1959">2200 mAh USB Batter Pack</a> &ndash; $15</li>
+<li><a href="https://www.adafruit.com/products/1565">4400 mAh USB Batter Pack</a> &ndash; $25</li>
+<li><a href="https://www.adafruit.com/products/1566">10000 mAh USB Batter Pack</a> &ndash; $50</li>
+</ul>
+
+
+<h2>3. Breadboard</h2>
+
+<p><img class="right" src="/images/adafruit_breadboard.jpg" width="200" height="200" title="Adafruit Half Size Breadboard" >
+You&rsquo;d think we only need one but once we build a project we never want to take it apart. Mostly because we&rsquo;re pretty sure it will never work again if we do. That means we&rsquo;re always in need of &ldquo;just one more&rdquo; breadboard.</p>
+
+<ul>
+<li><a href="https://www.adafruit.com/products/64">Half-size Breadboard</a> &ndash; $5</li>
+<li><a href="https://www.adafruit.com/products/239">Full-size Breadboard</a> &ndash; $6</li>
+</ul>
+
+
+<h2>4. Jumper Wires</h2>
+
+<p><img class="right" src="/images/jumper_wires.jpg" width="200" height="200" title="Jumper Wires" >
+There are never enough of these things around and we ALWAYS need them. They make prototyping our crazy ideas much faster and easier.</p>
+
+<ul>
+<li><a href="https://www.sparkfun.com/products/9385">10 Sparkfun 12" M/F Jumper Wires</a> &ndash; $5</li>
+<li><a href="https://www.adafruit.com/products/824">40 Adafruit 12" M/F Jumper Wires</a> &ndash; $8</li>
+</ul>
+
+
+<h2>5. Gift Card</h2>
+
+<p>If you&rsquo;re just not sure what to get or don&rsquo;t feel comfortable choosing from the options above you can never go wrong with a gift card. A gift card to any of the following sites is sure to bring a ton of holiday cheer.</p>
+
+<ul>
+<li><a href="https://www.adafruit.com/category/14">Adafruit</a></li>
+<li><a href="https://www.sparkfun.com/gift_certificates">Sparkfun</a></li>
+<li><a href="http://www.makershed.com/products/gift-certificates">Maker Shed</a></li>
+</ul>
+
+
+<p>What else would you love to get for Christmas/Hannukah/Kwanza/Ramadan/Festivus? Please let me know in the comments below. <strong>Happy Christmahannukwanzadan!</strong></p>
+]]></content>
+  </entry>
+  
+</feed>
