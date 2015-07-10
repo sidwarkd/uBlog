@@ -109,7 +109,7 @@ mapper.getNewUrl = function(currentUrl){
             return "http://www.microcasts.tv/archive/";
             break;
         default:
-            return "http://www.microcasts.tv/blog";
+            return "http://www.microcasts.tv/";
             break;
     };
 };
